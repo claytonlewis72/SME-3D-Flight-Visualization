@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d31fpkxogek4a"]
+
+[ext_resource type="Script" uid="uid://sixya630j2yt" path="res://scripts/ingestion/ingestion_manager.gd" id="1_elqb8"]
+
+[node name="Main" type="Node"]
+
+[node name="Ingestion Manager" type="Node" parent="."]
+script = ExtResource("1_elqb8")
