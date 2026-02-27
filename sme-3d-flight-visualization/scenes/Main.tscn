@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://d31fpkxogek4a"]
+[gd_scene load_steps=3 format=3 uid="uid://d31fpkxogek4a"]
 
 [ext_resource type="Script" uid="uid://sixya630j2yt" path="res://scripts/ingestion/ingestion_manager.gd" id="1_elqb8"]
+[ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
 
 [node name="Main" type="Node"]
 
-[node name="Ingestion Manager" type="Node" parent="."]
+[node name="IngestionManager" type="Node" parent="."]
 script = ExtResource("1_elqb8")
+
+[node name="Rendering Manager" type="Node3D" parent="."]
+script = ExtResource("2_rvslj")
+
+[node name="Drone" type="Node3D" parent="Rendering Manager"]

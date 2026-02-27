@@ -3,19 +3,36 @@ extends Node
 @export var replay_file_path: String = "res://data/sample_telemetry.csv"
 @export var replay_hz: float = 30.0
 
-var latest_sample: Dictionary = {}
-var has_sample: bool = false
+# If your CSV angles are in degrees (most likely), set this true.
+@export var angles_in_degrees: bool = true
 
+# Dropout detection: if timestamp delta > expected_dt * gap_multiplier, mark as gap
+@export var gap_multiplier: float = 3.0
+
+# Pose output for rendering
+var has_pose: bool = false
+var pose_time: float = 0.0
+var pose_pos: Vector3 = Vector3.ZERO       # meters, local
+var pose_rot: Vector3 = Vector3.ZERO       # radians (recommended)
+var pose_gap: bool = false
+
+# Stats
 var packets_total: int = 0
 var packets_valid: int = 0
 var packets_invalid: int = 0
-
 var loops_completed: int = 0
+var gap_count: int = 0
 
 var _lines: PackedStringArray = []
 var _idx: int = 0
 var _accum: float = 0.0
 var _last_timestamp: float = -INF
+
+# Origin for local coordinate conversion
+var _origin_set: bool = false
+var _origin_lat: float = 0.0
+var _origin_lon: float = 0.0
+var _origin_alt: float = 0.0
 
 func _ready() -> void:
 	_load_file()
@@ -35,17 +52,12 @@ func _process(delta: float) -> void:
 		_step_one_sample()
 
 func _step_one_sample() -> void:
-	# Option A: loop replay (good for continuous demos)
+	# Loop replay (useful for demos)
 	if _idx >= _lines.size():
 		_idx = 0
 		_last_timestamp = -INF
+		_origin_set = false
 		loops_completed += 1
-
-	# Option B: stop replay when file ends (more realistic)
-	# if _idx >= _lines.size():
-	# 	set_process(false)
-	# 	print("Replay complete.")
-	# 	return
 
 	var line := _lines[_idx].strip_edges()
 	_idx += 1
@@ -65,16 +77,65 @@ func _step_one_sample() -> void:
 		return
 
 	packets_valid += 1
-	latest_sample = sample
-	has_sample = true
 
-	# Log occasionally (every 60 packets)
+	_update_pose_from_sample(sample)
+
 	if packets_total % 60 == 0:
 		print("ok=", packets_valid,
 			" bad=", packets_invalid,
+			" gaps=", gap_count,
 			" loop=", loops_completed,
 			" idx=", _idx,
-			" t=", sample["timestamp"])
+			" t=", pose_time)
+
+func _update_pose_from_sample(sample: Dictionary) -> void:
+	var t: float = sample["timestamp"]
+
+	# Dropout detection (gap marker)
+	pose_gap = false
+	if _last_timestamp != -INF:
+		var expected_dt: float = 1.0 / max(replay_hz, 1.0)
+		var dt: float = t - _last_timestamp
+		if dt > expected_dt * gap_multiplier:
+			pose_gap = true
+			gap_count += 1
+
+	_last_timestamp = t
+
+	# Set origin on first valid sample
+	var lat: float = sample["lat"]
+	var lon: float = sample["lon"]
+	var alt: float = sample["alt"]
+	if not _origin_set:
+		_origin_lat = lat
+		_origin_lon = lon
+		_origin_alt = alt
+		_origin_set = true
+
+	# Convert GPS to local meters (simple approximation, good for small areas)
+	# x = East, z = North, y = Up
+	var meters_per_deg_lat: float = 111320.0
+	var meters_per_deg_lon: float = 111320.0 * cos(deg_to_rad(_origin_lat))
+
+	var dx_east: float = (lon - _origin_lon) * meters_per_deg_lon
+	var dz_north: float = (lat - _origin_lat) * meters_per_deg_lat
+	var dy_up: float = (alt - _origin_alt)
+
+	pose_time = t
+	pose_pos = Vector3(dx_east, dy_up, dz_north)
+
+	# Orientation: store radians so Godot rotations are consistent
+	var roll: float = sample["roll"]
+	var pitch: float = sample["pitch"]
+	var yaw: float = sample["yaw"]
+
+	if angles_in_degrees:
+		roll = deg_to_rad(roll)
+		pitch = deg_to_rad(pitch)
+		yaw = deg_to_rad(yaw)
+
+	pose_rot = Vector3(roll, pitch, yaw)
+	has_pose = true
 
 func _load_file() -> void:
 	if not FileAccess.file_exists(replay_file_path):
@@ -92,7 +153,6 @@ func _load_file() -> void:
 	f.close()
 
 func _parse_csv_line(line: String) -> Dictionary:
-	# Expected CSV:
 	# timestamp,lat,lon,alt,roll,pitch,yaw,velocity(optional)
 	var parts := line.split(",")
 	if parts.size() < 7:
@@ -122,12 +182,10 @@ func _parse_csv_line(line: String) -> Dictionary:
 	return sample
 
 func _validate_sample(sample: Dictionary) -> bool:
-	# Basic schema check
 	for key in ["timestamp", "lat", "lon", "alt", "roll", "pitch", "yaw"]:
 		if not sample.has(key):
 			return false
 
-	# GPS range
 	var lat: float = sample["lat"]
 	var lon: float = sample["lon"]
 	if lat < -90.0 or lat > 90.0:
@@ -135,13 +193,14 @@ func _validate_sample(sample: Dictionary) -> bool:
 	if lon < -180.0 or lon > 180.0:
 		return false
 
-	# Timestamp monotonic for replay stability (resets per loop)
-	var t: float = sample["timestamp"]
-	if _last_timestamp != -INF and t < _last_timestamp:
-		return false
-	_last_timestamp = t
-
 	return true
 
-func get_latest_sample() -> Dictionary:
-	return latest_sample
+# What rendering should call every frame
+func get_pose() -> Dictionary:
+	return {
+		"has_pose": has_pose,
+		"t": pose_time,
+		"pos": pose_pos,
+		"rot": pose_rot,
+		"gap": pose_gap
+	}
