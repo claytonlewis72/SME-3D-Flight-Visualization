@@ -1,14 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://d31fpkxogek4a"]
+[gd_scene format=3 uid="uid://d31fpkxogek4a"]
 
 [ext_resource type="Script" uid="uid://sixya630j2yt" path="res://scripts/ingestion/ingestion_manager.gd" id="1_elqb8"]
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
+[ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/FlightPathRenderer.tscn" id="3_0bbpv"]
 
-[node name="Main" type="Node"]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rvslj"]
 
-[node name="IngestionManager" type="Node" parent="."]
+[node name="Main" type="Node" unique_id=1570756005]
+
+[node name="IngestionManager" type="Node" parent="." unique_id=540374902]
 script = ExtResource("1_elqb8")
 
-[node name="Rendering Manager" type="Node3D" parent="."]
+[node name="Rendering Manager" type="Node3D" parent="." unique_id=174410522]
 script = ExtResource("2_rvslj")
 
-[node name="Drone" type="Node3D" parent="Rendering Manager"]
+[node name="Drone" type="Node3D" parent="Rendering Manager" unique_id=2106053797]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rendering Manager/Drone" unique_id=1190105928]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.10319996)
+mesh = SubResource("CapsuleMesh_rvslj")
+
+[node name="Camera3D" type="Camera3D" parent="Rendering Manager/Drone" unique_id=1726220944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.2255175)
+
+[node name="FlightPathRenderer" parent="." unique_id=1948570090 instance=ExtResource("3_0bbpv")]
