@@ -1,10 +1,10 @@
+#Authors: Aramis Hernandez
+
 extends Node
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	$CameraManager.set_target($"Rendering Manager/Drone")
-
+	$CameraManager.set_target($"Rendering Manager/Drone") #Injection of drone for chased and fixed camera targeting
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
