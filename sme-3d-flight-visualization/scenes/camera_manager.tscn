@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bl7kliy2lq3hd"]
+
+[ext_resource type="Script" uid="uid://cymd3h176eqm1" path="res://scripts/camera_manager/camera_manager.gd" id="1_rc1ae"]
+[ext_resource type="Script" uid="uid://dkpnbdv5cfykf" path="res://scripts/camera_manager/chase_camera.gd" id="1_utxs1"]
+[ext_resource type="Script" uid="uid://dmh3nli26qbo4" path="res://scripts/camera_manager/fixed_camera.gd" id="2_obm8q"]
+[ext_resource type="Script" uid="uid://cj787lr024nq2" path="res://scripts/camera_manager/free_camera.gd" id="3_4j8jh"]
+
+[node name="CameraManager" type="Node3D" unique_id=513015897]
+script = ExtResource("1_rc1ae")
+
+[node name="ChaseCamera" type="Camera3D" parent="." unique_id=120314664]
+script = ExtResource("1_utxs1")
+
+[node name="FixedCamera" type="Camera3D" parent="." unique_id=1464531087]
+script = ExtResource("2_obm8q")
+
+[node name="FreeCamera" type="Camera3D" parent="." unique_id=545438356]
+script = ExtResource("3_4j8jh")
