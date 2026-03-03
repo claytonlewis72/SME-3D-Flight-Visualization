@@ -1,7 +1,28 @@
-#Author: Aramis Hernandez
+#|------------------------------------------------------------------------------------
+#|	Unclassified
+#|------------------------------------------------------------------------------------
+#|
+#|	SME Solutions, Inc.
+#|	Copyright 2026 SME Solutions, Inc. All Rights Reserved
+#|	SME Solutions Proprietary Information
+#|
+#|------------------------------------------------------------------------------------
+#|
+#|	File Name	:free_camera.gd
+#|
+#|	Target 		:GD script
+#|
+#|	Description	: Controls free camera allowing user input to chnage position and oration of the free camera.
+#|
+#|	Notes		: This hasn't formally been united tested.
+#|
+#|	POC			: Aramis Hernandez
+#|------------------------------------------------------------------------------------
+
 
 extends Camera3D
 
+#Free Camera Settings
 @export var speed: float = 10.0
 @export var mouse_sensitivity: float = 0.2
 
