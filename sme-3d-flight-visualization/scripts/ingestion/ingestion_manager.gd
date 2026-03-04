@@ -34,6 +34,10 @@ var _origin_lat: float = 0.0
 var _origin_lon: float = 0.0
 var _origin_alt: float = 0.0
 
+#Author: Aramis Hernandez
+#Added a signal for sending pose to renderer
+signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool)
+
 func _ready() -> void:
 	_load_file()
 	if _lines.size() == 0:
@@ -136,6 +140,11 @@ func _update_pose_from_sample(sample: Dictionary) -> void:
 
 	pose_rot = Vector3(roll, pitch, yaw)
 	has_pose = true
+	
+	#Author: Aramis Hernandez
+	#Just emit signal instead of having render call get_pose
+	#This is so render can now get data without knowing about the ingestion_manager
+	emit_signal("pose_received", pose_pos, pose_rot, pose_gap)
 
 func _load_file() -> void:
 	if not FileAccess.file_exists(replay_file_path):

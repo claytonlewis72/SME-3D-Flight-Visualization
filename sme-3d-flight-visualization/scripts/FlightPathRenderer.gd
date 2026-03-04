@@ -1,57 +1,70 @@
 extends Node3D
 
-@export var ingestion_path: NodePath = NodePath("../IngestionManager")
-@export var max_points: int = 10000 # cap for memory/performance
+@export var max_points: int = 2000 # cap for memory/performance
+@export var min_distance = 0.2
+@export var line_color: Color = Color(0, 1, 0)
 
-var ingestion: Node = null
-var positions: Array = []
+var positions: PackedVector3Array = PackedVector3Array()
+var colors: PackedColorArray = PackedColorArray()
 
-#Using ImmediateMeshInstance now for simplicity
-var line_mesh_instance: MeshInstance3D = null
-var line_mesh: ImmediateMesh = null
+var last_position: Vector3
+var dirty := false
+
+@onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+var mesh: ArrayMesh
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	ingestion = get_node_or_null(ingestion_path)
-	if ingestion == null:
-		push_error("IngestionManager not found at " + str(ingestion_path))
-		return
+	mesh = ArrayMesh.new()
+	mesh_instance.mesh = mesh
 	
-	line_mesh = ImmediateMesh.new()
-	line_mesh_instance = MeshInstance3D.new()
-	line_mesh_instance.mesh = line_mesh
-	add_child(line_mesh_instance)
+	# UnShader material (important for Jetson)
+	var material = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	
+	#enable vertex color usage
+	material.vertex_color_use_as_albedo = true
+	
+	mesh_instance.material_override = material
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if ingestion == null:
-		return
+#Note for signals need my signal to match pose_recieved
+func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool) -> void:
+	if positions.size() > 0:
+		if new_pos.distance_to(last_position) < min_distance:
+			return 
+	positions.append(new_pos)
 	
-	#Get our latest pose
-	var pose = ingestion.get_pose()
-	if not pose.has("has_pose") or not pose["has_pose"]:
-		return
 	
-	#Append position to the flight path
-	positions.append(pose["pos"])
+	var c = line_color
+	if is_gap:
+		c = Color(1, 0, 0) #Red for gaps
+	
+	colors.append(c)
+	last_position = new_pos
+	
 	if positions.size() > max_points:
-		positions.pop_front() # Keep our memory bounded
+		positions.remove_at(0) # This may be changed. It's expensive, it shifts the whole array every time.
+		colors.remove_at(0)
 	
-	#Update the mesh
-	_update_line_mesh()
+	dirty = true	
 
-func _update_line_mesh() -> void:
+
+func _physics_process(delta):
+	if dirty:
+		_rebuild_mesh()
+		dirty = false
+
+func _rebuild_mesh():
 	if positions.size() < 2:
-		return # At least two points are needed for a line
+		return
 	
-	line_mesh.clear_surfaces()
+	mesh.clear_surfaces()
 	
-	#Start drawing
-	line_mesh.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)
+	var arrays = []
+	arrays.resize(Mesh.ARRAY_MAX)
 	
-	for pos in positions:
-		line_mesh.surface_add_vertex(pos)
+	arrays[Mesh.ARRAY_VERTEX] = positions
+	arrays[Mesh.ARRAY_COLOR] = colors
 	
-	line_mesh.surface_end()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINE_STRIP, arrays)
