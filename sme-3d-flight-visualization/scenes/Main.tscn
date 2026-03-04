@@ -135,7 +135,7 @@ transform = Transform3D(-1.289486e-07, 0, 2.95, 0, 2.95, 0, -2.95, 0, -1.289486e
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.295774, 0)
 visible = false
 
-[node name="Cube" parent="Rendering Manager/Drone/DronePivot/test plane 1_0" index="0" unique_id=943224988]
+[node name="Cube" parent="Rendering Manager/Drone/DronePivot/test plane 1_0" index="0" unique_id=590126351]
 extra_cull_margin = 10.0
 
 [node name="FlightPathRenderer" parent="." unique_id=1948570090 instance=ExtResource("3_0bbpv")]

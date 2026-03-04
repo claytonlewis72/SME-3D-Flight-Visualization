@@ -1,5 +1,9 @@
 extends Node
 
+#Change done by: Aramis Hernandez
+#Added a singal to decouple, 
+signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool)
+
 @export var replay_file_path: String = "res://data/sample_telemetry.csv"
 @export var replay_hz: float = 60.0
 
@@ -185,6 +189,10 @@ func _update_pose(sample: Dictionary) -> void:
 
 	pose_time = t
 	has_pose = true
+	
+	#Added by: Aramis Hernandez
+	#Emit the signal to send data to rendering.
+	emit_signal("pose_received", pose_pos, pose_rot, pose_gap)
 
 
 func _load_file() -> void:
