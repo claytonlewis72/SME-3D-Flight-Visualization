@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dcp0ele5xbkre"
-path="res://.godot/imported/test plane 1.0.glb-1fa01d83581e14c6e1b294e6cfc79262.scn"
+path="res://.godot/imported/test plane 1.0.glb-e6ab7069458a909187eb30b7983645fe.scn"
 
 [deps]
 
-source_file="res://models/test plane 1.0.glb"
-dest_files=["res://.godot/imported/test plane 1.0.glb-1fa01d83581e14c6e1b294e6cfc79262.scn"]
+source_file="res://assests/models/test plane 1.0.glb"
+dest_files=["res://.godot/imported/test plane 1.0.glb-e6ab7069458a909187eb30b7983645fe.scn"]
 
 [params]
 
