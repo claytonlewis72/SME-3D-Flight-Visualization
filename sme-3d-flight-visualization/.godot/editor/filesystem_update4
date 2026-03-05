@@ -1,4 +1,2 @@
 res://scenes/Main.tscn
 res://scripts/ingestion/ingestion_manager.gd
-res://rendering_manager.gd
-res://scripts/rendering_manager.gd
