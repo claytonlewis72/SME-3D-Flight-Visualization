@@ -50,7 +50,7 @@ _shader_parameters = {
 &"auto_base_texture": 0,
 &"auto_height_reduction": 0.0,
 &"auto_overlay_texture": 1,
-&"auto_slope": 1.7740000842649999,
+&"auto_slope": 1.774000084265,
 &"bias_distance": 512.0,
 &"blend_sharpness": 0.5,
 &"depth_blur": 1.0000000149012,
@@ -155,7 +155,6 @@ data_directory = "res://terrain_data"
 material = SubResource("Terrain3DMaterial_bb450")
 assets = SubResource("Terrain3DAssets_ebg2g")
 top_level = true
-metadata/_edit_lock_ = true
 
 [node name="CameraManager" parent="." unique_id=513015897 instance=ExtResource("6_c01mt")]
 distance = 15.0

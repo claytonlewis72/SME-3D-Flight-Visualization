@@ -33,6 +33,8 @@ extends Node3D
 var cameras: Array[Camera3D] = []
 var current_index: int = 0
 
+var target: Node3D = null
+
 func _ready() -> void:
 	cameras = [chase_camera, fixed_camera, free_camera]
 	await get_tree().process_frame
@@ -44,14 +46,29 @@ func _input(event: InputEvent) -> void:
 		_activate_camera(current_index)
 
 func _activate_camera(index: int) -> void:
+	# Disable all
 	for i in range(cameras.size()):
 		cameras[i].current = false
+
+	# Turn off free cam controls unless it's active
+	if free_camera.has_method("set_active"):
+		free_camera.set_active(false)
 
 	# If switching to chase, re-apply settings (no stale values)
 	if cameras[index] == chase_camera:
 		_apply_chase_settings(false)
 
+	# If switching to free cam, spawn it near the target ONCE
+	if cameras[index] == free_camera and target != null and free_camera.has_method("spawn_near"):
+		free_camera.spawn_near(target)
+
+	# Make chosen camera current
 	cameras[index].make_current()
+
+	# Enable free cam controls if active
+	if cameras[index] == free_camera and free_camera.has_method("set_active"):
+		free_camera.set_active(true)
+
 	print("Active camera:", cameras[index].name)
 
 func _apply_chase_settings(snap: bool) -> void:
@@ -63,6 +80,8 @@ func _apply_chase_settings(snap: bool) -> void:
 		chase_camera.snap_to_target()
 
 func set_target(t: Node3D) -> void:
+	target = t
+
 	if chase_camera.has_method("set_target"):
 		chase_camera.set_target(t)
 		# Snap immediately when target arrives (prevents first-frame zoom)
