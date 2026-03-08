@@ -140,7 +140,7 @@ transform = Transform3D(-1.289486e-07, 0, 2.95, 0, 2.95, 0, -2.95, 0, -1.289486e
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.295774, 0)
 visible = false
 
-[node name="Cube" parent="Rendering Manager/Drone/DronePivot/test plane 1_0" index="0" unique_id=973189982]
+[node name="Cube" parent="Rendering Manager/Drone/DronePivot/test plane 1_0" index="0" unique_id=1384336806]
 extra_cull_margin = 10.0
 
 [node name="FlightPathRenderer" parent="." unique_id=1948570090 instance=ExtResource("3_0bbpv")]
@@ -155,6 +155,7 @@ data_directory = "res://terrain_data"
 material = SubResource("Terrain3DMaterial_bb450")
 assets = SubResource("Terrain3DAssets_ebg2g")
 top_level = true
+metadata/_edit_lock_ = true
 
 [node name="CameraManager" parent="." unique_id=513015897 instance=ExtResource("6_c01mt")]
 distance = 15.0
