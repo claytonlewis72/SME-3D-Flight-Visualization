@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://d31fpkxogek4a"]
 
-[ext_resource type="Script" uid="uid://sixya630j2yt" path="res://scripts/ingestion/ingestion_manager.gd" id="1_elqb8"]
 [ext_resource type="Script" uid="uid://djfvxtq8ebb7p" path="res://scripts/main.gd" id="1_nxtc6"]
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
+[ext_resource type="Script" uid="uid://cbokp18waattv" path="res://scripts/ingestion/ingestion_UDP.gd" id="2_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/FlightPathRenderer.tscn" id="3_0bbpv"]
 [ext_resource type="PackedScene" uid="uid://dcp0ele5xbkre" path="res://assests/models/test plane 1.0.glb" id="3_vcsgt"]
 [ext_resource type="PackedScene" uid="uid://rrslk8ehxpsb" path="res://assests/models/plane 2.5 texture.glb" id="5_q8u5g"]
@@ -123,7 +123,7 @@ texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_
 script = ExtResource("1_nxtc6")
 
 [node name="IngestionManager" type="Node" parent="." unique_id=540374902]
-script = ExtResource("1_elqb8")
+script = ExtResource("2_wp0k4")
 
 [node name="Rendering Manager" type="Node3D" parent="." unique_id=174410522]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.755, 0)

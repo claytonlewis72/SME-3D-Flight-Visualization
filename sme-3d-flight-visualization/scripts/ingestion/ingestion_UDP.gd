@@ -28,6 +28,8 @@ var _origin_alt: float = 0.0
 
 var _last_timestamp: float = -INF
 
+signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool)
+
 func _ready():
 	
 	udp.bind(UDP_PORT)
@@ -109,6 +111,8 @@ func _update_pose(sample: Dictionary):
 
 	pose_time = t
 	has_pose = true
+	
+	emit_signal("pose_received", pose_pos, pose_rot, pose_gap)
 
 func get_pose():
 
