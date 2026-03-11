@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d31fpkxogek4a"]
 
 [ext_resource type="Script" uid="uid://sixya630j2yt" path="res://scripts/ingestion/ingestion_manager.gd" id="1_elqb8"]
-[ext_resource type="Script" uid="uid://djfvxtq8ebb7p" path="res://scenes/main.gd" id="1_nxtc6"]
+[ext_resource type="Script" uid="uid://djfvxtq8ebb7p" path="res://scripts/main.gd" id="1_nxtc6"]
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
 [ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/FlightPathRenderer.tscn" id="3_0bbpv"]
 [ext_resource type="PackedScene" uid="uid://dcp0ele5xbkre" path="res://assests/models/test plane 1.0.glb" id="3_vcsgt"]
