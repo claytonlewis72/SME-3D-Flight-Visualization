@@ -1,22 +1,14 @@
 extends Node3D
 
-@export var ingestion_manager_path: NodePath
-@export var position_scale: float = 1.0  # set to 1 if meters == 1 unit in your world
+var previous_position: Vector3
 
-@onready var ingestion = get_node(ingestion_manager_path)
+func _ready():
+	previous_position = global_position
 
-func _process(_delta: float) -> void:
-	var p = ingestion.get_pose()
-	if not p["has_pose"]:
-		return
+func _process(delta):
+	var move_dir = global_position - previous_position
 
-	# Position
-	global_position = p["pos"] * position_scale
+	if move_dir.length() > 0.001:
+		look_at(global_position + move_dir.normalized(), Vector3.UP)
 
-	# Rotation (Godot uses X=pitch, Y=yaw, Z=roll in basis terms, but your data is roll,pitch,yaw)
-	# ingestion gives Vector3(roll, pitch, yaw)
-	var r: Vector3 = p["rot"]
-
-	# Apply as Euler with correct mapping:
-	# Godot's rotation Vector3 is (x=pitch, y=yaw, z=roll)
-	rotation = Vector3(r.y, r.z, r.x)
+	previous_position = global_position
