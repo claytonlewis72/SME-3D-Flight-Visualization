@@ -7,7 +7,7 @@ extends Node
 @export var angles_in_degrees: bool = true
 @export var altitude_in_feet: bool = false
 
-# Telemetry field mapping (allows flexible input formats)
+# Telemetry field mapping
 var field_map := {
 	"timestamp": 0,
 	"lat": 1,
@@ -18,7 +18,7 @@ var field_map := {
 	"yaw": 6
 }
 
-# Pose output for rendering
+# Public pose output for rendering
 var has_pose: bool = false
 var pose_time: float = 0.0
 var pose_pos: Vector3 = Vector3.ZERO
@@ -34,7 +34,6 @@ var gap_count: int = 0
 # Replay internals
 var _lines: PackedStringArray = []
 var _idx: int = 0
-var _accum: float = 0.0
 var _last_timestamp: float = -INF
 
 # Local coordinate origin
@@ -43,6 +42,18 @@ var _origin_lat: float = 0.0
 var _origin_lon: float = 0.0
 var _origin_alt: float = 0.0
 
+# Threading
+var _thread: Thread = Thread.new()
+var _mutex: Mutex = Mutex.new()
+var _thread_running: bool = false
+
+# Shared buffer from worker thread -> main thread
+var _pending_pose_ready: bool = false
+var _pending_has_pose: bool = false
+var _pending_pose_time: float = 0.0
+var _pending_pose_pos: Vector3 = Vector3.ZERO
+var _pending_pose_rot: Vector3 = Vector3.ZERO
+var _pending_pose_gap: bool = false
 
 func _ready() -> void:
 	_load_file()
@@ -52,19 +63,54 @@ func _ready() -> void:
 		return
 
 	print("Telemetry loaded lines:", _lines.size())
+
+	_thread_running = true
+	var err := _thread.start(_thread_loop)
+	if err != OK:
+		push_error("Failed to start ingestion thread.")
+		_thread_running = false
+		set_process(false)
+		return
+
 	set_process(true)
 
+func _process(_delta: float) -> void:
+	_mutex.lock()
 
-func _process(delta: float) -> void:
-	_accum += delta
-	var interval: float = 1.0 / max(replay_hz, 1.0)
+	if _pending_pose_ready:
+		has_pose = _pending_has_pose
+		pose_time = _pending_pose_time
+		pose_pos = _pending_pose_pos
+		pose_rot = _pending_pose_rot
+		pose_gap = _pending_pose_gap
+		_pending_pose_ready = false
 
-	while _accum >= interval:
-		_accum -= interval
-		_step_one_sample()
+	_mutex.unlock()
 
+func _exit_tree() -> void:
+	_thread_running = false
+	if _thread.is_started():
+		_thread.wait_to_finish()
 
-func _step_one_sample() -> void:
+func _thread_loop() -> void:
+	var interval_sec: float = 1.0 / max(replay_hz, 1.0)
+
+	while _thread_running:
+		var pose_dict: Dictionary = _step_one_sample_threaded()
+
+		if not pose_dict.is_empty():
+			_mutex.lock()
+			_pending_has_pose = pose_dict["has_pose"]
+			_pending_pose_time = pose_dict["t"]
+			_pending_pose_pos = pose_dict["pos"]
+			_pending_pose_rot = pose_dict["rot"]
+			_pending_pose_gap = pose_dict["gap"]
+			_pending_pose_ready = true
+			_mutex.unlock()
+
+		OS.delay_msec(int(interval_sec * 1000.0))
+
+func _step_one_sample_threaded() -> Dictionary:
 	if _idx >= _lines.size():
 		_idx = 0
 		_last_timestamp = -INF
@@ -74,7 +120,7 @@ func _step_one_sample() -> void:
 	_idx += 1
 
 	if line.is_empty() or line.begins_with("#"):
-		return
+		return {}
 
 	packets_total += 1
 
@@ -82,22 +128,23 @@ func _step_one_sample() -> void:
 
 	if sample.is_empty():
 		packets_invalid += 1
-		return
+		return {}
 
 	if not _validate_sample(sample):
 		packets_invalid += 1
-		return
+		return {}
 
 	packets_valid += 1
-	_update_pose(sample)
+	var pose := _build_pose(sample)
 
 	if packets_total % 120 == 0:
 		print("Telemetry stats:",
-		" total=", packets_total,
-		" valid=", packets_valid,
-		" invalid=", packets_invalid,
-		" gaps=", gap_count)
+			" total=", packets_total,
+			" valid=", packets_valid,
+			" invalid=", packets_invalid,
+			" gaps=", gap_count)
 
+	return pose
 
 func _parse_csv_line(line: String) -> Dictionary:
 	var parts := line.split(",")
@@ -117,9 +164,8 @@ func _parse_csv_line(line: String) -> Dictionary:
 
 	return sample
 
-
 func _validate_sample(sample: Dictionary) -> bool:
-	for key in ["timestamp","lat","lon","alt","roll","pitch","yaw"]:
+	for key in ["timestamp", "lat", "lon", "alt", "roll", "pitch", "yaw"]:
 		if not sample.has(key):
 			return false
 
@@ -134,18 +180,16 @@ func _validate_sample(sample: Dictionary) -> bool:
 
 	return true
 
-
-func _update_pose(sample: Dictionary) -> void:
+func _build_pose(sample: Dictionary) -> Dictionary:
 	var t: float = sample["timestamp"]
 
-	# Gap detection
-	pose_gap = false
+	var local_gap: bool = false
 	if _last_timestamp != -INF:
 		var expected_dt: float = 1.0 / replay_hz
 		var dt: float = t - _last_timestamp
 
 		if dt > expected_dt * 3.0:
-			pose_gap = true
+			local_gap = true
 			gap_count += 1
 
 	_last_timestamp = t
@@ -155,7 +199,7 @@ func _update_pose(sample: Dictionary) -> void:
 	var alt: float = sample["alt"]
 
 	if altitude_in_feet:
-		alt = alt * 0.3048
+		alt *= 0.3048
 
 	if not _origin_set:
 		_origin_lat = lat
@@ -170,7 +214,7 @@ func _update_pose(sample: Dictionary) -> void:
 	var dz: float = (lat - _origin_lat) * meters_per_deg_lat
 	var dy: float = alt - _origin_alt
 
-	pose_pos = Vector3(dx, dy, dz)
+	var local_pos := Vector3(dx, dy, dz)
 
 	var roll: float = sample["roll"]
 	var pitch: float = sample["pitch"]
@@ -181,11 +225,15 @@ func _update_pose(sample: Dictionary) -> void:
 		pitch = deg_to_rad(pitch)
 		yaw = deg_to_rad(yaw)
 
-	pose_rot = Vector3(roll, pitch, yaw)
+	var local_rot := Vector3(roll, pitch, yaw)
 
-	pose_time = t
-	has_pose = true
-
+	return {
+		"has_pose": true,
+		"t": t,
+		"pos": local_pos,
+		"rot": local_rot,
+		"gap": local_gap
+	}
 
 func _load_file() -> void:
 	if not FileAccess.file_exists(replay_file_path):
@@ -193,12 +241,15 @@ func _load_file() -> void:
 		return
 
 	var f := FileAccess.open(replay_file_path, FileAccess.READ)
+	if f == null:
+		push_warning("Failed to open telemetry file: " + replay_file_path)
+		return
 
+	_lines.clear()
 	while not f.eof_reached():
 		_lines.append(f.get_line())
 
 	f.close()
-
 
 func get_pose() -> Dictionary:
 	return {
