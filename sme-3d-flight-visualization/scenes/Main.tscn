@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c307hdmos4gtm" path="res://assests/textures/rock023_nrm_rgh.png" id="8_bjd11"]
 [ext_resource type="Texture2D" uid="uid://ddprscrpsofah" path="res://assests/textures/ground037_alb_ht.png" id="9_qmy6f"]
 [ext_resource type="Texture2D" uid="uid://c1ots7w6i0i1q" path="res://assests/textures/ground037_nrm_rgh.png" id="10_mwfav"]
+[ext_resource type="PackedScene" uid="uid://hhxffvx3uqki" path="res://scenes/GUI/hud_root.tscn" id="11_wp0k4"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wp0k4"]
 size = Vector3(2.8283691, 0.5661621, 1.9511719)
@@ -163,3 +164,5 @@ metadata/_edit_lock_ = true
 [node name="CameraManager" parent="." unique_id=513015897 instance=ExtResource("6_c01mt")]
 distance = 15.0
 height = 6.0
+
+[node name="HUDRoot" parent="." unique_id=1284152950 instance=ExtResource("11_wp0k4")]

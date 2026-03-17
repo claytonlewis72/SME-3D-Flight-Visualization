@@ -8,6 +8,7 @@ func _ready():
 	$IngestionManager.pose_received.connect(
 		$FlightPathRenderer.add_point
 	)
+	$HUDRoot.connectToIngestion($IngestionManager)
 	
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
