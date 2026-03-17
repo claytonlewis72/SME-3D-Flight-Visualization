@@ -94,6 +94,7 @@ func _update_pose(sample: Dictionary):
 		_origin_alt = alt
 		_origin_set = true
 	
+	#print(alt)
 	var meters_per_deg_lat: float = 111320.0
 	var meters_per_deg_lon: float = 111320.0 * cos(deg_to_rad(_origin_lat))
 	
@@ -101,6 +102,7 @@ func _update_pose(sample: Dictionary):
 	var dz: float = (lat - _origin_lat) * meters_per_deg_lat
 	var dy: float = alt - _origin_alt
 
+	#Note: dy is placed on the center of orgin and not actual altitude height. May need to be changed.
 	pose_pos = Vector3(dx, dy, dz)
 
 	var roll: float = sample["roll"]
