@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bqt6n5re3773"
+
+[deps]
+
+files=["res://data/sample_telemetry.lat.translation", "res://data/sample_telemetry.lon.translation", "res://data/sample_telemetry.alt.translation", "res://data/sample_telemetry.roll.translation", "res://data/sample_telemetry.pitch.translation", "res://data/sample_telemetry.yaw.translation", "res://data/sample_telemetry.velocity.translation"]
+
+source_file="res://data/sample_telemetry.csv"
+dest_files=["res://data/sample_telemetry.lat.translation", "res://data/sample_telemetry.lon.translation", "res://data/sample_telemetry.alt.translation", "res://data/sample_telemetry.roll.translation", "res://data/sample_telemetry.pitch.translation", "res://data/sample_telemetry.yaw.translation", "res://data/sample_telemetry.velocity.translation"]
+
+[params]
+
+compress=true
+delimiter=0
+unescape_keys=false
+unescape_translations=true

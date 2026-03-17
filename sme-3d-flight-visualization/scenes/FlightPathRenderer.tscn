@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bvu7ao6peekts"]
+
+[ext_resource type="Script" uid="uid://d3rcj7xctiw2u" path="res://scripts/FlightPathRenderer.gd" id="1_sm2t1"]
+
+[node name="FlightPathRenderer" type="Node3D" unique_id=1948570090]
+script = ExtResource("1_sm2t1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2055486157]
