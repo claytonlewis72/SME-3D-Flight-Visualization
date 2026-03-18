@@ -28,14 +28,14 @@ var _origin_alt: float = 0.0
 
 var _last_timestamp: float = -INF
 
-signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool)
+#signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool)
 
 func _ready():
 	
 	udp.bind(UDP_PORT)
 	print("Listening for telemetry on UDP port:", UDP_PORT)
 
-func _process(delta):
+func _process(_delta):
 	
 	while udp.get_available_packet_count() > 0:
 		
@@ -114,7 +114,9 @@ func _update_pose(sample: Dictionary):
 	pose_time = t
 	has_pose = true
 	
-	emit_signal("pose_received", pose_pos, pose_rot, pose_gap)
+	#Added by Aramis Hernandez
+	_process_packet(pose_pos, pose_rot, pose_gap, pose_time)
+	#emit_signal("pose_received", pose_pos, pose_rot, pose_gap)
 
 func get_pose():
 
@@ -124,3 +126,7 @@ func get_pose():
 		"pos": pose_pos,
 		"rot": pose_rot
 	}
+
+#Added by Aramis Hernandez
+func _process_packet(pos, rot, gap, time):
+	TelemetryManager.forward_pose(pos, rot, gap, time)

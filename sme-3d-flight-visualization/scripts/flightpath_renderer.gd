@@ -8,7 +8,7 @@
 #|
 #|------------------------------------------------------------------------------------
 #|
-#|   File Name   : FlightPathRenderer.gd
+#|   File Name   : flightpath_renderer.gd
 #|
 #|   Target      : Godot GDScript
 #|
@@ -28,9 +28,9 @@ extends Node3D
 
 ## Renders a dynamic 3D flight path using telemetry pose data.
 ##
-## This node receives position and rotation updates from the ingestion layer
-## (typically via a `pose_received` signal) and renders the path as a continuous
-## line strip using an `ArrayMesh`.
+## This node subscribes to pose updates emitted by the TelemetryManager
+## singleton and renders the trajectory as a continuous line strip using
+## an `ArrayMesh`.
 ##
 ## Each vertex is colored based on vehicle orientation:
 ##
@@ -40,6 +40,7 @@ extends Node3D
 ##
 ## This allows both trajectory and orientation changes to be visualized
 ## simultaneously along the rendered path.
+
 
 
 ## Maximum number of vertices retained for the flight path.
@@ -77,11 +78,17 @@ var mesh: ArrayMesh
 
 
 
-## Initializes the mesh renderer and configures rendering materials.
+## Initializes the flight path renderer and subscribes to telemetry updates.
+##
+## The renderer connects to the `TelemetryManager.pose_received` signal in
+## order to receive position updates from the telemetry system.
 ##
 ## An unshaded material is used to ensure consistent color representation
 ## and reduce GPU overhead on embedded systems (e.g., NVIDIA Jetson).
 func _ready():
+	#Subsribe to the telemetry data being passed
+	TelemetryManager.pose_received.connect(add_point)
+	
 	mesh = ArrayMesh.new()
 	mesh_instance.mesh = mesh
 	
@@ -98,15 +105,16 @@ func _ready():
 
 ## Adds a new telemetry point to the rendered flight path.
 ##
-## This method is typically connected to a signal from the telemetry
-## ingestion system.
+## This method is connected to the `TelemetryManager.pose_received`
+## signal and is called whenever new pose telemetry is received.
 ##
 ## Parameters:
 ## - `new_pos`: Vehicle position in world coordinates.
 ## - `rot`: Rotation vector containing Euler angles (roll, pitch, yaw).
 ## - `is_gap`: Indicates a telemetry discontinuity. When true, the vertex
 ##   is rendered in red to highlight a data gap.
-func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool) -> void:
+## - `_time`: Timestamp associated with the telemetry update.
+func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool, _time) -> void:
 	
 	#Enforce minimum spacing between points.
 	if positions.size() > 0:
@@ -143,7 +151,7 @@ func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool) -> void:
 	dirty = true	
 
 ## Physics update loop responsible for rebuilding the mesh when needed.
-func _physics_process(delta):
+func _physics_process(_delta):
 	if dirty:
 		_rebuild_mesh()
 		dirty = false

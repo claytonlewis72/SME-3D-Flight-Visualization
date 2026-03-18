@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://hhxffvx3uqki"]
 
-[ext_resource type="Script" uid="uid://c5r3m1wa28er6" path="res://scripts/GUI/hud_root.gd" id="1_ngpyv"]
 [ext_resource type="PackedScene" uid="uid://bhmihevmfapl7" path="res://scenes/GUI/telemetry_panel.tscn" id="2_0ask3"]
 
 [node name="HUDRoot" type="CanvasLayer" unique_id=1284152950]
-script = ExtResource("1_ngpyv")
 
 [node name="TelemetryPanel" parent="." unique_id=1789464611 instance=ExtResource("2_0ask3")]

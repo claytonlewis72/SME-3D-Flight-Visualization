@@ -19,6 +19,10 @@ run/main_scene="uid://d31fpkxogek4a"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+TelemetryManager="*uid://c051r3a0wcf75"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/terrain_3d/plugin.cfg")
