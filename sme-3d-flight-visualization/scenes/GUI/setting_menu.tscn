@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://pstf4v4glla"]
+
+[ext_resource type="Script" uid="uid://3etku0la2mys" path="res://scripts/GUI/setting_menu.gd" id="1_o0g1o"]
+
+[node name="SettingMenu" type="Control" unique_id=1172358337]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_o0g1o")
+sender_path = null
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1578027935]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TelemetrySource" type="HBoxContainer" parent="VBoxContainer" unique_id=1923937544]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/TelemetrySource" unique_id=391669762]
+layout_mode = 2
+text = "Telemetry Source"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/TelemetrySource" unique_id=1589524013]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="VBoxContainer" unique_id=1920779565]
+layout_mode = 2
+text = "Apply Settings"
