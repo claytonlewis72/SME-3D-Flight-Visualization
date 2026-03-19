@@ -4,7 +4,6 @@ extends Control
 @export var python_path: String = "python3" # Path to Python
 
 
-
 @onready var run_button: Button = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/Start
 @onready var stop_button: Button = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/Stop
 
@@ -17,11 +16,12 @@ func _ready():
 
 
 func _on_run_telemetry_pressed():
-	# ✅ Prevent multiple instances
+	#Make sure we can only run one sender at a time
 	if sender_pid != -1:
 		print("Sender already running with PID:", sender_pid)
 		return
 	
+	#get file path
 	var full_path = ProjectSettings.globalize_path(sender_path)
 	
 	var args := PackedStringArray()
@@ -29,13 +29,13 @@ func _on_run_telemetry_pressed():
 	
 	sender_pid = OS.create_process(python_path, args)
 	
+	
 	if sender_pid == -1:
 		push_error("Failed to start sender")
 	else:
 		print("Started sender with PID:", sender_pid)
 
 func _on_stop_telemetry_pressed():
-	# Only stop if running
 	if sender_pid == -1:
 		print("Sender is not running")
 		return
@@ -49,6 +49,7 @@ func _on_stop_telemetry_pressed():
 	
 	sender_pid = -1
 
+#Kill sender if app is closed or ended.
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		_cleanup_sender()
