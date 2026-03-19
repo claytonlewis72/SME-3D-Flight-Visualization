@@ -71,7 +71,7 @@ signal pose_received(position: Vector3, rotation: Vector3, gap : bool, time)
 ## Parameters:
 ##   data : Dictionary
 ##       Raw telemetry data packet containing all transmitted fields.
-signal telemetry_packet(data)
+signal telemetry_updated(data)
 
 
 #-------------------------------------------------------------------------------------
@@ -100,4 +100,4 @@ func forward_pose(position: Vector3, rotation: Vector3, gap: bool, time):
 ##   data : Dictionary
 ##       Raw telemetry data packet.
 func forward_packet(data: Dictionary):
-	telemetry_packet.emit(data)
+	telemetry_updated.emit(data)
