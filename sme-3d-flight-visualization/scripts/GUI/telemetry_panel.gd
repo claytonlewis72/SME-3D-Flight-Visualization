@@ -44,7 +44,7 @@ extends PanelContainer
 ## Label node used to display the current position value received
 ## from telemetry updates.
 @onready var position_value = $MarginContainer/VBoxContainer/TelemetryGrid/PositionValue
-
+@onready var rotation_value = $MarginContainer/VBoxContainer/TelemetryGrid/RotationValue
 
 ## Initializes the telemetry panel.
 ##
@@ -68,3 +68,4 @@ func _ready():
 ## Currently only the position field is displayed in the UI.
 func _update_pose(pos: Vector3, rot: Vector3, gap: bool, time):
 	position_value.text = str(pos)
+	rotation_value.text = str(rot)

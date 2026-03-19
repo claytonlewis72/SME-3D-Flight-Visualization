@@ -35,3 +35,11 @@ text = "Position:"
 [node name="PositionValue" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=129167677]
 layout_mode = 2
 text = "VALUE"
+
+[node name="Rotation" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=771546375]
+layout_mode = 2
+text = "Rot:"
+
+[node name="RotationValue" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=1587473319]
+layout_mode = 2
+text = "VALUE"
