@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://g7aksppwt61b"]
+
+[ext_resource type="Script" uid="uid://blkysc6ogq5cf" path="res://scripts/ingestion/pose_processor.gd" id="1_m1cuh"]
+
+[node name="PoseProcessor" type="Node" unique_id=1788607904]
+script = ExtResource("1_m1cuh")

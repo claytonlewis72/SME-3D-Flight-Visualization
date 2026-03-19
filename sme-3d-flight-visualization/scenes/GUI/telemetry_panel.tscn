@@ -3,8 +3,12 @@
 [ext_resource type="Script" uid="uid://iax3dq5whwf0" path="res://scripts/GUI/telemetry_panel.gd" id="1_231p7"]
 
 [node name="TelemetryPanel" type="PanelContainer" unique_id=1789464611]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -122.0
+offset_bottom = 58.0
+grow_horizontal = 0
 script = ExtResource("1_231p7")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2000557423]
