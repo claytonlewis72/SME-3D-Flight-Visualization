@@ -5,9 +5,11 @@
 [ext_resource type="Script" uid="uid://cbokp18waattv" path="res://scripts/ingestion/ingestion_UDP.gd" id="2_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/flightpath_renderer.tscn" id="3_0bbpv"]
 [ext_resource type="PackedScene" uid="uid://dftnfoue8ugs" path="res://assests/models/plane2.9.glb" id="4_qmy6f"]
-[ext_resource type="PackedScene" uid="uid://x6xqpyq4owo3" path="res://assests/models/drone3.glb" id="5_q8u5g"]
 [ext_resource type="PackedScene" uid="uid://bl7kliy2lq3hd" path="res://scenes/camera_manager.tscn" id="6_c01mt"]
-[ext_resource type="PackedScene" uid="uid://dkbqqgg2h7vla" path="res://assests/models/TexturedTerrain6.glb" id="11_qmy6f"]
+[ext_resource type="Texture2D" uid="uid://c88j3oj0lf6om" path="res://assests/textures/rock023_alb_ht.png" id="7_wp0k4"]
+[ext_resource type="Texture2D" uid="uid://c307hdmos4gtm" path="res://assests/textures/rock023_nrm_rgh.png" id="8_bjd11"]
+[ext_resource type="Texture2D" uid="uid://ddprscrpsofah" path="res://assests/textures/ground037_alb_ht.png" id="9_qmy6f"]
+[ext_resource type="Texture2D" uid="uid://c1ots7w6i0i1q" path="res://assests/textures/ground037_nrm_rgh.png" id="10_mwfav"]
 [ext_resource type="PackedScene" uid="uid://hhxffvx3uqki" path="res://scenes/GUI/hud_root.tscn" id="11_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://c051r3a0wcf75" path="res://scenes/telemetry_manager.tscn" id="12_bjd11"]
 
@@ -26,6 +28,101 @@ fog_enabled = true
 fog_light_energy = 1.1
 fog_density = 0.0004
 
+[sub_resource type="Gradient" id="Gradient_3p2gp"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cvmbd"]
+noise_type = 2
+frequency = 0.03
+cellular_jitter = 3.0
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 50.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 1.5
+domain_warp_fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ft6cd"]
+noise = SubResource("FastNoiseLite_cvmbd")
+color_ramp = SubResource("Gradient_3p2gp")
+seamless = true
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_bb450"]
+_shader_parameters = {
+&"auto_base_texture": 0,
+&"auto_height_reduction": 0.0,
+&"auto_overlay_texture": 1,
+&"auto_slope": 1.774000084265,
+&"bias_distance": 512.0,
+&"blend_sharpness": 0.5,
+&"depth_blur": 1.0000000149012,
+&"dual_scale_far": 170.0,
+&"dual_scale_near": 100.0,
+&"dual_scale_reduction": 0.3,
+&"dual_scale_texture": 0,
+&"enable_macro_variation": true,
+&"enable_projection": true,
+&"flat_terrain_normals": false,
+&"macro_variation1": Color(1, 1, 1, 1),
+&"macro_variation2": Color(1, 1, 1, 1),
+&"macro_variation_slope": 0.333,
+&"mipmap_bias": 1.0,
+&"noise1_angle": 0.0,
+&"noise1_offset": Vector2(0.5, 0.5),
+&"noise1_scale": 0.04,
+&"noise2_scale": 0.076,
+&"noise_texture": SubResource("NoiseTexture2D_ft6cd"),
+&"projection_threshold": 0.8,
+&"tri_scale_reduction": 0.3,
+&"world_noise_fragment_normals": false,
+&"world_noise_height": 64.0,
+&"world_noise_lod_distance": 7500.0,
+&"world_noise_max_octaves": 4,
+&"world_noise_min_octaves": 2,
+&"world_noise_offset": Vector3(0, 0, 0),
+&"world_noise_region_blend": 0.33,
+&"world_noise_scale": 5.0
+}
+world_background = 2
+auto_shader = true
+dual_scaling = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nfivy"]
+transparency = 4
+cull_mode = 2
+vertex_color_use_as_albedo = true
+backlight_enabled = true
+backlight = Color(0.5, 0.5, 0.5, 1)
+distance_fade_mode = 1
+distance_fade_min_distance = 128.0
+distance_fade_max_distance = 96.0
+
+[sub_resource type="Terrain3DMeshAsset" id="Terrain3DMeshAsset_1nqs0"]
+generated_type = 1
+height_offset = 0.5
+material_override = SubResource("StandardMaterial3D_nfivy")
+last_lod = 0
+last_shadow_lod = 0
+lod0_range = 128.0
+
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_1iba3"]
+name = "rock023_alb_ht"
+albedo_texture = ExtResource("7_wp0k4")
+normal_texture = ExtResource("8_bjd11")
+
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_yxlcp"]
+name = "ground037_alb_ht"
+id = 1
+albedo_color = Color(0.6156863, 0.9490196, 0.5294118, 1)
+albedo_texture = ExtResource("9_qmy6f")
+normal_texture = ExtResource("10_mwfav")
+
+[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_ebg2g"]
+mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_1nqs0")])
+texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_1iba3"), SubResource("Terrain3DTextureAsset_yxlcp")])
+
 [node name="Main" type="Node" unique_id=1570756005]
 script = ExtResource("1_nxtc6")
 
@@ -41,23 +138,15 @@ script = ExtResource("2_rvslj")
 [node name="Pivot" type="Node3D" parent="Rendering Manager/Drone" unique_id=880997983]
 transform = Transform3D(2.9499998, 0, 0, 0, 2.9499998, 0, 0, 0, 2.9499998, 0, 0, 0)
 
-[node name="VisualRoot" type="Node3D" parent="Rendering Manager/Drone/Pivot" unique_id=602897480]
-transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
-script = ExtResource("4_lhr70")
+[node name="plane2_9" parent="Rendering Manager/Drone/Pivot" unique_id=1821864246 instance=ExtResource("4_qmy6f")]
 
-[node name="plane2_9" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=1821864246 instance=ExtResource("4_qmy6f")]
-transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
-
-[node name="RigidBody3D" type="RigidBody3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9" unique_id=960813492]
+[node name="RigidBody3D" type="RigidBody3D" parent="Rendering Manager/Drone/Pivot/plane2_9" unique_id=960813492]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D" unique_id=1072931498]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rendering Manager/Drone/Pivot/plane2_9/RigidBody3D" unique_id=1072931498]
 transform = Transform3D(-4.3711378e-08, 0, 1, 0, 1, 0, -1, 0, -4.3711378e-08, 0.008499984, 0.18200016, 0.221)
 shape = SubResource("BoxShape3D_wp0k4")
 debug_color = Color(0.9626917, 0, 0.5059066, 0.41960785)
-
-[node name="drone3" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=948729730 instance=ExtResource("5_q8u5g")]
-transform = Transform3D(-2.819385e-08, 0, 0.64500004, 0, 0.64500004, 0, -0.64500004, 0, -2.819385e-08, 0, 0.21973896, 0)
 
 [node name="FlightPathRenderer" parent="." unique_id=1948570090 instance=ExtResource("3_0bbpv")]
 
@@ -66,8 +155,12 @@ environment = SubResource("Environment_vcsgt")
 
 [node name="TerrainRoot" type="Node3D" parent="WorldEnvironment" unique_id=1165286033]
 
-[node name="TexturedTerrain6" parent="WorldEnvironment/TerrainRoot" unique_id=700111621 instance=ExtResource("11_qmy6f")]
-transform = Transform3D(9.47, 0, 0, 0, 9.47, 0, 0, 0, 9.47, 0, 747.88965, 0)
+[node name="Terrain3D" type="Terrain3D" parent="WorldEnvironment/TerrainRoot" unique_id=1162556192]
+data_directory = "res://terrain_data"
+material = SubResource("Terrain3DMaterial_bb450")
+assets = SubResource("Terrain3DAssets_ebg2g")
+top_level = true
+metadata/_edit_lock_ = true
 
 [node name="CameraManager" parent="." unique_id=513015897 instance=ExtResource("6_c01mt")]
 distance = 15.0
