@@ -1,7 +1,7 @@
 extends Control
 
 @export var sender_path: String = "res://SME-tool/sender.py"
-@export var python_path: String = "/usr/bin/python3" # Path to Python
+@export var python_path: String = "python3" # Path to Python
 
 #THIS IS TEMP. THE SAVE BUTTON WILL NOT BE USED TO PLAY THE SENDER.
 @onready var run_button: Button = $VBoxContainer/Save
@@ -47,11 +47,13 @@ func _on_run_telemetry_pressed():
 		push_error("Cannot run sender.py - script path invalid")
 		return
 	
+	print("script path:", script_path)
 	#OS.execute needs a packed string to run.
 	var args := PackedStringArray()
 	args.append(script_path)
 	
+	
 	# Run sender.py without any arguments
 	#COME BACK TO THIS. THESE TWO LINES ARE BUGGED.
-	var result := OS.execute("python3", args)
+	var result := OS.execute(python_path, args)
 	print("Running sender.py via OS.execute()", result)
