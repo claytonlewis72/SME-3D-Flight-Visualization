@@ -10,7 +10,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_o0g1o")
-sender_path = null
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1578027935]
 layout_mode = 0
