@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://djfvxtq8ebb7p" path="res://scripts/main.gd" id="1_nxtc6"]
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
 [ext_resource type="Script" uid="uid://cbokp18waattv" path="res://scripts/ingestion/ingestion_UDP.gd" id="2_wp0k4"]
-[ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/FlightPathRenderer.tscn" id="3_0bbpv"]
-[ext_resource type="Script" uid="uid://cjtumiggl8vuj" path="res://scripts/drone_manager/VisualRoot.gd" id="4_lhr70"]
+[ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/flightpath_renderer.tscn" id="3_0bbpv"]
 [ext_resource type="PackedScene" uid="uid://dftnfoue8ugs" path="res://assests/models/plane2.9.glb" id="4_qmy6f"]
 [ext_resource type="PackedScene" uid="uid://x6xqpyq4owo3" path="res://assests/models/drone3.glb" id="5_q8u5g"]
 [ext_resource type="PackedScene" uid="uid://bl7kliy2lq3hd" path="res://scenes/camera_manager.tscn" id="6_c01mt"]
 [ext_resource type="PackedScene" uid="uid://dkbqqgg2h7vla" path="res://assests/models/TexturedTerrain6.glb" id="11_qmy6f"]
 [ext_resource type="PackedScene" uid="uid://hhxffvx3uqki" path="res://scenes/GUI/hud_root.tscn" id="11_wp0k4"]
+[ext_resource type="PackedScene" uid="uid://c051r3a0wcf75" path="res://scenes/telemetry_manager.tscn" id="12_bjd11"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wp0k4"]
 size = Vector3(2.8283691, 0.5661621, 1.9511719)
@@ -74,3 +74,5 @@ distance = 15.0
 height = 6.0
 
 [node name="HUDRoot" parent="." unique_id=1284152950 instance=ExtResource("11_wp0k4")]
+
+[node name="Telemetry_Manager" parent="." unique_id=1218005018 instance=ExtResource("12_bjd11")]

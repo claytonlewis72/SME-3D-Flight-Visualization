@@ -27,7 +27,7 @@ var target: Node3D #Target is given to the camera_manager then passed through th
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if target:
 		look_at(target.global_transform.origin, Vector3.UP)
 	else:
