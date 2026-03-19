@@ -48,9 +48,10 @@ func _on_run_telemetry_pressed():
 		return
 	
 	#OS.execute needs a packed string to run.
-	var args = PackedStringArray([script_path])
+	var args := PackedStringArray()
+	args.append(script_path)
 	
 	# Run sender.py without any arguments
 	#COME BACK TO THIS. THESE TWO LINES ARE BUGGED.
-	#var result := OS.execute(python_path, args, false)
-	#print("Running sender.py via OS.execute()", result)
+	var result := OS.execute("python3", args)
+	print("Running sender.py via OS.execute()", result)
