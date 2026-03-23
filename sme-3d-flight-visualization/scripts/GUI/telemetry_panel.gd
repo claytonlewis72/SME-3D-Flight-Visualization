@@ -47,11 +47,16 @@ extends PanelContainer
 @onready var rotation_value = $MarginContainer/VBoxContainer/TelemetryGrid/RotationValue
 
 ## Initializes the telemetry panel.
-##
+## Edited by Carson Wood
 ## Connects the panel to the TelemetryManager pose_received signal so
 ## that the UI can update whenever new telemetry pose data is available.
 func _ready():
-	TelemetryManager.pose_received.connect(_update_pose)
+	var telemetry_manager = get_tree().get_first_node_in_group("ingestion")
+	if telemetry_manager == null:
+		push_error("No ingestion node found in group 'ingestion'")
+		return
+
+	telemetry_manager.pose_received.connect(_update_pose)
 
 
 ## Updates the telemetry panel when new pose data is received.

@@ -77,7 +77,7 @@ var dirty := false
 var mesh: ArrayMesh 
 
 
-
+## Edited by Carson Wood
 ## Initializes the flight path renderer and subscribes to telemetry updates.
 ##
 ## The renderer connects to the `TelemetryManager.pose_received` signal in
@@ -86,19 +86,21 @@ var mesh: ArrayMesh
 ## An unshaded material is used to ensure consistent color representation
 ## and reduce GPU overhead on embedded systems (e.g., NVIDIA Jetson).
 func _ready():
-	#Subsribe to the telemetry data being passed
-	TelemetryManager.pose_received.connect(add_point)
-	
+	var telemetry_manager = get_tree().get_first_node_in_group("ingestion")
+
+	if telemetry_manager == null:
+		push_error("No ingestion node found in group 'ingestion'")
+		return
+
+	telemetry_manager.pose_received.connect(add_point)
+
 	mesh = ArrayMesh.new()
 	mesh_instance.mesh = mesh
-	
-	# UnShaded material to improve performance and consistent colors
+
 	var material = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	
-	#enable vertex color usage
 	material.vertex_color_use_as_albedo = true
-	
+
 	mesh_instance.material_override = material
 
 
