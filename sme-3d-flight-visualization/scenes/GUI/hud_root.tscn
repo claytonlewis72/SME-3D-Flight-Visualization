@@ -3,8 +3,55 @@
 [ext_resource type="PackedScene" uid="uid://bhmihevmfapl7" path="res://scenes/GUI/telemetry_panel.tscn" id="2_0ask3"]
 [ext_resource type="PackedScene" uid="uid://pstf4v4glla" path="res://scenes/GUI/setting_menu.tscn" id="2_ngpyv"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngpyv"]
+bg_color = Color(0.101960786, 0.101960786, 0.06666667, 1)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_0ask3"]
+color = Color(1.2498733, 1.2498733, 1.2498733, 1)
+grow_begin = 0.0
+
 [node name="HUDRoot" type="CanvasLayer" unique_id=1284152950]
 
 [node name="TelemetryPanel" parent="." unique_id=1789464611 instance=ExtResource("2_0ask3")]
+custom_minimum_size = Vector2(330, 0)
+offset_left = -312.0
+offset_bottom = 85.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ngpyv")
+metadata/_edit_use_anchors_ = true
+
+[node name="HSeparator" parent="TelemetryPanel/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(1789464611, 2006118119) index="1" unique_id=1396927265]
+theme_override_styles/separator = SubResource("StyleBoxLine_0ask3")
+
+[node name="PositionValue" parent="TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid" parent_id_path=PackedInt32Array(1789464611, 1103528058) index="1" unique_id=129167677]
+text = "(0.0000, 0.0000, 0.0000)"
+
+[node name="Rotation" parent="TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid" parent_id_path=PackedInt32Array(1789464611, 1103528058) index="2" unique_id=771546375]
+text = "Rotation:"
+
+[node name="RotationValue" parent="TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid" parent_id_path=PackedInt32Array(1789464611, 1103528058) index="3" unique_id=1587473319]
+text = "(0.0000, 0.0000, 0.0000)"
 
 [node name="SettingMenu" parent="." unique_id=1172358337 instance=ExtResource("2_ngpyv")]
+
+[node name="OptionButton" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1731921074) index="1" unique_id=1589524013]
+item_count = 4
+popup/item_0/text = "Live"
+popup/item_0/id = 0
+popup/item_1/text = "Playback"
+popup/item_1/id = 1
+popup/item_2/text = "Simulated"
+popup/item_2/id = 2
+popup/item_3/text = "None"
+popup/item_3/id = 3
+
+[node name="Stop" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 100640620) index="2" unique_id=397611638]
+text = "Reset"
+
+[connection signal="item_selected" from="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton" to="SettingMenu" method="_on_option_button_item_selected"]
+
+[editable path="TelemetryPanel"]
+[editable path="SettingMenu"]
