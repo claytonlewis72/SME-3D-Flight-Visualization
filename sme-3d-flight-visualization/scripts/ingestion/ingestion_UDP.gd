@@ -128,5 +128,7 @@ func get_pose():
 	}
 
 #Added by Aramis Hernandez
+#Modified for telemetry source change by Nicholas Tran
 func _process_packet(pos, rot, gap, time):
-	TelemetryManager.forward_pose(pos, rot, gap, time)
+	if TelemetryManager.telemetry_source == "UDP":
+		TelemetryManager.forward_pose(pos, rot, gap, time)

@@ -99,7 +99,14 @@ func _exit_tree() -> void:
 func _thread_loop() -> void:
 	var interval_sec: float = 1.0 / max(replay_hz, 1.0)
 
+
 	while _thread_running:
+		#Only run CSV playback when selected: Nicholas Tran
+		if TelemetryManager.telemetry_source != "CSV":
+			OS.delay_msec(10)
+			continue 
+			
+			 
 		var pose_dict: Dictionary = _step_one_sample_threaded()
 
 		if not pose_dict.is_empty():
@@ -237,7 +244,9 @@ func _build_pose(sample: Dictionary) -> Dictionary:
 	
 	#Added by: Aramis Hernandez
 	#Emit the signal to send data to rendering.
-	emit_signal("pose_received", pose_pos, pose_rot, pose_gap)
+	#Modified for telemetry source change: by Nicholas Tran
+	if TelemetryManager.telemetry_source == "CSV":
+		emit_signal("pose_received", pose_pos, pose_rot, pose_gap)
 	
 	var local_rot := Vector3(roll, pitch, yaw)
 	

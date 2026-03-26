@@ -9,6 +9,8 @@ extends Control
 @onready var position_value = get_node("../TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid/PositionValue")
 @onready var rotation_value = get_node("../TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid/RotationValue")
 @onready var drone = get_node("/root/Main/Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D")
+@onready var telemetry_dropdown = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton
+@onready var csv_ingestion = get_node("/root/Main/IngestionManager")
 
 
 var sender_pid: int = -1
@@ -102,8 +104,17 @@ func _cleanup_sender():
 		sender_pid = -1
 
 
-# Option Button for switching telemetry source
-## CURRENTLY WILL CRASH IF SELECTED
-func _on_option_button_item_selected(index: int) -> void:
-	var choice = $OptionButton.get_item_text(index)
-	print("Selected telemetry source:", choice)
+# Option Button for switching telemetry source (UDP or CSV): by Nicholas Tran
+func _on_option_button_item_selected(index):
+	var choice = telemetry_dropdown.get_item_text(index)
+	TelemetryManager.telemetry_source = choice
+
+	if choice == "CSV":
+		$CSVFileDialog.popup()
+
+#File selector for csv: by Nicholas Tran
+## FILE SELECTOR CRASHES FOR CSV
+func _on_csv_file_dialog_file_selected(path: String) -> void:
+	csv_ingestion.replay_file_path = path
+	csv_ingestion._load_file()
+	TelemetryManager.telemetry_source = "CSV"

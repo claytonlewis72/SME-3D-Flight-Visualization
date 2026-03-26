@@ -101,3 +101,6 @@ func forward_pose(position: Vector3, rotation: Vector3, gap: bool, time):
 ##       Raw telemetry data packet.
 func forward_packet(data: Dictionary):
 	telemetry_updated.emit(data)
+
+
+var telemetry_source := "UDP"
