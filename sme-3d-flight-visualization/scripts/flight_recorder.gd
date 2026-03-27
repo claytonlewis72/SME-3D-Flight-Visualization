@@ -10,6 +10,7 @@ const FORMAT := 0x464C5448
 var _file : FileAccess = null
 var _frame_count : int = 0
 
+var _is_recording: bool = false
 
 func _ready():
 	var cur_file_path = _get_save_path()
@@ -24,11 +25,48 @@ func _ready():
 	
 	TelemetryManager.pose_received.connect(_on_pose_received)
 	print("[RecorderTest] Recording to: ", save_path)
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("record"):
+		if _is_recording:
+			_stop_recording()
+		else:
+			_start_recording()
+
+func _start_recording() -> void:
+	var path := _get_save_path()
+	_file = FileAccess.open(path, FileAccess.WRITE)
+	if _file == null:
+		push_error("[RecorderTest] Could not open file: " + path)
+		return
 	
+	#Write file header
+	_file.store_32(FORMAT)
+	_file.store_32(0) #placeholder frame count
 	
-func _on_pose_received(pos : Vector3, rot : Vector3, _gap: bool, time: float):
+	_frame_count = 0
+	_is_recording = true
+	print("[RecorderTest] Recording started -> ", path)
+
+func _stop_recording() -> void:
 	if _file == null:
 		return
+		
+	#Go back and write the real frame count into the header to replace the placeholder
+	_file.seek(4)
+	_file.store_32(_frame_count)
+	_file.close()
+	_file = null
+	
+	_is_recording = false
+	print("[RecorderTest] Recording Stopped. Total frames: %d" % _frame_count)
+
+
+	
+func _on_pose_received(pos : Vector3, rot : Vector3, _gap: bool, time: float):
+	if not _is_recording or _file == null:
+		return
+	
 	_file.store_float(time)
 	_file.store_float(pos.x)
 	_file.store_float(pos.y)
@@ -44,7 +82,9 @@ func _notification(what : int) -> void:
 	# Called when the scene is closing
 	# go back and write the real frame count into the header
 	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_PREDELETE:
-		_close()
+		if _is_recording:
+			_stop_recording()
+
 
 func _close() -> void:
 	if _file == null:
