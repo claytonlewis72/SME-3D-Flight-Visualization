@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bhmihevmfapl7" path="res://scenes/GUI/telemetry_panel.tscn" id="2_0ask3"]
 [ext_resource type="PackedScene" uid="uid://pstf4v4glla" path="res://scenes/GUI/setting_menu.tscn" id="2_ngpyv"]
+[ext_resource type="PackedScene" uid="uid://bjrfy6ui1f3to" path="res://scenes/GUI/config_window.tscn" id="3_0ask3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngpyv"]
 bg_color = Color(0.101960786, 0.101960786, 0.06666667, 1)
@@ -46,6 +47,13 @@ popup/item_1/id = 1
 
 [node name="Stop" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 100640620) index="2" unique_id=397611638]
 text = "Reset"
+
+[node name="ConfigButton" parent="SettingMenu/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1578027935) index="1" unique_id=1920779565]
+text = "Configuration Settings"
+
+[node name="ConfigWindow" parent="SettingMenu/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1578027935) index="2" unique_id=444390243 instance=ExtResource("3_0ask3")]
+visible = false
+exclusive = true
 
 [node name="CSVFileDialog" type="FileDialog" parent="SettingMenu" unique_id=1846482974]
 title = "Open a File"

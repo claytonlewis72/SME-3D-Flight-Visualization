@@ -11,6 +11,8 @@ extends Control
 @onready var drone = get_node("/root/Main/Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D")
 @onready var telemetry_dropdown = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton
 @onready var csv_ingestion = get_node("/root/Main/IngestionManager")
+@onready var config_window = $VBoxContainer/ConfigWindow
+@onready var config_button = $VBoxContainer/ConfigButton
 
 
 var sender_pid: int = -1
@@ -20,6 +22,7 @@ var is_paused := false
 func _ready():
 	run_button.pressed.connect(_on_run_telemetry_pressed)
 	stop_button.pressed.connect(_on_stop_telemetry_pressed)
+	config_button.pressed.connect(_on_config_button_pressed)
 
 
 func _on_run_telemetry_pressed():
@@ -35,7 +38,7 @@ func _on_run_telemetry_pressed():
 			push_error("Failed to start sender")
 		else:
 			print("Started sender with PID:", sender_pid)
-			run_button.text = "Pause"
+			run_button.text = "Stop"
 			is_paused = false
 		return
 	
@@ -44,7 +47,7 @@ func _on_run_telemetry_pressed():
 		print("Pausing sender...")
 		OS.kill(sender_pid)
 		is_paused = true
-		run_button.text = "Resume"
+		run_button.text = "Start"
 		return
 	
 	# Case 3: Paused -> Resume
@@ -55,7 +58,7 @@ func _on_run_telemetry_pressed():
 		
 		sender_pid = OS.create_process(python_path, args)
 		is_paused = false
-		run_button.text = "Pause"
+		run_button.text = "Stop"
 		return
 
 # Reset Position and Orientation and the run
@@ -118,3 +121,8 @@ func _on_csv_file_dialog_file_selected(path: String) -> void:
 	csv_ingestion.replay_file_path = path
 	csv_ingestion._load_file()
 	TelemetryManager.telemetry_source = "CSV"
+	
+#Config Button opens config Window
+func _on_config_button_pressed():
+	#$VBoxContainer/ConfigWindow.load_settings()
+	$VBoxContainer/ConfigWindow.popup_centered()
