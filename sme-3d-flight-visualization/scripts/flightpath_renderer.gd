@@ -86,13 +86,11 @@ var mesh: ArrayMesh
 ## An unshaded material is used to ensure consistent color representation
 ## and reduce GPU overhead on embedded systems (e.g., NVIDIA Jetson).
 func _ready():
-	var telemetry_manager = get_tree().get_first_node_in_group("ingestion")
-
-	if telemetry_manager == null:
-		push_error("No ingestion node found in group 'ingestion'")
+	if not TelemetryManager:
+		push_error("TelemetryManager not found")
 		return
 
-	telemetry_manager.pose_received.connect(add_point)
+	TelemetryManager.pose_received.connect(add_point)
 
 	mesh = ArrayMesh.new()
 	mesh_instance.mesh = mesh

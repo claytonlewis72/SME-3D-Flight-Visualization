@@ -258,7 +258,8 @@ func _build_pose(sample: Dictionary) -> Dictionary:
 		pitch = deg_to_rad(pitch)
 		yaw = deg_to_rad(yaw)
 
-	var local_rot: Vector3 = Vector3(roll, pitch, yaw)
+	# FIXED AXIS ORDER
+	var local_rot: Vector3 = Vector3(pitch, yaw, roll)
 
 	return {
 		"has_pose": true,

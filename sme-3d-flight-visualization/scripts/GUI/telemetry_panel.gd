@@ -51,12 +51,11 @@ extends PanelContainer
 ## Connects the panel to the TelemetryManager pose_received signal so
 ## that the UI can update whenever new telemetry pose data is available.
 func _ready():
-	var telemetry_manager = get_tree().get_first_node_in_group("ingestion")
-	if telemetry_manager == null:
-		push_error("No ingestion node found in group 'ingestion'")
+	if not TelemetryManager:
+		push_error("TelemetryManager not found")
 		return
 
-	telemetry_manager.pose_received.connect(_update_pose)
+	TelemetryManager.pose_received.connect(_update_pose)
 
 
 ## Updates the telemetry panel when new pose data is received.

@@ -144,11 +144,9 @@ func _validate_sample(sample: Dictionary) -> bool:
 func _update_pose(sample: Dictionary) -> void:
 	var t: float = sample["timestamp"]
 
-	# Detect timing gaps in the incoming telemetry stream.
 	pose_gap = false
 	if _last_timestamp != -INF:
 		var dt: float = t - _last_timestamp
-		# 0.05 is a simple default threshold for now; can be adjusted later.
 		if dt > 0.05 * 3.0:
 			pose_gap = true
 			gap_count += 1
@@ -181,24 +179,25 @@ func _update_pose(sample: Dictionary) -> void:
 	var dz: float = (lat - _origin_lat) * meters_per_deg_lat
 	var dy: float = alt - _origin_alt
 
-	# Local coordinate system:
-	# x = east, y = up, z = north
 	pose_pos = Vector3(dx, dy, dz)
 
 	var roll: float = sample["roll"]
 	var pitch: float = sample["pitch"]
 	var yaw: float = sample["yaw"]
+	print("RAW ROT:", roll, pitch, yaw)
 
 	if angles_in_degrees:
 		roll = deg_to_rad(roll)
 		pitch = deg_to_rad(pitch)
 		yaw = deg_to_rad(yaw)
 
-	pose_rot = Vector3(roll, pitch, yaw)
+	#FIXED AXIS ORDER (Godot expects pitch, yaw, roll)
+	pose_rot = Vector3(pitch, yaw, roll)
+
 	pose_time = t
 	has_pose = true
 
-	emit_signal("pose_received", pose_pos, pose_rot, pose_gap, pose_time)
+	TelemetryManager.forward_pose(pose_pos, pose_rot, pose_gap, pose_time)
 
 
 ## Returns the latest processed pose in a shared format used by rendering.
