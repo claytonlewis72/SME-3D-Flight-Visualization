@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dkbqqgg2h7vla" path="res://assests/models/TexturedTerrain6.glb" id="8_qmy6f"]
 [ext_resource type="PackedScene" uid="uid://hhxffvx3uqki" path="res://scenes/GUI/hud_root.tscn" id="11_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://c051r3a0wcf75" path="res://scenes/telemetry_manager.tscn" id="12_bjd11"]
+[ext_resource type="PackedScene" uid="uid://cd5utvyyv3opv" path="res://scenes/flight_recorder.tscn" id="12_qmy6f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wp0k4"]
 size = Vector3(2.8283691, 0.5661621, 1.9511719)
@@ -76,3 +77,5 @@ height = 6.0
 [node name="HUDRoot" parent="." unique_id=1284152950 instance=ExtResource("11_wp0k4")]
 
 [node name="Telemetry_Manager" parent="." unique_id=1218005018 instance=ExtResource("12_bjd11")]
+
+[node name="flight_recorder" parent="." unique_id=2067874738 instance=ExtResource("12_qmy6f")]
