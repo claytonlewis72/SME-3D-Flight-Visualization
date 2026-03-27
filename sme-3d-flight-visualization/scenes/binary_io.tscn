@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://21s6prjgnkeq"]
+
+[ext_resource type="Script" uid="uid://csujjypofoi01" path="res://binary_io.gd" id="1_at0rm"]
+
+[node name="BinaryIO" type="Node" unique_id=225416108]
+script = ExtResource("1_at0rm")
