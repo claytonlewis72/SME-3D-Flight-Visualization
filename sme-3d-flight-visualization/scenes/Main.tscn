@@ -9,9 +9,17 @@
 [ext_resource type="PackedScene" uid="uid://x6xqpyq4owo3" path="res://assests/models/drone3.glb" id="6_bjd11"]
 [ext_resource type="PackedScene" uid="uid://bl7kliy2lq3hd" path="res://scenes/camera_manager.tscn" id="6_c01mt"]
 [ext_resource type="PackedScene" uid="uid://dkbqqgg2h7vla" path="res://assests/models/TexturedTerrain6.glb" id="8_qmy6f"]
-[ext_resource type="PackedScene" uid="uid://dkt57aj72bodf" path="res://assests/models/WCUTerrain2.glb" id="9_bjd11"]
+[ext_resource type="PackedScene" uid="uid://vvj8mlrbtmqf" path="res://assests/textures/terrain/Terr1/Terr1.glb" id="9_1nqs0"]
+[ext_resource type="PackedScene" uid="uid://bvvb1u5tpsk1e" path="res://assests/textures/terrain/Terr2/Terr2.glb" id="10_1iba3"]
 [ext_resource type="PackedScene" uid="uid://hhxffvx3uqki" path="res://scenes/GUI/hud_root.tscn" id="11_wp0k4"]
+[ext_resource type="PackedScene" uid="uid://bo28tyxeiu5sb" path="res://assests/textures/terrain/Terr3/Terr3.glb" id="11_yxlcp"]
 [ext_resource type="PackedScene" uid="uid://c051r3a0wcf75" path="res://scenes/telemetry_manager.tscn" id="12_bjd11"]
+[ext_resource type="PackedScene" uid="uid://dnhbj187td0b5" path="res://assests/textures/terrain/Terr4/Terr4.glb" id="12_ebg2g"]
+[ext_resource type="PackedScene" uid="uid://br88q6anv71t1" path="res://assests/textures/terrain/Terr5/Terr5.glb" id="13_2ofn6"]
+[ext_resource type="PackedScene" uid="uid://dpiqgle67qg5v" path="res://assests/textures/terrain/Terr6/Terr6.glb" id="14_xa025"]
+[ext_resource type="PackedScene" uid="uid://dd1pllpatu3up" path="res://assests/textures/terrain/Terr7/Terr7.glb" id="15_36rkl"]
+[ext_resource type="PackedScene" uid="uid://cbk2th3dktqkf" path="res://assests/textures/terrain/Terr8/Terr8.glb" id="16_fs0b5"]
+[ext_resource type="PackedScene" uid="uid://buwfm25d27fvy" path="res://assests/textures/terrain/Terr9/Terr9.glb" id="17_ma7h6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wp0k4"]
 size = Vector3(2.82837, 0.566162, 1.95117)
@@ -69,7 +77,32 @@ environment = SubResource("Environment_vcsgt")
 transform = Transform3D(6.5, 0, 0, 0, 6.5, 0, 0, 0, 6.5, 0, 65.793, 0)
 visible = false
 
-[node name="WCUTerrain2" parent="WorldEnvironment/TerrainRoot" unique_id=402958439 instance=ExtResource("9_bjd11")]
+[node name="Terr1" parent="WorldEnvironment/TerrainRoot" unique_id=430593637 instance=ExtResource("9_1nqs0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.22, -50.095, 17.57)
+
+[node name="Terr2" parent="WorldEnvironment/TerrainRoot" unique_id=186267858 instance=ExtResource("10_1iba3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50.095, 17.57)
+
+[node name="Terr3" parent="WorldEnvironment/TerrainRoot" unique_id=457550661 instance=ExtResource("11_yxlcp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.115, -50.095, 17.57)
+
+[node name="Terr4" parent="WorldEnvironment/TerrainRoot" unique_id=192660681 instance=ExtResource("12_ebg2g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.22, -50.095, 0)
+
+[node name="Terr5" parent="WorldEnvironment/TerrainRoot" unique_id=47641608 instance=ExtResource("13_2ofn6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50.095, 0)
+
+[node name="Terr6" parent="WorldEnvironment/TerrainRoot" unique_id=159407625 instance=ExtResource("14_xa025")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.115, -50.095, 0)
+
+[node name="Terr7" parent="WorldEnvironment/TerrainRoot" unique_id=1994073450 instance=ExtResource("15_36rkl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.22, -50.095, -15.53)
+
+[node name="Terr8" parent="WorldEnvironment/TerrainRoot" unique_id=1727029797 instance=ExtResource("16_fs0b5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50.095, -15.53)
+
+[node name="Terr9" parent="WorldEnvironment/TerrainRoot" unique_id=315690870 instance=ExtResource("17_ma7h6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.115, -50.095, -15.53)
 
 [node name="CameraManager" parent="." unique_id=424381554 instance=ExtResource("6_c01mt")]
 distance = 15.0
