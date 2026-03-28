@@ -43,6 +43,24 @@ text = "Start"
 layout_mode = 2
 text = "Stop"
 
+[node name="PlaybackPanel" type="VBoxContainer" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=1771783078]
+layout_mode = 2
+
+[node name="Load" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/PlaybackPanel" unique_id=1689838106]
+layout_mode = 2
+text = "Load"
+
+[node name="Play_pause" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/PlaybackPanel" unique_id=1607692149]
+layout_mode = 2
+
+[node name="Stop_playback" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/PlaybackPanel" unique_id=1345911639]
+layout_mode = 2
+text = "Stop(Playback)
+"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/PlaybackPanel" unique_id=958488611]
+layout_mode = 2
+
 [node name="Save" type="Button" parent="VBoxContainer" unique_id=1920779565]
 layout_mode = 2
 text = "Apply Settings"

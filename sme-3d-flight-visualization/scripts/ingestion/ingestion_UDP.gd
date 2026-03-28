@@ -1,15 +1,38 @@
-# Author: Aramis Hernandez
-# Edited and expanded after initial implementation to align with the current
-# ingestion pipeline interface and rendering signal contract.
+#|------------------------------------------------------------------------------------
+#|   Unclassified
+#|------------------------------------------------------------------------------------
+#|
+#|   SME Solutions, Inc.
+#|   Copyright 2026 SME Solutions, Inc. All Rights Reserved
+#|   SME Solutions Proprietary Information
+#|
+#|------------------------------------------------------------------------------------
+#|
+#|   File Name   : ingestion_UDP.gd
+#|
+#|   Target      : Godot GDScript
+#|
+#|   Description :
+#|       UDP telemetry ingestion source. Extends TelemetrySource.
+#|       Receives raw UDP telemetry packets, parses and validates them,
+#|       converts them to local pose data, and forwards them through
+#|       TelemetryManager only when telemetry_source == "UDP".
+#|
+#|   POC         :
+#|       Aramis Hernandez
+#| Edited by Carson Wood and expanded after initial implementation to align with the current
+#| ingestion pipeline interface and rendering signal contract.
+#|
+#|------------------------------------------------------------------------------------
 
-extends Node
+extends TelemetrySource
 
 ## Emitted whenever a new valid telemetry pose is processed.
 ## position: local-space position in meters
 ## rotation: local-space rotation in radians
 ## is_gap: true if a timing gap was detected
 ## time: telemetry timestamp
-signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool, time: float)
+#signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool, time: float)
 
 @export var udp_port: int = 5005
 
@@ -50,17 +73,27 @@ var _origin_alt: float = 0.0
 ## Used for gap detection.
 var _last_timestamp: float = -INF
 
-
 func _ready() -> void:
-	var bind_result := udp.bind(udp_port)
-	if bind_result != OK:
-		push_error("Failed to bind UDP socket on port: " + str(udp_port))
-		return
+	SourceManager.register_source("UDP", self)
+	start()
 
-	print("Listening for telemetry on UDP port:", udp_port)
+func start() -> void:
+	var result := udp.bind(udp_port)
+	if result != OK:
+		push_error("[UDPSource] Failed to bind UDP socket on port: %d" %udp_port)
+		return
+	print("[UDPSource] Listening on UDP port: %d" % udp_port)
+
+func stop() -> void:
+	udp.close()
+	print("[UDPSource] Socket closed.")
 
 
 func _process(_delta: float) -> void:
+	# Ensure we only process packets when this source is active
+	if SourceManager.active_source_name != "UDP":
+		return
+	
 	while udp.get_available_packet_count() > 0:
 		var packet: PackedByteArray = udp.get_packet()
 		var msg: String = packet.get_string_from_utf8()
@@ -89,11 +122,9 @@ func _process_udp_line(line: String) -> void:
 	_update_pose(sample)
 
 	if packets_total % 120 == 0:
-		print("UDP telemetry stats:",
-			" total=", packets_total,
-			" valid=", packets_valid,
-			" invalid=", packets_invalid,
-			" gaps=", gap_count)
+		print("[UDPSource] total = %d valid=%d invaild=%d gaps=%d" % [
+			packets_total, packets_valid, packets_invalid, gap_count
+		])
 
 
 ## Parses an incoming UDP telemetry string into a structured sample.
@@ -184,7 +215,7 @@ func _update_pose(sample: Dictionary) -> void:
 	var roll: float = sample["roll"]
 	var pitch: float = sample["pitch"]
 	var yaw: float = sample["yaw"]
-	print("RAW ROT:", roll, pitch, yaw)
+	#print("RAW ROT:", roll, pitch, yaw)
 
 	if angles_in_degrees:
 		roll = deg_to_rad(roll)
@@ -196,8 +227,8 @@ func _update_pose(sample: Dictionary) -> void:
 
 	pose_time = t
 	has_pose = true
-
-	TelemetryManager.forward_pose(pose_pos, pose_rot, pose_gap, pose_time)
+	
+	_process_packet(pose_pos, pose_rot, pose_gap, pose_time)
 
 
 ## Returns the latest processed pose in a shared format used by rendering.
@@ -213,5 +244,6 @@ func get_pose() -> Dictionary:
 #Added by Aramis Hernandez
 #Modified for telemetry source change by Nicholas Tran
 func _process_packet(pos, rot, gap, time):
+	# Ensure we only foward when this source is active
 	if TelemetryManager.telemetry_source == "UDP":
 		TelemetryManager.forward_pose(pos, rot, gap, time)

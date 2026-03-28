@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://b163etsef6s8l"]
-
-[ext_resource type="Script" uid="uid://c5d8tss3xhs5t" path="res://scripts/flight_playback.gd" id="1_mpnbc"]
-
-[node name="flight_playback" type="Node" unique_id=1107119192]
-script = ExtResource("1_mpnbc")

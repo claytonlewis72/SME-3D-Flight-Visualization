@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 TelemetryManager="*res://scripts/telemetry_manager.gd"
+SourceManager="*uid://b48txf5rodwv8"
 
 [editor_plugins]
 

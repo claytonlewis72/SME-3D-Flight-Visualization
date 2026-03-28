@@ -73,6 +73,15 @@ signal pose_received(position: Vector3, rotation: Vector3, gap : bool, time)
 ##       Raw telemetry data packet containing all transmitted fields.
 signal telemetry_updated(data)
 
+## Emitted each frame tick during playback
+signal frame_changed(current_index: int, total_frames: int)
+
+## Emitted when a recording file is successfully loaded.
+signal recording_loaded(file_path:String, frame_count: int)
+
+## Emitted when playback reaches the lst frame
+signal playback_completed()
+
 
 #-------------------------------------------------------------------------------------
 # Interface Methods
@@ -102,5 +111,13 @@ func forward_pose(position: Vector3, rotation: Vector3, gap: bool, time):
 func forward_packet(data: Dictionary):
 	telemetry_updated.emit(data)
 
+## Called by PlaybackSource to replay frame progress to UI and subscribers
+func forward_frame_changed(current_index: int, total_frames: int) -> void:
+	frame_changed.emit(current_index, total_frames)
 
-var telemetry_source := "UDP"
+## Called by PlaybackSource when a file is loaded successfully.
+func forward_recording_loaded(file_path: String, frame_count: int) -> void:
+	recording_loaded.emit(file_path, frame_count)
+
+func forward_playback_completed() -> void:
+	playback_completed.emit()
