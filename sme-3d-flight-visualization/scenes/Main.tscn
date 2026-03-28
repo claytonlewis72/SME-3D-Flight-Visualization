@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d31fpkxogek4a"]
+[gd_scene format=3 uid="uid://d31fpkxogek4a"]
 
 [ext_resource type="Script" uid="uid://djfvxtq8ebb7p" path="res://scripts/main.gd" id="1_nxtc6"]
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://x6xqpyq4owo3" path="res://assests/models/drone3.glb" id="6_bjd11"]
 [ext_resource type="PackedScene" uid="uid://bl7kliy2lq3hd" path="res://scenes/camera_manager.tscn" id="6_c01mt"]
 [ext_resource type="PackedScene" uid="uid://dkbqqgg2h7vla" path="res://assests/models/TexturedTerrain6.glb" id="8_qmy6f"]
+[ext_resource type="PackedScene" uid="uid://dkt57aj72bodf" path="res://assests/models/WCUTerrain2.glb" id="9_bjd11"]
 [ext_resource type="PackedScene" uid="uid://hhxffvx3uqki" path="res://scenes/GUI/hud_root.tscn" id="11_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://c051r3a0wcf75" path="res://scenes/telemetry_manager.tscn" id="12_bjd11"]
 
@@ -27,50 +28,53 @@ fog_enabled = true
 fog_light_energy = 1.1
 fog_density = 0.0004
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=762221606]
 script = ExtResource("1_nxtc6")
 
-[node name="IngestionManager" type="Node" parent="." groups=["ingestion"]]
+[node name="IngestionManager" type="Node" parent="." unique_id=413223978 groups=["ingestion"]]
 script = ExtResource("2_wp0k4")
 
-[node name="Rendering Manager" type="Node3D" parent="."]
+[node name="Rendering Manager" type="Node3D" parent="." unique_id=1789073643]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.755, 0)
 script = ExtResource("2_rvslj")
 
-[node name="Drone" type="Node3D" parent="Rendering Manager"]
+[node name="Drone" type="Node3D" parent="Rendering Manager" unique_id=1314769985]
 
-[node name="Pivot" type="Node3D" parent="Rendering Manager/Drone"]
+[node name="Pivot" type="Node3D" parent="Rendering Manager/Drone" unique_id=917989134]
 transform = Transform3D(2.95, 0, 0, 0, 2.95, 0, 0, 0, 2.95, 0, 0, 0)
 
-[node name="VisualRoot" type="Node3D" parent="Rendering Manager/Drone/Pivot"]
+[node name="VisualRoot" type="Node3D" parent="Rendering Manager/Drone/Pivot" unique_id=208745809]
 script = ExtResource("4_wp0k4")
 
-[node name="plane2_9" parent="Rendering Manager/Drone/Pivot/VisualRoot" instance=ExtResource("4_qmy6f")]
+[node name="plane2_9" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=563989891 instance=ExtResource("4_qmy6f")]
 
-[node name="RigidBody3D" type="RigidBody3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9"]
+[node name="RigidBody3D" type="RigidBody3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9" unique_id=2132207626]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D" unique_id=55023256]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00849998, 0.182, 0.221)
 shape = SubResource("BoxShape3D_wp0k4")
 debug_color = Color(0.962692, 0, 0.505907, 0.419608)
 
-[node name="drone3" parent="Rendering Manager/Drone/Pivot/VisualRoot" instance=ExtResource("6_bjd11")]
+[node name="drone3" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=489673197 instance=ExtResource("6_bjd11")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
-[node name="FlightPathRenderer" parent="." instance=ExtResource("3_0bbpv")]
+[node name="FlightPathRenderer" parent="." unique_id=1498839447 instance=ExtResource("3_0bbpv")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=671827502]
 environment = SubResource("Environment_vcsgt")
 
-[node name="TerrainRoot" type="Node3D" parent="WorldEnvironment"]
+[node name="TerrainRoot" type="Node3D" parent="WorldEnvironment" unique_id=472261966]
 
-[node name="TexturedTerrain6" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("8_qmy6f")]
+[node name="TexturedTerrain6" parent="WorldEnvironment/TerrainRoot" unique_id=276775630 instance=ExtResource("8_qmy6f")]
 transform = Transform3D(6.5, 0, 0, 0, 6.5, 0, 0, 0, 6.5, 0, 65.793, 0)
+visible = false
 
-[node name="CameraManager" parent="." instance=ExtResource("6_c01mt")]
+[node name="WCUTerrain2" parent="WorldEnvironment/TerrainRoot" unique_id=402958439 instance=ExtResource("9_bjd11")]
+
+[node name="CameraManager" parent="." unique_id=424381554 instance=ExtResource("6_c01mt")]
 distance = 15.0
 height = 6.0
 
-[node name="HUDRoot" parent="." instance=ExtResource("11_wp0k4")]
+[node name="HUDRoot" parent="." unique_id=1128492773 instance=ExtResource("11_wp0k4")]
 
-[node name="Telemetry_Manager" parent="." instance=ExtResource("12_bjd11")]
+[node name="Telemetry_Manager" parent="." unique_id=1841011250 instance=ExtResource("12_bjd11")]
