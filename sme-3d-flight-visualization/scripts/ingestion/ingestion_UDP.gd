@@ -78,6 +78,12 @@ func _ready() -> void:
 	start()
 
 func start() -> void:
+	#If already bound, do nothing
+	if udp.is_bound():
+		print("[UDPSource] Already bound on port: %d" % udp_port)
+		return
+	
+	
 	var result := udp.bind(udp_port)
 	if result != OK:
 		push_error("[UDPSource] Failed to bind UDP socket on port: %d" %udp_port)
@@ -85,8 +91,10 @@ func start() -> void:
 	print("[UDPSource] Listening on UDP port: %d" % udp_port)
 
 func stop() -> void:
-	udp.close()
-	print("[UDPSource] Socket closed.")
+	#Only close when port is actually open
+	if udp.is_bound():
+		udp.close()
+		print("[UDPSource] Socket closed.")
 
 
 func _process(_delta: float) -> void:
@@ -245,5 +253,5 @@ func get_pose() -> Dictionary:
 #Modified for telemetry source change by Nicholas Tran
 func _process_packet(pos, rot, gap, time):
 	# Ensure we only foward when this source is active
-	if TelemetryManager.telemetry_source == "UDP":
+	if SourceManager.active_source_name == "UDP":
 		TelemetryManager.forward_pose(pos, rot, gap, time)

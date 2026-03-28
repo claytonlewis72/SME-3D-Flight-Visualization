@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bhmihevmfapl7" path="res://scenes/GUI/telemetry_panel.tscn" id="2_0ask3"]
 [ext_resource type="PackedScene" uid="uid://pstf4v4glla" path="res://scenes/GUI/setting_menu.tscn" id="2_ngpyv"]
+[ext_resource type="PackedScene" uid="uid://df2dude5hhmkw" path="res://scenes/GUI/playback_hud.tscn" id="3_0ask3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngpyv"]
 bg_color = Color(0.101960786, 0.101960786, 0.06666667, 1)
@@ -52,6 +53,8 @@ title = "Open a File"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.csv")
+
+[node name="PlaybackHUD" parent="." unique_id=112135338 instance=ExtResource("3_0ask3")]
 
 [connection signal="item_selected" from="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton" to="SettingMenu" method="_on_option_button_item_selected"]
 [connection signal="file_selected" from="SettingMenu/CSVFileDialog" to="SettingMenu" method="_on_csv_file_dialog_file_selected"]

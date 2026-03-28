@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://df2dude5hhmkw"]
+
+[ext_resource type="Script" uid="uid://jm0duxtc5p50" path="res://scripts/GUI/playback_hud.gd" id="1_xat47"]
+
+[node name="PlaybackHUD" type="Control" unique_id=112135338]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = 530.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_xat47")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1337579303]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -578.0
+offset_top = -117.0
+offset_right = 576.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=127312651]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=146385908]
+layout_mode = 2
+
+[node name="FrameBarRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=424418634]
+layout_mode = 2
+
+[node name="FrameLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FrameBarRow" unique_id=1091432070]
+layout_mode = 2
+text = "Frame:"
+
+[node name="Framebar" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/FrameBarRow" unique_id=1072333488]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FrameCount" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FrameBarRow" unique_id=1196028707]
+layout_mode = 2
+text = "0 / 0"
+
+[node name="ButtonRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=784246239]
+layout_mode = 2
+alignment = 1
+
+[node name="LoadButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=630566121]
+layout_mode = 2
+text = "Load"
+
+[node name="StartButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=1784465978]
+layout_mode = 2
+text = "Start"
+
+[node name="PauseButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=250238975]
+layout_mode = 2
+text = "Pause"
+
+[node name="StopButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=906427302]
+layout_mode = 2
+text = "Stop"
