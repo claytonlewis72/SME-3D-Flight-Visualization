@@ -47,10 +47,14 @@ extends PanelContainer
 @onready var rotation_value = $MarginContainer/VBoxContainer/TelemetryGrid/RotationValue
 
 ## Initializes the telemetry panel.
-##
+## Edited by Carson Wood
 ## Connects the panel to the TelemetryManager pose_received signal so
 ## that the UI can update whenever new telemetry pose data is available.
 func _ready():
+	if not TelemetryManager:
+		push_error("TelemetryManager not found")
+		return
+
 	TelemetryManager.pose_received.connect(_update_pose)
 
 
