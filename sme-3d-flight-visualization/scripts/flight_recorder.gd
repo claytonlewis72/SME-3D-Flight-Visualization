@@ -10,31 +10,20 @@ const FORMAT := 0x464C5448
 var _file : FileAccess = null
 var _frame_count : int = 0
 
-var _is_recording: bool = false
+var is_recording: bool = false
 
 func _ready():
-	var cur_file_path = _get_save_path()
-	_file = FileAccess.open(cur_file_path, FileAccess.WRITE)
-	
-	if _file == null:
-		push_error("[RecorderTest] Could not open file for writing.")
-		return
-	
-	_file.store_32(FORMAT)
-	_file.store_32(0) # placeholder, updated when recording stops
+	RecordingManager.register_recorder(self)
 	
 	TelemetryManager.pose_received.connect(_on_pose_received)
 	print("[RecorderTest] Recording to: ", save_path)
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("record"):
-		if _is_recording:
-			_stop_recording()
-		else:
-			_start_recording()
-
-func _start_recording() -> void:
-	var path := _get_save_path()
+func start_recording(custom_name: String = "") -> void:
+	if is_recording:
+		push_warning("[FlightRecorder] Already recording.")
+		return
+	
+	var path := _get_save_path(custom_name)
 	_file = FileAccess.open(path, FileAccess.WRITE)
 	if _file == null:
 		push_error("[RecorderTest] Could not open file: " + path)
@@ -45,26 +34,32 @@ func _start_recording() -> void:
 	_file.store_32(0) #placeholder frame count
 	
 	_frame_count = 0
-	_is_recording = true
+	is_recording = true
+	
+	TelemetryManager.forward_recording_started(path)
 	print("[RecorderTest] Recording started -> ", path)
 
-func _stop_recording() -> void:
-	if _file == null:
+func stop_recording() -> void:
+	if not is_recording or  _file == null:
+		push_warning("[FlightRecorder] No active recording.")
 		return
-		
+	
+	var path := _file.get_path()
+	
 	#Go back and write the real frame count into the header to replace the placeholder
 	_file.seek(4)
 	_file.store_32(_frame_count)
 	_file.close()
 	_file = null
 	
-	_is_recording = false
+	is_recording = false
+	TelemetryManager.forward_recording_stopped(path, _frame_count)
 	print("[RecorderTest] Recording Stopped. Total frames: %d" % _frame_count)
 
 
 	
 func _on_pose_received(pos : Vector3, rot : Vector3, _gap: bool, time: float):
-	if not _is_recording or _file == null:
+	if not is_recording or _file == null:
 		return
 	
 	_file.store_float(time)
@@ -82,8 +77,8 @@ func _notification(what : int) -> void:
 	# Called when the scene is closing
 	# go back and write the real frame count into the header
 	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_PREDELETE:
-		if _is_recording:
-			_stop_recording()
+		if is_recording:
+			stop_recording()
 
 
 func _close() -> void:
@@ -97,11 +92,17 @@ func _close() -> void:
 	print("[RecorderTest] Closed. Total frames written: %d" % _frame_count)
 
 
-func _get_save_path() -> String:
+func _get_save_path(custom_name: String = "") -> String:
+	var dir := ProjectSettings.globalize_path(save_path)
+	DirAccess.make_dir_recursive_absolute(dir)
+	
+	if not custom_name.is_empty():
+		var safe := custom_name.replace(" ", "_").validate_filename()
+		return dir + safe + ".bin"
+	
 	var dt := Time.get_datetime_dict_from_system()
 	var stamp := "%04d%02d%02d_%02d%02d%02d" % [
 		dt["year"], dt["month"], dt["day"],
 		dt["hour"], dt["minute"], dt["second"]
 	]
-	return ProjectSettings.globalize_path(save_path + "flight_%s.bin" % stamp)
-	
+	return dir + "flight_%s.bin" % stamp

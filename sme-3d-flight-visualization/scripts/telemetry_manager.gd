@@ -82,6 +82,9 @@ signal recording_loaded(file_path:String, frame_count: int)
 ## Emitted when playback reaches the lst frame
 signal playback_completed()
 
+signal recording_started(file_path: String)
+
+signal recording_stopped(file_path: String, frame_count: int)
 
 #-------------------------------------------------------------------------------------
 # Interface Methods
@@ -121,3 +124,9 @@ func forward_recording_loaded(file_path: String, frame_count: int) -> void:
 
 func forward_playback_completed() -> void:
 	playback_completed.emit()
+
+func forward_recording_started(file_path: String) -> void:
+	recording_started.emit(file_path)
+
+func forward_recording_stopped(file_path: String, frame_count: int) -> void:
+	recording_stopped.emit(file_path, frame_count)

@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bbo6bqhbnl3xp"]
+
+[ext_resource type="Script" uid="uid://jev1kvjf7tbe" path="res://scripts/GUI/recording_panel.gd" id="1_2yolu"]
+
+[node name="RecordingPanel" type="Control" unique_id=1558854736]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -154.0
+offset_bottom = 67.0
+grow_horizontal = 0
+mouse_filter = 1
+script = ExtResource("1_2yolu")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=867121547]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1996501325]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=683622982]
+layout_mode = 2
+
+[node name="FileNameRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1973966617]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FileNameRow" unique_id=996217656]
+layout_mode = 2
+text = "File Name:"
+
+[node name="FileNameInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/FileNameRow" unique_id=518382101]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ButtonRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=866362352]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="RecordButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=1694350403]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Record"
