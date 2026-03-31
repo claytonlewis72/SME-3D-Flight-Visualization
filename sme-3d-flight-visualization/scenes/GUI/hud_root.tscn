@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bhmihevmfapl7" path="res://scenes/GUI/telemetry_panel.tscn" id="2_0ask3"]
 [ext_resource type="PackedScene" uid="uid://pstf4v4glla" path="res://scenes/GUI/setting_menu.tscn" id="2_ngpyv"]
-[ext_resource type="PackedScene" uid="uid://bjrfy6ui1f3to" path="res://scenes/GUI/config_window.tscn" id="3_0ask3"]
+[ext_resource type="PackedScene" uid="uid://dougxdbi20juj" path="res://scenes/GUI/config_window.tscn" id="3_0ask3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngpyv"]
 bg_color = Color(0.101960786, 0.101960786, 0.06666667, 1)
@@ -38,20 +38,8 @@ text = "(0.0000, 0.0000, 0.0000)"
 
 [node name="SettingMenu" parent="." unique_id=1172358337 instance=ExtResource("2_ngpyv")]
 
-[node name="OptionButton" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1731921074) index="1" unique_id=1589524013]
-item_count = 2
-popup/item_0/text = "UDP"
-popup/item_0/id = 0
-popup/item_1/text = "CSV"
-popup/item_1/id = 1
-
-[node name="Stop" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 100640620) index="2" unique_id=397611638]
-text = "Reset"
-
-[node name="ConfigButton" parent="SettingMenu/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1578027935) index="1" unique_id=1920779565]
-text = "Configuration Settings"
-
 [node name="ConfigWindow" parent="SettingMenu/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1578027935) index="2" unique_id=444390243 instance=ExtResource("3_0ask3")]
+position = Vector2i(0, 36)
 visible = false
 exclusive = true
 
@@ -61,7 +49,6 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.csv")
 
-[connection signal="item_selected" from="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton" to="SettingMenu" method="_on_option_button_item_selected"]
 [connection signal="file_selected" from="SettingMenu/CSVFileDialog" to="SettingMenu" method="_on_csv_file_dialog_file_selected"]
 
 [editable path="TelemetryPanel"]

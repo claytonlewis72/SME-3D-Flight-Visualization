@@ -1,5 +1,13 @@
 extends Node
 
+# Nicholas Tran
+func _ready():
+	# Load a default drone model at startup
+	_load_saved_bindings()
+	set_drone_model("drone_3")
+	_setup_default_controls()
+	_load_saved_bindings()
+
 var current_drone: Node = null
 
 func set_drone_model(model_name: String):
@@ -39,3 +47,25 @@ func set_drone_rotation(rot: Vector3) -> void:
 func set_drone_velocity(vel: Vector3) -> void:
 	if current_drone and current_drone.has_method("set_velocity"):
 		current_drone.set_velocity(vel)
+		
+func _setup_default_controls():
+	_set_action_key("switch_camera", KEY_C)
+	_set_action_key("swap_vehicle", KEY_V)
+	_set_action_key("record", KEY_R)
+	_set_action_key("pause", KEY_SPACE)
+	_set_action_key("start_playback", KEY_P)
+	
+func _set_action_key(action: String, keycode: int):
+	InputMap.action_erase_events(action)
+	var ev := InputEventKey.new()
+	ev.physical_keycode = keycode
+	InputMap.action_add_event(action, ev)
+
+func _load_saved_bindings():
+	var cfg := ConfigFile.new()
+	if cfg.load("user://controls.cfg") != OK:
+		return
+
+	for action in cfg.get_section_keys("bindings"):
+		var keycode = cfg.get_value("bindings", action)
+		_set_action_key(action, keycode)
