@@ -26,3 +26,16 @@ func set_drone_model(model_name: String):
 	current_drone = scene.instantiate()
 
 	visual_root.add_child(current_drone)
+
+
+func set_drone_position(pos: Vector3) -> void:
+	if current_drone:
+		current_drone.global_position = pos
+
+func set_drone_rotation(rot: Vector3) -> void:
+	if current_drone:
+		current_drone.global_rotation = rot
+
+func set_drone_velocity(vel: Vector3) -> void:
+	if current_drone and current_drone.has_method("set_velocity"):
+		current_drone.set_velocity(vel)

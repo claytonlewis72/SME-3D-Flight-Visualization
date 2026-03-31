@@ -5,6 +5,10 @@ extends Window
 @onready var csv_ingestion = get_node("/root/Main/IngestionManager")
 @onready var vehicle_dropdown := $MarginContainer/VBoxContainer/DroneModel/OptionButton
 
+var original_pos: Vector3
+var original_rot: Vector3
+var original_vel: Vector3
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	telemetry_dropdown.item_selected.connect(_on_telemetry_source_selected)
@@ -17,29 +21,64 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 	#pass
+	
+func open_config_window():
+	load_settings()  # fill UI with current drone values
 
-#func load_settings():
-	# Load current values into UI
-	#$VBoxContainer/OptionButton.select(DroneManager.current_model)
-	#$VBoxContainer/SpeedSpinBox.value = TelemetryManager.csv_speed
+	# store originals
+	if Drone_Manager.current_drone:
+		original_pos = Drone_Manager.current_drone.global_position
+		original_rot = Drone_Manager.current_drone.global_rotation
+		original_vel = Drone_Manager.current_drone.velocity if Drone_Manager.current_drone.has_variable("velocity") else Vector3.ZERO
 
+	popup_centered()
 
-func _on_close_requested() -> void:
+func load_settings() -> void:
+	if Drone_Manager.current_drone:
+		var d = Drone_Manager.current_drone
+
+		$MarginContainer/VBoxContainer/Position/PosX.value = d.global_position.x
+		$MarginContainer/VBoxContainer/Position/PosY.value = d.global_position.y
+		$MarginContainer/VBoxContainer/Position/PosZ.value = d.global_position.z
+		
+		$MarginContainer/VBoxContainer/Rotation/RotX.value = d.global_rotation.x
+		$MarginContainer/VBoxContainer/Rotation/RotY.value = d.global_rotation.y
+		$MarginContainer/VBoxContainer/Rotation/RotZ.value = d.global_rotation.z
+
+func _on_close_requested():
+	# restore original values
+	Drone_Manager.set_drone_position(original_pos)
+	Drone_Manager.set_drone_rotation(original_rot)
+	Drone_Manager.set_drone_velocity(original_vel)
+
 	hide()
-	#load_settings()
 
 
 func _on_save_pressed() -> void:
-	#read UI values and apply them
-	#var selected_model = $VBoxContainer/DroneModelOptionButton.get_selected_id()
-	#var csv_speed = $VBoxContainer/SpeedSpinBox.value
+	var pos = Vector3(
+		$MarginContainer/VBoxContainer/Position/PosX.value,
+		$MarginContainer/VBoxContainer/Position/PosY.value,
+		$MarginContainer/VBoxContainer/Position/PosZ.value
+	)
 
-	# Apply to your game directly
-	# Need csv_speed
-	#TelemetryManager.csv_speed = csv_speed
-	#Need drone models still
-	#DroneManager.set_drone_model(selected_model)
+	var rot = Vector3(
+		$MarginContainer/VBoxContainer/Rotation/RotX.value,
+		$MarginContainer/VBoxContainer/Rotation/RotY.value,
+		$MarginContainer/VBoxContainer/Rotation/RotZ.value
+	)
+
+	var vel = Vector3(
+	$MarginContainer/VBoxContainer/Velocity/VelX.value,
+	$MarginContainer/VBoxContainer/Velocity/VelY.value,
+	$MarginContainer/VBoxContainer/Velocity/VelZ.value
+	)
+
+	Drone_Manager.set_drone_position(pos)
+	Drone_Manager.set_drone_rotation(rot)
+	Drone_Manager.set_drone_velocity(vel)
+
 	hide()
+
 	
 func _on_telemetry_source_selected(index):
 	var choice = telemetry_dropdown.get_item_text(index)
