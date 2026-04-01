@@ -27,7 +27,7 @@ RecordingManager="*uid://cqo3rqomn5h3"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [input]
 
