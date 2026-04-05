@@ -16,14 +16,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="SME 3D Flight Visualization"
 run/main_scene="uid://d31fpkxogek4a"
-config/features=PackedStringArray("4.6", "Mobile")
+config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 TelemetryManager="*res://scripts/telemetry_manager.gd"
-SourceManager="*uid://b48txf5rodwv8"
-RecordingManager="*uid://cqo3rqomn5h3"
+SourceManager="*res://scripts/source_manager.gd"
+RecordingManager="*res://scenes/recording_manager.tscn"
 
 [editor_plugins]
 

@@ -13,32 +13,26 @@
 #|   Target      : Godot GDScript
 #|
 #|   Description :
-#|       Abstract base class for all telemetry sources.
-#|       Any source that feeds data into TelemetryManager must extend this class
-#|       and implement start() and stop().
+#|       Bass Class / Interface
 #|
 #|   POC         :
 #|       Aramis Hernandez
 #|
 #|------------------------------------------------------------------------------------
 
-@abstract
-class_name TelemetrySource
 extends Node
+class_name TelemetrySource
 
-## Emitted when a processed pose packet is ready to forward.
-signal telemetry_packet(data)
+signal telemetry_packet(data: Dictionary)
 
-## Begin producing telemetry data.
-@abstract func start()
-
-## Stop producing telemetry data.
-@abstract func stop()
-
-## Pause data emission without fully stopping the source.
-func pause():
+func start() -> void:
 	pass
 
-## Resume data emission after a pause.
-func resume():
+func stop() -> void:
+	pass
+
+func pause() -> void:
+	pass
+
+func resume() -> void:
 	pass
