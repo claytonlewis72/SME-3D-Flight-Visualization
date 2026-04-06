@@ -124,5 +124,5 @@ func _on_csv_file_dialog_file_selected(path: String) -> void:
 	
 #Config Button opens config Window
 func _on_config_button_pressed():
-	#$VBoxContainer/ConfigWindow.load_settings()
-	$VBoxContainer/ConfigWindow.popup_centered()
+	$VBoxContainer/ConfigWindow.load_settings()
+	$VBoxContainer/ConfigWindow.open_config_window()

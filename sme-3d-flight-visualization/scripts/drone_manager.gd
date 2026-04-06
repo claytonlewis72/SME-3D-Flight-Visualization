@@ -69,3 +69,20 @@ func _load_saved_bindings():
 	for action in cfg.get_section_keys("bindings"):
 		var keycode = cfg.get_value("bindings", action)
 		_set_action_key(action, keycode)
+
+func load_config(cfg: Dictionary):
+	if cfg.has("drone_model"):
+		set_drone_model(cfg["drone_model"])
+
+	if cfg.has("position"):
+		var p = cfg["position"]
+		set_drone_position(Vector3(p[0], p[1], p[2]))
+
+	if cfg.has("rotation"):
+		var r = cfg["position"]
+		set_drone_rotation(Vector3(r[0], r[1], r[2]))
+
+	if cfg.has("velocity"):
+		var v = cfg["position"]
+		set_drone_velocity(Vector3(v[0], v[1], v[2]))
+	

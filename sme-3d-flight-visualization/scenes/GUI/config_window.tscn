@@ -31,7 +31,8 @@ border_color = Color(0, 0, 0, 1)
 
 [node name="Window" type="Window" unique_id=444390243]
 oversampling_override = 1.0
-size = Vector2i(400, 604)
+position = Vector2i(0, 36)
+size = Vector2i(400, 670)
 wrap_controls = true
 script = ExtResource("1_j00jc")
 
@@ -321,6 +322,24 @@ text = "Move Right"
 layout_mode = 2
 script = ExtResource("2_u2yvl")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=443021905]
+layout_mode = 2
+
+[node name="LoadConfigButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=119563059]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Load Configuration"
+
+[node name="CustomConfigSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=976440806]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1536980476]
+layout_mode = 2
+text = "Loaded Configurations:"
+
+[node name="CustomFieldsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1739263794]
+layout_mode = 2
+
 [node name="Save" type="Button" parent="MarginContainer/VBoxContainer" unique_id=525284104]
 layout_mode = 2
 text = "Save"
@@ -336,8 +355,16 @@ filters = PackedStringArray("*.csv")
 [node name="VehicleFileDialog" type="FileDialog" parent="MarginContainer/VBoxContainer" unique_id=1474472707]
 filters = PackedStringArray("*.tscn", "*.glb")
 
+[node name="ConfigFileDialog" type="FileDialog" parent="MarginContainer/VBoxContainer" unique_id=1226238981]
+title = "Open a File"
+file_mode = 0
+filters = PackedStringArray("*.json", "*.cfg", "*.csv")
+
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/DroneModel/OptionButton" to="." method="_on_vehicle_dropdown_item_selected"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ControlsSection/ControlsHeader" to="." method="_on_controls_header_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/LoadConfigButton" to="." method="_on_load_config_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Save" to="." method="_on_save_pressed"]
 [connection signal="file_selected" from="MarginContainer/VBoxContainer/CSVFileDialog" to="." method="_on_csv_file_dialog_file_selected"]
 [connection signal="file_selected" from="MarginContainer/VBoxContainer/VehicleFileDialog" to="." method="_on_file_dialog_file_selected"]
+[connection signal="file_selected" from="MarginContainer/VBoxContainer/ConfigFileDialog" to="." method="_on_config_file_dialog_file_selected"]
