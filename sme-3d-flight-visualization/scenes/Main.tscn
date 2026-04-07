@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://d31fpkxogek4a"]
+[gd_scene format=3 uid="uid://d31fpkxogek4a"]
 
 [ext_resource type="Script" uid="uid://djfvxtq8ebb7p" path="res://scripts/main.gd" id="1_nxtc6"]
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
@@ -14,11 +14,11 @@
 [ext_resource type="PackedScene" uid="uid://hhxffvx3uqki" path="res://scenes/GUI/hud_root.tscn" id="11_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://bo28tyxeiu5sb" path="res://assests/textures/terrain/Terr3/Terr3.glb" id="11_yxlcp"]
 [ext_resource type="PackedScene" uid="uid://c051r3a0wcf75" path="res://scenes/telemetry_manager.tscn" id="12_bjd11"]
+[ext_resource type="PackedScene" uid="uid://dnhbj187td0b5" path="res://assests/textures/terrain/Terr4/Terr4.glb" id="12_ebg2g"]
 [ext_resource type="PackedScene" uid="uid://cd5utvyyv3opv" path="res://scenes/flight_recorder.tscn" id="12_qmy6f"]
+[ext_resource type="PackedScene" uid="uid://br88q6anv71t1" path="res://assests/textures/terrain/Terr5/Terr5.glb" id="13_2ofn6"]
 [ext_resource type="PackedScene" uid="uid://b163etsef6s8l" path="res://scenes/playback_source.tscn" id="13_qmy6f"]
 [ext_resource type="PackedScene" uid="uid://b48txf5rodwv8" path="res://scenes/source_manager.tscn" id="14_mwfav"]
-[ext_resource type="PackedScene" uid="uid://dnhbj187td0b5" path="res://assests/textures/terrain/Terr4/Terr4.glb" id="12_ebg2g"]
-[ext_resource type="PackedScene" uid="uid://br88q6anv71t1" path="res://assests/textures/terrain/Terr5/Terr5.glb" id="13_2ofn6"]
 [ext_resource type="PackedScene" uid="uid://dpiqgle67qg5v" path="res://assests/textures/terrain/Terr6/Terr6.glb" id="14_xa025"]
 [ext_resource type="PackedScene" uid="uid://dd1pllpatu3up" path="res://assests/textures/terrain/Terr7/Terr7.glb" id="15_36rkl"]
 [ext_resource type="PackedScene" uid="uid://cbk2th3dktqkf" path="res://assests/textures/terrain/Terr8/Terr8.glb" id="16_fs0b5"]
@@ -39,84 +39,84 @@ fog_enabled = true
 fog_light_energy = 1.1
 fog_density = 0.0004
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1247386198]
 script = ExtResource("1_nxtc6")
 
-[node name="IngestionManager" type="Node" parent="." groups=["ingestion"]]
+[node name="IngestionManager" type="Node" parent="." unique_id=1212336768 groups=["ingestion"]]
 script = ExtResource("2_wp0k4")
 
-[node name="Rendering Manager" type="Node3D" parent="."]
+[node name="Rendering Manager" type="Node3D" parent="." unique_id=1734926701]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.755, 0)
 script = ExtResource("2_rvslj")
 
-[node name="Drone" type="Node3D" parent="Rendering Manager"]
+[node name="Drone" type="Node3D" parent="Rendering Manager" unique_id=1746277850]
 
-[node name="Pivot" type="Node3D" parent="Rendering Manager/Drone"]
+[node name="Pivot" type="Node3D" parent="Rendering Manager/Drone" unique_id=1433637226]
 transform = Transform3D(2.95, 0, 0, 0, 2.95, 0, 0, 0, 2.95, 0, 0, 0)
 
-[node name="VisualRoot" type="Node3D" parent="Rendering Manager/Drone/Pivot"]
+[node name="VisualRoot" type="Node3D" parent="Rendering Manager/Drone/Pivot" unique_id=412143264]
 script = ExtResource("4_wp0k4")
 
-[node name="plane2_9" parent="Rendering Manager/Drone/Pivot/VisualRoot" instance=ExtResource("4_qmy6f")]
+[node name="plane2_9" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=1617613104 instance=ExtResource("4_qmy6f")]
 
-[node name="RigidBody3D" type="RigidBody3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9"]
+[node name="RigidBody3D" type="RigidBody3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9" unique_id=1669012480]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D" unique_id=14891343]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00849998, 0.182, 0.221)
 shape = SubResource("BoxShape3D_wp0k4")
 debug_color = Color(0.962692, 0, 0.505907, 0.419608)
 
-[node name="drone3" parent="Rendering Manager/Drone/Pivot/VisualRoot" instance=ExtResource("6_bjd11")]
+[node name="drone3" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=167931474 instance=ExtResource("6_bjd11")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
-[node name="FlightPathRenderer" parent="." instance=ExtResource("3_0bbpv")]
+[node name="FlightPathRenderer" parent="." unique_id=2024356220 instance=ExtResource("3_0bbpv")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=655751122]
 environment = SubResource("Environment_vcsgt")
 
-[node name="TerrainRoot" type="Node3D" parent="WorldEnvironment"]
+[node name="TerrainRoot" type="Node3D" parent="WorldEnvironment" unique_id=695126862]
 
-[node name="TexturedTerrain6" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("8_qmy6f")]
+[node name="TexturedTerrain6" parent="WorldEnvironment/TerrainRoot" unique_id=880954990 instance=ExtResource("8_qmy6f")]
 transform = Transform3D(6.5, 0, 0, 0, 6.5, 0, 0, 0, 6.5, 0, 65.793, 0)
 visible = false
 
-[node name="Terr1" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("9_1nqs0")]
+[node name="Terr1" parent="WorldEnvironment/TerrainRoot" unique_id=1205616812 instance=ExtResource("9_1nqs0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.22, -50.095, 17.57)
 
-[node name="Terr2" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("10_1iba3")]
+[node name="Terr2" parent="WorldEnvironment/TerrainRoot" unique_id=1049517112 instance=ExtResource("10_1iba3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50.095, 17.57)
 
-[node name="Terr3" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("11_yxlcp")]
+[node name="Terr3" parent="WorldEnvironment/TerrainRoot" unique_id=28875629 instance=ExtResource("11_yxlcp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.115, -50.095, 17.57)
 
-[node name="Terr4" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("12_ebg2g")]
+[node name="Terr4" parent="WorldEnvironment/TerrainRoot" unique_id=885106115 instance=ExtResource("12_ebg2g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.22, -50.095, 0)
 
-[node name="Terr5" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("13_2ofn6")]
+[node name="Terr5" parent="WorldEnvironment/TerrainRoot" unique_id=1739837583 instance=ExtResource("13_2ofn6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50.095, 0)
 
-[node name="Terr6" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("14_xa025")]
+[node name="Terr6" parent="WorldEnvironment/TerrainRoot" unique_id=104890078 instance=ExtResource("14_xa025")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.115, -50.095, 0)
 
-[node name="Terr7" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("15_36rkl")]
+[node name="Terr7" parent="WorldEnvironment/TerrainRoot" unique_id=346804049 instance=ExtResource("15_36rkl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.22, -50.095, -15.53)
 
-[node name="Terr8" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("16_fs0b5")]
+[node name="Terr8" parent="WorldEnvironment/TerrainRoot" unique_id=877168702 instance=ExtResource("16_fs0b5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50.095, -15.53)
 
-[node name="Terr9" parent="WorldEnvironment/TerrainRoot" instance=ExtResource("17_ma7h6")]
+[node name="Terr9" parent="WorldEnvironment/TerrainRoot" unique_id=552043803 instance=ExtResource("17_ma7h6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.115, -50.095, -15.53)
 
-[node name="CameraManager" parent="." instance=ExtResource("6_c01mt")]
+[node name="CameraManager" parent="." unique_id=1319373026 instance=ExtResource("6_c01mt")]
 distance = 15.0
 height = 6.0
 
-[node name="HUDRoot" parent="." instance=ExtResource("11_wp0k4")]
+[node name="HUDRoot" parent="." unique_id=181536038 instance=ExtResource("11_wp0k4")]
 
-[node name="Telemetry_Manager" parent="." instance=ExtResource("12_bjd11")]
+[node name="Telemetry_Manager" parent="." unique_id=1600177341 instance=ExtResource("12_bjd11")]
 
-[node name="flight_recorder" parent="." instance=ExtResource("12_qmy6f")]
+[node name="flight_recorder" parent="." unique_id=918266066 instance=ExtResource("12_qmy6f")]
 
-[node name="flight_playback" parent="." instance=ExtResource("13_qmy6f")]
+[node name="flight_playback" parent="." unique_id=533468557 instance=ExtResource("13_qmy6f")]
 
-[node name="sourceManager" parent="." instance=ExtResource("14_mwfav")]
+[node name="sourceManager" parent="." unique_id=685947189 instance=ExtResource("14_mwfav")]
