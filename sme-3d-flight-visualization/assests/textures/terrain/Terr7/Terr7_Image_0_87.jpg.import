@@ -9,7 +9,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "a4f2944cba9aa3d1ffbe4aad3f0cf68f"
+"md5": "c523c465bd0d5ebdb136a2a895014876"
 }
 
 [deps]
@@ -22,8 +22,6 @@ dest_files=["res://.godot/imported/Terr7_Image_0_87.jpg-0876e4fdca7b655fe7b98bbf
 compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
-compress/uastc_level=0
-compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -31,10 +29,6 @@ mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/channel_remap/red=0
-process/channel_remap/green=1
-process/channel_remap/blue=2
-process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
