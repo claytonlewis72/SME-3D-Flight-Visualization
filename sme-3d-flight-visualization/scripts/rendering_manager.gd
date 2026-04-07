@@ -1,6 +1,7 @@
 extends Node3D
 
 @export var drone_path: NodePath = NodePath("Drone")
+@export var model_offset: Vector3 = Vector3(0, PI, 0)
 
 # Visual scaling (for subtle telemetry)
 @export var pitch_scale: float = 100.0
@@ -29,36 +30,45 @@ func _on_pose_received(pos: Vector3, rot: Vector3, gap: bool, time: float) -> vo
 	if drone == null:
 		return
 
-	# Apply position
-	drone.global_position = pos
+	# Apply starting position
+	drone.position = pos
 
 	# --- ROTATION PIPELINE ---
 
 	# Copy incoming rotation
-	var target_rot: Vector3 = rot
+	# Convert from Radians to Degrees
+	var target_X = rad_to_deg(rot.x)
+	# Rotation value is going the opposite direction so we reverse it's value
+	var target_Y = rad_to_deg(rot.y*-1)
+	var target_Z = rad_to_deg(rot.z)
+	# Fix starting rotation value to line up with drawn line
+	var target_rot = Vector3(target_X, target_Y-1.58, target_Z)
 
-	# Scale only pitch + roll for visibility
-	target_rot.x *= pitch_scale
-	target_rot.z *= roll_scale
+	## Scale only pitch + roll for visibility
+	#target_rot.x *= pitch_scale
+	#target_rot.z *= roll_scale
 
-	# Ignore tiny noise (helps jitter)
-	if abs(target_rot.x) < 0.001:
-		target_rot.x = 0
-	if abs(target_rot.z) < 0.001:
-		target_rot.z = 0
+	## Ignore tiny noise (helps jitter)
+	#if abs(target_rot.x) < 0.001:
+		#target_rot.x = 0
+	#if abs(target_rot.z) < 0.001:
+		#target_rot.z = 0
 
-	# Convert to quaternion
-	var target_basis: Basis = Basis.from_euler(target_rot)
-	var target_quat: Quaternion = target_basis.get_rotation_quaternion()
+	## Convert to quaternion
+	#var target_basis: Basis = Basis.from_euler(target_rot)
+	#var target_quat: Quaternion = target_basis.get_rotation_quaternion()
+#
+	#var current_quat: Quaternion = drone.transform.basis.get_rotation_quaternion()
+#
+	## Smooth rotation
+	#var smoothed_quat: Quaternion = current_quat.slerp(target_quat, rotation_smoothness * get_process_delta_time())
 
-	var current_quat: Quaternion = drone.transform.basis.get_rotation_quaternion()
+	# Old Apply rotation
+	#drone.transform.basis = Basis(smoothed_quat)	
 
-	# Smooth rotation
-	var smoothed_quat: Quaternion = current_quat.slerp(target_quat, rotation_smoothness * get_process_delta_time())
-
-	# Apply rotation
-	drone.transform.basis = Basis(smoothed_quat)
-
+	## Apply rotation
+	drone.rotation = target_rot
+ 
 	# Optional debug
 	if gap:
 		print("Telemetry gap detected at t=", time)
