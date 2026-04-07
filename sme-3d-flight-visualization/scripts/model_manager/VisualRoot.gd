@@ -1,3 +1,25 @@
+#|------------------------------------------------------------------------------------
+#|	Unclassified
+#|------------------------------------------------------------------------------------
+#|
+#|	SME Solutions, Inc.
+#|	Copyright 2026 SME Solutions, Inc. All Rights Reserved
+#|	SME Solutions Proprietary Information
+#|
+#|------------------------------------------------------------------------------------
+#|
+#|	File Name	:test_camera_manager.gd
+#|
+#|	Target 		:GD script
+#|
+#|	Description	: Handles switching between drone models. May be changed in the future with GUI changeds 
+#|                and other integrations.
+#|
+#|	Notes		: This hasn't been formally unit tested. 
+#|
+#|	POC			: Clayton Lewis
+#|------------------------------------------------------------------------------------
+
 extends Node3D
 
 @onready var plane_model = $plane2_9

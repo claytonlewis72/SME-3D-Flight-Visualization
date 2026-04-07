@@ -14,7 +14,7 @@
 #|
 #|	Description	: Controls the fixed camera, and looks at the target.
 #|
-#|	Notes		: This hasn't formally been united tested. The target is passed set through the manager set_target function.
+#|	Notes		: This has formally been united tested. The target is passed set through the manager set_target function.
 #|
 #|	POC			: Aramis Hernandez
 #|------------------------------------------------------------------------------------

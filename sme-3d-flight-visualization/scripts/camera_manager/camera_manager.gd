@@ -14,7 +14,7 @@
 #|
 #|	Description	: Controls which camera is currently active and how to switch camera.
 #|
-#|	Notes		: This hasn't formally been united tested.
+#|	Notes		: This has been formally unit tested.
 #|
 #|	POC			: Aramis Hernandez
 #|------------------------------------------------------------------------------------

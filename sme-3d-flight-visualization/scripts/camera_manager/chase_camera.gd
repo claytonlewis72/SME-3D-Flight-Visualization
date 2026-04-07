@@ -14,9 +14,9 @@
 #|
 #|	Description	: Controls chase camera for the drone.
 #|
-#|	Notes		: This hasn't formally been united tested.
+#|	Notes		: This has been formally unit tested.
 #|
-#|	POC			: Aramis Hernandez
+#|	POC			: Aramis Hernandez & Clayton Lewis
 #|------------------------------------------------------------------------------------
 
 extends Camera3D
