@@ -1,3 +1,24 @@
+#|------------------------------------------------------------------------------------
+#|	Unclassified
+#|------------------------------------------------------------------------------------
+#|
+#|	SME Solutions, Inc.
+#|	Copyright 2026 SME Solutions, Inc. All Rights Reserved
+#|	SME Solutions Proprietary Information
+#|
+#|------------------------------------------------------------------------------------
+#|
+#|	File Name	:test_fixed_camera.gd
+#|
+#|	Target 		:GD script
+#|
+#|	Description	: Unit testing related to the functions in fixed_camera.gd.
+#|
+#|	Notes		: 
+#|
+#|	POC			: Clayton Lewis
+#|------------------------------------------------------------------------------------
+
 extends GutTest
 
 const FixedCameraScript = preload("res://scripts/camera_manager/fixed_camera.gd")

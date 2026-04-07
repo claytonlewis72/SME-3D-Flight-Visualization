@@ -1,3 +1,24 @@
+#|------------------------------------------------------------------------------------
+#|	Unclassified
+#|------------------------------------------------------------------------------------
+#|
+#|	SME Solutions, Inc.
+#|	Copyright 2026 SME Solutions, Inc. All Rights Reserved
+#|	SME Solutions Proprietary Information
+#|
+#|------------------------------------------------------------------------------------
+#|
+#|	File Name	:test_chase_camera.gd
+#|
+#|	Target 		:GD script
+#|
+#|	Description	: Unit testing related to the functions in chase_camera.gd.
+#|
+#|	Notes		: 
+#|
+#|	POC			: Clayton Lewis
+#|------------------------------------------------------------------------------------
+
 extends GutTest
 
 const ChaseCameraScript = preload("res://scripts/camera_manager/chase_camera.gd")

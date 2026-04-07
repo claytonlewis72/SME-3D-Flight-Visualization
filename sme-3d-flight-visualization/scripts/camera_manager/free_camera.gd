@@ -14,9 +14,9 @@
 #|
 #|	Description	: Controls free camera allowing user input to chnage position and oration of the free camera.
 #|
-#|	Notes		: This hasn't formally been united tested.
+#|	Notes		: This has formally been united tested.
 #|
-#|	POC			: Aramis Hernandez
+#|	POC			: Aramis Hernandez & Clayton Lewis
 #|------------------------------------------------------------------------------------
 
 

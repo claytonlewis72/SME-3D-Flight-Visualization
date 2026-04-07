@@ -1,3 +1,24 @@
+#|------------------------------------------------------------------------------------
+#|	Unclassified
+#|------------------------------------------------------------------------------------
+#|
+#|	SME Solutions, Inc.
+#|	Copyright 2026 SME Solutions, Inc. All Rights Reserved
+#|	SME Solutions Proprietary Information
+#|
+#|------------------------------------------------------------------------------------
+#|
+#|	File Name	:test_camera_manager.gd
+#|
+#|	Target 		:GD script
+#|
+#|	Description	: Unit testing related to the functions in camera_manager.gd.
+#|
+#|	Notes		: 
+#|
+#|	POC			: Clayton Lewis
+#|------------------------------------------------------------------------------------
+
 extends GutTest
 
 const TestScene = preload("res://scenes/camera_manager.tscn")
