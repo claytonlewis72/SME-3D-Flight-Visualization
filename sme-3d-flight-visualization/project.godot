@@ -27,7 +27,7 @@ RecordingManager="*res://scenes/recording_manager.tscn"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 
 [input]
 
