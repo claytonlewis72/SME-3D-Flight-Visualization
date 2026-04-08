@@ -1,7 +1,6 @@
 extends Node3D
 
 @export var drone_path: NodePath = NodePath("Drone")
-@export var model_offset: Vector3 = Vector3(0, PI, 0)
 
 # Visual scaling (for subtle telemetry)
 @export var pitch_scale: float = 100.0
@@ -43,28 +42,6 @@ func _on_pose_received(pos: Vector3, rot: Vector3, gap: bool, time: float) -> vo
 	var target_Z = rad_to_deg(rot.z)
 	# Fix starting rotation value to line up with drawn line
 	var target_rot = Vector3(target_X, target_Y-1.58, target_Z)
-
-	## Scale only pitch + roll for visibility
-	#target_rot.x *= pitch_scale
-	#target_rot.z *= roll_scale
-
-	## Ignore tiny noise (helps jitter)
-	#if abs(target_rot.x) < 0.001:
-		#target_rot.x = 0
-	#if abs(target_rot.z) < 0.001:
-		#target_rot.z = 0
-
-	## Convert to quaternion
-	#var target_basis: Basis = Basis.from_euler(target_rot)
-	#var target_quat: Quaternion = target_basis.get_rotation_quaternion()
-#
-	#var current_quat: Quaternion = drone.transform.basis.get_rotation_quaternion()
-#
-	## Smooth rotation
-	#var smoothed_quat: Quaternion = current_quat.slerp(target_quat, rotation_smoothness * get_process_delta_time())
-
-	# Old Apply rotation
-	#drone.transform.basis = Basis(smoothed_quat)	
 
 	## Apply rotation
 	drone.rotation = target_rot
