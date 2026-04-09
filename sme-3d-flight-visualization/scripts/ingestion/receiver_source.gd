@@ -38,7 +38,7 @@ func _handle_line(line: String):
 func _parse_udp_packet(line: String) -> Dictionary:
 	var parts := line.split(",")
 	
-	if parts.size() < 0:
+	if parts.size() < 8:
 		return {}
 	
 	return {
