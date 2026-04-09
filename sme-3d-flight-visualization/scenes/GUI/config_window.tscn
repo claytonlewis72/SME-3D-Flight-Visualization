@@ -361,10 +361,4 @@ file_mode = 0
 filters = PackedStringArray("*.json", "*.cfg", "*.csv")
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
-[connection signal="item_selected" from="MarginContainer/VBoxContainer/DroneModel/OptionButton" to="." method="_on_vehicle_dropdown_item_selected"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/ControlsSection/ControlsHeader" to="." method="_on_controls_header_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/LoadConfigButton" to="." method="_on_load_config_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Save" to="." method="_on_save_pressed"]
-[connection signal="file_selected" from="MarginContainer/VBoxContainer/CSVFileDialog" to="." method="_on_csv_file_dialog_file_selected"]
-[connection signal="file_selected" from="MarginContainer/VBoxContainer/VehicleFileDialog" to="." method="_on_file_dialog_file_selected"]
-[connection signal="file_selected" from="MarginContainer/VBoxContainer/ConfigFileDialog" to="." method="_on_config_file_dialog_file_selected"]

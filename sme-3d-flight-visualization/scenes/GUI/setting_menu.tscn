@@ -30,6 +30,9 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=1731921074]
 layout_mode = 2
 
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1278921433]
+layout_mode = 2
+
 [node name="Start" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=1209175953]
 layout_mode = 2
 text = "Start"
