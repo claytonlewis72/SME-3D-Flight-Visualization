@@ -49,7 +49,6 @@ func _on_pose_received(pos: Vector3, rot: Vector3, gap: bool, time: float) -> vo
 
 	## Apply rotation
 	drone.rotation = target_rot
-	print(rot)
 	
 	# Optional debug
 	if gap:
