@@ -117,8 +117,9 @@ func _activate_camera(index: int) -> void:
 	# Make chosen camera current
 	cameras[index].make_current()
 
-	# Enable free cam controls if active
+	# Enable free cam controls if active and start capturing mouse
 	if cameras[index] == free_camera and free_camera.has_method("set_active"):
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		free_camera.set_active(true)
 
 	print("Active camera:", cameras[index].name)
@@ -132,6 +133,8 @@ func _activate_camera(index: int) -> void:
 ## This is useful when first assigning a target to prevent unwanted
 ## camera transitions during initialization.
 func _apply_chase_settings(snap: bool) -> void:
+	# Stops capturing mouse
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	if chase_camera.has_method("set_chase_settings"):
 		chase_camera.set_chase_settings(distance, height, smoothing)
 
