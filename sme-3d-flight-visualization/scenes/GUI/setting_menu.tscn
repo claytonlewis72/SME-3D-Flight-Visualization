@@ -24,16 +24,10 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TelemetrySource/PanelContainer" unique_id=100640620]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=1731921074]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" unique_id=391669762]
-layout_mode = 2
-text = "Telemetry Source"
-
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1589524013]
 layout_mode = 2
 
 [node name="Start" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=1209175953]
@@ -42,8 +36,8 @@ text = "Start"
 
 [node name="Stop" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=397611638]
 layout_mode = 2
-text = "Stop"
+text = "Reset"
 
-[node name="Save" type="Button" parent="VBoxContainer" unique_id=1920779565]
+[node name="ConfigButton" type="Button" parent="VBoxContainer" unique_id=1920779565]
 layout_mode = 2
-text = "Apply Settings"
+text = "Configuration Settings"

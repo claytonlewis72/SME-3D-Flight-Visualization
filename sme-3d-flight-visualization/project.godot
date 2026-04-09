@@ -21,9 +21,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-TelemetryManager="*res://scripts/telemetry_manager.gd"
+TelemetryManager="*uid://c051r3a0wcf75"
 SourceManager="*res://scripts/source_manager.gd"
-RecordingManager="*res://scenes/recording_manager.tscn"
+RecordingManager="*uid://cqo3rqomn5h3"
+Drone_Manager="*uid://brjxwp3g6j6jm"
 
 [editor_plugins]
 

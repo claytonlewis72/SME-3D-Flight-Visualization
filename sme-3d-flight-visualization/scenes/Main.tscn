@@ -4,9 +4,7 @@
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/rendering_manager.gd" id="2_rvslj"]
 [ext_resource type="Script" uid="uid://cbokp18waattv" path="res://scripts/ingestion/ingestion_UDP.gd" id="2_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/flightpath_renderer.tscn" id="3_0bbpv"]
-[ext_resource type="PackedScene" uid="uid://dftnfoue8ugs" path="res://assests/models/plane2.9.glb" id="4_qmy6f"]
 [ext_resource type="Script" uid="uid://dhn4imq618vr0" path="res://scripts/model_manager/VisualRoot.gd" id="4_wp0k4"]
-[ext_resource type="PackedScene" uid="uid://x6xqpyq4owo3" path="res://assests/models/drone3.glb" id="6_bjd11"]
 [ext_resource type="PackedScene" uid="uid://bl7kliy2lq3hd" path="res://scenes/camera_manager.tscn" id="6_c01mt"]
 [ext_resource type="PackedScene" uid="uid://dkbqqgg2h7vla" path="res://assests/textures/terrain/TexturedTerrain6.glb" id="8_qmy6f"]
 [ext_resource type="PackedScene" uid="uid://vvj8mlrbtmqf" path="res://assests/textures/terrain/Terr1/Terr1.glb" id="9_1nqs0"]
@@ -24,8 +22,6 @@
 [ext_resource type="PackedScene" uid="uid://cbk2th3dktqkf" path="res://assests/textures/terrain/Terr8/Terr8.glb" id="16_fs0b5"]
 [ext_resource type="PackedScene" uid="uid://buwfm25d27fvy" path="res://assests/textures/terrain/Terr9/Terr9.glb" id="17_ma7h6"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wp0k4"]
-size = Vector3(2.82837, 0.566162, 1.95117)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0bbpv"]
 
@@ -56,18 +52,6 @@ transform = Transform3D(2.95, 0, 0, 0, 2.95, 0, 0, 0, 2.95, 0, 0, 0)
 
 [node name="VisualRoot" type="Node3D" parent="Rendering Manager/Drone/Pivot" unique_id=412143264]
 script = ExtResource("4_wp0k4")
-
-[node name="plane2_9" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=1617613104 instance=ExtResource("4_qmy6f")]
-
-[node name="RigidBody3D" type="RigidBody3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9" unique_id=1669012480]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Rendering Manager/Drone/Pivot/VisualRoot/plane2_9/RigidBody3D" unique_id=14891343]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00849998, 0.182, 0.221)
-shape = SubResource("BoxShape3D_wp0k4")
-debug_color = Color(0.962692, 0, 0.505907, 0.419608)
-
-[node name="drone3" parent="Rendering Manager/Drone/Pivot/VisualRoot" unique_id=167931474 instance=ExtResource("6_bjd11")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="FlightPathRenderer" parent="." unique_id=2024356220 instance=ExtResource("3_0bbpv")]
 

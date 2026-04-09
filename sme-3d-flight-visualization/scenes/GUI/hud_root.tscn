@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://pstf4v4glla" path="res://scenes/GUI/setting_menu.tscn" id="2_ngpyv"]
 [ext_resource type="PackedScene" uid="uid://df2dude5hhmkw" path="res://scenes/GUI/playback_hud.tscn" id="3_0ask3"]
 [ext_resource type="PackedScene" uid="uid://bbo6bqhbnl3xp" path="res://scenes/GUI/recording_panel.tscn" id="4_dmhqu"]
+[ext_resource type="PackedScene" uid="uid://dougxdbi20juj" path="res://scenes/GUI/config_window.tscn" id="3_0ask3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngpyv"]
 bg_color = Color(0.101960786, 0.101960786, 0.06666667, 1)
@@ -39,15 +40,10 @@ text = "(0.0000, 0.0000, 0.0000)"
 
 [node name="SettingMenu" parent="." unique_id=1172358337 instance=ExtResource("2_ngpyv")]
 
-[node name="OptionButton" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1731921074) index="1" unique_id=1589524013]
-item_count = 2
-popup/item_0/text = "UDP"
-popup/item_0/id = 0
-popup/item_1/text = "CSV"
-popup/item_1/id = 1
-
-[node name="Stop" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 100640620) index="2" unique_id=397611638]
-text = "Reset"
+[node name="ConfigWindow" parent="SettingMenu/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1578027935) index="2" unique_id=444390243 instance=ExtResource("3_0ask3")]
+position = Vector2i(0, 36)
+visible = false
+exclusive = true
 
 [node name="CSVFileDialog" type="FileDialog" parent="SettingMenu" unique_id=1846482974]
 title = "Open a File"
