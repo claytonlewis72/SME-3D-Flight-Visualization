@@ -127,12 +127,12 @@ func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool, _time) -> void:
 	positions.append(new_pos)
 	
 	#Orentation color mapping 
-	# roll -> red
+	# pitch -> red
 	# yaw -> green
-	# pitch -> blue
-	var r := _angle_to_color_value(rot.x) # roll
-	var g := _angle_to_color_value(rot.z) # yaw
-	var b := _angle_to_color_value(rot.y) # pitch
+	# roll -> blue
+	var r := _angle_to_color_value(rot.x) # pitch
+	var g := _angle_to_color_value(rot.y) # yaw
+	var b := _angle_to_color_value(rot.z) # roll
 	line_color = Color(r, g, b)
 	
 	var c = line_color

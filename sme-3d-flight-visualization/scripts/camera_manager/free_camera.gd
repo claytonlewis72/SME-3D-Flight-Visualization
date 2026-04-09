@@ -79,7 +79,15 @@ func _process(delta):
 		return
 	
 	var dir = Vector3.ZERO
-	
+	var speed_modifier = 1
+	if Input.is_action_pressed("sprint_hold"):
+		speed_modifier = 2
+	if Input.is_action_just_released("sprint_hold"):
+		speed_modifier = 1
+	if Input.is_action_pressed("move_down"):
+		dir -= transform.basis.y
+	if Input.is_action_pressed("move_up"):
+		dir += transform.basis.y
 	if Input.is_action_pressed("move_forward"):
 		dir -= transform.basis.z
 	if Input.is_action_pressed("move_back"):
@@ -88,6 +96,6 @@ func _process(delta):
 		dir -= transform.basis.x
 	if Input.is_action_pressed("move_right"):
 		dir += transform.basis.x
-		
+
 	if dir != Vector3.ZERO:
-		global_translate(dir.normalized() * speed * delta)
+		global_translate(dir.normalized() * speed * delta * speed_modifier)
