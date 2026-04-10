@@ -117,7 +117,7 @@ func _activate_camera(index: int) -> void:
 	# Make chosen camera current
 	cameras[index].make_current()
 
-	# Enable free cam controls if active and starts capturing mouse
+	# Enable free cam controls if active and start capturing mouse
 	if cameras[index] == free_camera and free_camera.has_method("set_active"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		free_camera.set_active(true)

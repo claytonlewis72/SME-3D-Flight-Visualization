@@ -105,9 +105,9 @@ func load_file(path: String) -> bool:
 			"px": file.get_float(),
 			"py": file.get_float(),
 			"pz": file.get_float(),
+			"rx": file.get_float(),
 			"ry": file.get_float(),
-			"rz": file.get_float(),
-			"rx": file.get_float()
+			"rz": file.get_float()
 		})
 	file.close()
 	_current_index = 0
@@ -174,7 +174,7 @@ func _process(delta) -> void:
 func _emit_frame(frame: Dictionary) -> void:
 	TelemetryManager.forward_pose(
 		Vector3(frame["px"], frame["py"], frame["pz"]),
-		Vector3(frame["ry"], frame["rz"], frame["rx"]),
+		Vector3(frame["rx"], frame["ry"], frame["rz"]),
 		false,
 		frame["t"]
 	)

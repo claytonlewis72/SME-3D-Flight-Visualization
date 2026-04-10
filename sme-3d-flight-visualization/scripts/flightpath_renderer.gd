@@ -55,8 +55,6 @@ extends Node3D
 ## high frequency.
 @export var min_distance = 0.2
 
-@export var max_distance = 2.0
-
 ## Default line color used when orientation-based coloring is not applied. 
 @export var line_color: Color = Color(0, 1, 0) 
 
@@ -122,17 +120,15 @@ func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool, _time) -> void:
 	if positions.size() > 0:
 		if new_pos.distance_to(last_position) < min_distance:
 			return 
-		if new_pos.distance_to(last_position) > max_distance:
-			is_gap = true
 	positions.append(new_pos)
 	
 	#Orentation color mapping 
-	# pitch -> red
-	# yaw -> green
-	# roll -> blue
-	var r := _angle_to_color_value(rot.x) # pitch
-	var g := _angle_to_color_value(rot.y) # yaw
-	var b := _angle_to_color_value(rot.z) # roll
+	# roll -> red
+	# pitch -> green
+	# yaw -> blue
+	var r := _angle_to_color_value(rot.x) # roll
+	var g := _angle_to_color_value(rot.z) # yaw
+	var b := _angle_to_color_value(rot.y) # pitch
 	line_color = Color(r, g, b)
 	
 	var c = line_color
@@ -167,43 +163,15 @@ func _physics_process(_delta):
 func _rebuild_mesh():
 	if positions.size() < 2:
 		return
-		
+	
 	mesh.clear_surfaces()
 	
-	var seg_verts: PackedVector3Array = PackedVector3Array()
-	var seg_colors: PackedColorArray = PackedColorArray()
-	for i in range(positions.size()):
-		var is_break = (colors[i] == Color(1, 0, 0)) and i > 0
-		
-		if is_break and seg_verts.size() >= 2:
-			_flush_segment(seg_verts, seg_colors)
-			seg_verts = PackedVector3Array()
-			seg_colors = PackedColorArray()
-		seg_verts.append(positions[i])
-		seg_colors.append(colors[i])
-		
-	if seg_verts.size() >= 2:
-			_flush_segment(seg_verts, seg_colors)
-
-#func _rebuild_mesh():
-	#if positions.size() < 2:
-		#return
-	#
-	#mesh.clear_surfaces()
-	#
-	#var arrays = []
-	#arrays.resize(Mesh.ARRAY_MAX)
-	#
-	#arrays[Mesh.ARRAY_VERTEX] = positions
-	#arrays[Mesh.ARRAY_COLOR] = colors
-	#
-	#mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINE_STRIP, arrays)
-
-func _flush_segment(verts: PackedVector3Array, cols: PackedColorArray) -> void:
 	var arrays = []
 	arrays.resize(Mesh.ARRAY_MAX)
-	arrays[Mesh.ARRAY_VERTEX] = verts
-	arrays[Mesh.ARRAY_COLOR]  = cols
+	
+	arrays[Mesh.ARRAY_VERTEX] = positions
+	arrays[Mesh.ARRAY_COLOR] = colors
+	
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINE_STRIP, arrays)
 
 ## Converts an angular value in radians into a normalized value
