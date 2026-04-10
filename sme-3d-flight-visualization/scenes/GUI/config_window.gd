@@ -57,6 +57,10 @@ func open_config_window():
 		else:
 			original_vel = Vector3.ZERO
 	
+	for row in controls_container.get_children():
+		for child in row.get_children():
+			if child.has_method("enable_listening"):
+				child.enable_listening(true)
 	# Now actually open the window
 	popup_centered()
 	
@@ -90,7 +94,13 @@ func _on_close_requested():
 	Drone_Manager.set_drone_position(original_pos)
 	Drone_Manager.set_drone_rotation(original_rot)
 	Drone_Manager.set_drone_velocity(original_vel)
-	
+	# 🔹 Clear pending keybinds so UI resets
+	for row in controls_container.get_children():
+		for child in row.get_children():
+			if child.has_method("enable_listening"):
+				child.enable_listening(false)
+			if child.has_method("clear_pending_key"):
+				child.clear_pending_key()
 	hide()
 
 func _on_save_pressed() -> void:
@@ -136,6 +146,8 @@ func _on_save_pressed() -> void:
 	file.close()
 	# Save all keybinds
 	_update_custom_config_from_ui()
+	 #Apply pending keybinds before saving
+	_apply_all_pending_keys(controls_container)
 	Drone_Manager.save_bindings()
 	hide()
 
@@ -281,6 +293,7 @@ func find_option_index_by_text(button: OptionButton, text: String) -> int:
 			return i
 	return -1
 	
+# Might Remove because it should be errors
 func rebuild_custom_config_ui():
 	var container: VBoxContainer = $MarginContainer/VBoxContainer/CustomConfigSection/CustomFieldsContainer
 
@@ -295,6 +308,7 @@ func rebuild_custom_config_ui():
 
 		_add_custom_field(container, key, loaded_config[key])
 
+# Adds the customm configs, might remove because they should be errors
 func _add_custom_field(container: VBoxContainer, key: String, value):
 	var row := HBoxContainer.new()   # <-- row container
 	container.add_child(row)
@@ -335,23 +349,31 @@ func _add_custom_field(container: VBoxContainer, key: String, value):
 	editor.set_meta("config_key", key)
 
 	row.add_child(editor)
-	
+
+# Updates current configs for each config
 func _update_custom_config_from_ui():
 	var container: VBoxContainer = $MarginContainer/VBoxContainer/CustomConfigSection/CustomFieldsContainer
-
+	
 	for row in container.get_children():
 		if row.get_child_count() < 2:
 			continue
-
+		
 		var editor = row.get_child(1)
 		var key = editor.get_meta("config_key")
-
+		
 		if key == null:
 			continue
-
+		
 		if editor is SpinBox:
 			loaded_config[key] = editor.value
 		elif editor is CheckBox:
 			loaded_config[key] = editor.button_pressed
 		elif editor is LineEdit:
 			loaded_config[key] = editor.text
+
+#Used to apply pending keys to controls container
+func _apply_all_pending_keys(node: Node):
+	if node.has_method("apply_pending_key"):
+		node.apply_pending_key()
+	for child in node.get_children():
+		_apply_all_pending_keys(child)

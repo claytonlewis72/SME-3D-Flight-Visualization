@@ -23,14 +23,8 @@ func _unhandled_input(event):
 	if waiting and event is InputEventKey and event.pressed:
 		pending_keycode = event.physical_keycode
 		waiting = false
-
-		# APPLY IMMEDIATELY (old behavior)
-		InputMap.action_erase_events(action_name)
-		var ev := InputEventKey.new()
-		ev.physical_keycode = pending_keycode
-		InputMap.action_add_event(action_name, ev)
-		
 		refresh_label()
+		
 # Saves bindings
 func _save_binding(action: String, keycode: int):
 	var cfg := ConfigFile.new()
@@ -51,7 +45,7 @@ func refresh_label():
 	else:
 		text = "Unbound"
 
-		
+# Applies current added keys, only applies when saved is pressed
 func apply_pending_key():
 	print("APPLYING:", action_name, "pending:", pending_keycode)
 	if pending_keycode == -1:
@@ -62,8 +56,11 @@ func apply_pending_key():
 	InputMap.action_add_event(action_name, ev)
 	print("APPLYING TO ACTION:", action_name)
 	print("ACTIONS IN INPUTMAP:", InputMap.get_actions())
-
+	
 
 func clear_pending_key():
 	pending_keycode = -1
 	refresh_label()
+	
+func enable_listening(enable: bool):
+	set_process_unhandled_input(enable)
