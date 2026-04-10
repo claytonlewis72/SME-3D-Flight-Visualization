@@ -31,8 +31,9 @@ border_color = Color(0, 0, 0, 1)
 
 [node name="Window" type="Window" unique_id=444390243]
 oversampling_override = 1.0
-position = Vector2i(0, 36)
+position = Vector2i(0, -100)
 size = Vector2i(400, 670)
+visible = false
 wrap_controls = true
 script = ExtResource("1_j00jc")
 
@@ -61,21 +62,6 @@ text = "Drone Model"
 
 [node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/DroneModel" unique_id=786522427]
 layout_mode = 2
-
-[node name="TelemetrySource" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=265472972]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TelemetrySource" unique_id=79062427]
-layout_mode = 2
-text = "Telemetry Source"
-
-[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/TelemetrySource" unique_id=1797681248]
-layout_mode = 2
-item_count = 2
-popup/item_0/text = "UDP"
-popup/item_0/id = 0
-popup/item_1/text = "CSV"
-popup/item_1/id = 1
 
 [node name="Position" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1347110451]
 layout_mode = 2
@@ -287,6 +273,7 @@ text = "Move Forward"
 
 [node name="move_forward" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Forward" unique_id=111975498]
 layout_mode = 2
+text = "W"
 script = ExtResource("2_u2yvl")
 
 [node name="Back" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls" unique_id=481223875]
@@ -298,6 +285,7 @@ text = "Move Back"
 
 [node name="move_back" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Back" unique_id=1018917753]
 layout_mode = 2
+text = "S"
 script = ExtResource("2_u2yvl")
 
 [node name="Left" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls" unique_id=992163772]
@@ -309,6 +297,7 @@ text = "Move Left"
 
 [node name="move_left" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Left" unique_id=1288559327]
 layout_mode = 2
+text = "A"
 script = ExtResource("2_u2yvl")
 
 [node name="Right" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls" unique_id=198301744]
@@ -320,6 +309,7 @@ text = "Move Right"
 
 [node name="move_right" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Right" unique_id=216148703]
 layout_mode = 2
+text = "D"
 script = ExtResource("2_u2yvl")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=443021905]

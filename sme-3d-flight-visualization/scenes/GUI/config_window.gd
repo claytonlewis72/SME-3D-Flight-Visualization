@@ -1,8 +1,6 @@
 extends Window
 # Nicholas Tran
 
-@onready var telemetry_dropdown = $MarginContainer/VBoxContainer/TelemetrySource/OptionButton
-@onready var csv_file_dialog = $MarginContainer/VBoxContainer/CSVFileDialog
 @onready var csv_ingestion = get_node("/root/Main/IngestionManager")
 @onready var vehicle_dropdown := $MarginContainer/VBoxContainer/DroneModel/OptionButton
 @onready var controls_header = $MarginContainer/VBoxContainer/ControlsSection/ControlsHeader
@@ -21,26 +19,27 @@ var loaded_config: Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	telemetry_dropdown.item_selected.connect(_on_telemetry_source_selected)
 	#Populates Vehicle drop down with scenes from vehicle folder
 	vehicle_dropdown.clear()
 	vehicle_dropdown.add_item("drone_3")
 	vehicle_dropdown.add_item("plane_2_9")
 	populate_vehicle_dropdown()
-	
+
 	# Contorls container starting state
 	controls_container.visible = false
 	controls_header.text = "Controls ▸"
 	controls_header.pressed.connect(_on_controls_header_pressed)
 	# Force layout update
 	await get_tree().process_frame
-	size = Vector2.ZERO
+	reset_size()
 	
 	var load_button = $MarginContainer/VBoxContainer/HBoxContainer/LoadConfigButton
 	load_button.pressed.connect(_on_load_config_button_pressed)
 	var dialog = $MarginContainer/VBoxContainer/ConfigFileDialog
 	dialog.file_selected.connect(_on_config_file_dialog_file_selected)
 	
+	vehicle_dropdown.item_selected.connect(_on_vehicle_dropdown_item_selected)
+
 func open_config_window():
 	# Load UI fields FIRST
 	load_settings()
@@ -57,7 +56,7 @@ func open_config_window():
 			original_vel = d.velocity
 		else:
 			original_vel = Vector3.ZERO
-
+	
 	# Now actually open the window
 	popup_centered()
 	
@@ -91,7 +90,7 @@ func _on_close_requested():
 	Drone_Manager.set_drone_position(original_pos)
 	Drone_Manager.set_drone_rotation(original_rot)
 	Drone_Manager.set_drone_velocity(original_vel)
-
+	
 	hide()
 
 func _on_save_pressed() -> void:
@@ -137,17 +136,10 @@ func _on_save_pressed() -> void:
 	file.close()
 	# Save all keybinds
 	_update_custom_config_from_ui()
-	save_all_keybinds()
+	Drone_Manager.save_bindings()
 	hide()
 
 	
-func _on_telemetry_source_selected(index):
-	var choice = telemetry_dropdown.get_item_text(index)
-	TelemetryManager.telemetry_source = choice
-
-	if choice == "CSV":
-		csv_file_dialog.popup()
-
 # Opens file dialog for CSV
 func _on_csv_file_dialog_file_selected(path: String) -> void:
 	csv_ingestion.replay_file_path = path
@@ -163,7 +155,6 @@ func _on_vehicle_dropdown_item_selected(index: int) -> void:
 		return
 
 	pending_drone_model = choice
-
 
 # Vehicle Dialog
 func open_vehicle_file_dialog():
@@ -207,19 +198,6 @@ func _on_controls_header_pressed():
 	# Force the window to recalc its size
 	await get_tree().process_frame
 	size = Vector2.ZERO
-
-# Saves all bindings when save is pressed
-func save_all_keybinds():
-	var cfg := ConfigFile.new()
-	cfg.load("user://controls.cfg")
-
-	# Save every action in the InputMap
-	for action in InputMap.get_actions():
-		var events = InputMap.action_get_events(action)
-		if events.size() > 0 and events[0] is InputEventKey:
-			cfg.set_value("bindings", action, events[0].physical_keycode)
-
-	cfg.save("user://controls.cfg")
 
 # Show files selectiong for config
 func _on_load_config_button_pressed() -> void:

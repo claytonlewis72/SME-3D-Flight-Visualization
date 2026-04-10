@@ -14,6 +14,8 @@ extends Control
 @onready var csv_ingestion = get_node("/root/Main/IngestionManager")
 @onready var config_window = $VBoxContainer/ConfigWindow
 @onready var config_button = $VBoxContainer/ConfigButton
+@onready var csv_file_dialog = $CSVFileDialog
+
 
 
 var sender_pid: int = -1
@@ -25,8 +27,10 @@ func _ready():
 	stop_button.pressed.connect(_on_stop_telemetry_pressed)
 	
 	# Drop down
+	# Drop down
 	if not telemetry_dropdown.item_selected.is_connected(_on_option_button_item_selected):
 		telemetry_dropdown.item_selected.connect(_on_option_button_item_selected)
+
 	
 	
 	var found := false
@@ -37,6 +41,7 @@ func _ready():
 	if not found: 
 		telemetry_dropdown.add_item("Playback")
 	config_button.pressed.connect(_on_config_button_pressed)
+	
 
 #UDP sender controls
 func _on_run_telemetry_pressed():
@@ -92,8 +97,9 @@ func _on_stop_telemetry_pressed():
 	rotation_value.text = "(0.0000, 0.0000, 0.0000)"
 	
 	# Reset Drone Position and Rotation
+	var body := drone.get_child(0)  # The actual RigidBody3D
 	## NEEDS PLAYBACK TO BE ABLE TO RESET
-	if drone:
+	if body and body is RigidBody3D:
 		drone.freeze = true
 		drone.global_position = Vector3.ZERO
 		drone.global_rotation = Vector3.ZERO
@@ -115,7 +121,11 @@ func _on_option_button_item_selected(index):
 			SourceManager.set_source("UDP")
 		"Playback": 
 			SourceManager.set_source("PLAYBACK")
-		#Add CSV config here
+			
+		"CSV":
+			SourceManager.set_source("CSV")
+			csv_file_dialog.popup_centered()
+
 
 
 #Kill sender if app is closed or ended.
