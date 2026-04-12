@@ -1,0 +1,354 @@
+[gd_scene format=3 uid="uid://dougxdbi20juj"]
+
+[ext_resource type="Script" uid="uid://3tc7o246ix8f" path="res://scenes/GUI/config_window.gd" id="1_j00jc"]
+[ext_resource type="Script" uid="uid://oovoyrl13l7x" path="res://scripts/GUI/keybind_button.gd" id="2_u2yvl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2yvl"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdqbk"]
+draw_center = false
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twgnf"]
+draw_center = false
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhch6"]
+draw_center = false
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[node name="Window" type="Window" unique_id=444390243]
+oversampling_override = 1.0
+position = Vector2i(0, -100)
+size = Vector2i(400, 670)
+visible = false
+wrap_controls = true
+script = ExtResource("1_j00jc")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1400913919]
+custom_minimum_size = Vector2(400, 100)
+offset_right = 400.0
+offset_bottom = 469.0
+
+[node name="Panel" type="Panel" parent="MarginContainer" unique_id=1779434227]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u2yvl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1406091096]
+layout_mode = 2
+
+[node name="Configuration Settings" type="Label" parent="MarginContainer/VBoxContainer" unique_id=2062101236]
+layout_mode = 2
+text = "Configuration Settings"
+
+[node name="DroneModel" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=298752698]
+layout_mode = 2
+
+[node name="Drone Model" type="Label" parent="MarginContainer/VBoxContainer/DroneModel" unique_id=1756712990]
+layout_mode = 2
+text = "Drone Model"
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/DroneModel" unique_id=786522427]
+layout_mode = 2
+
+[node name="Position" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1347110451]
+layout_mode = 2
+
+[node name="Postion" type="Label" parent="MarginContainer/VBoxContainer/Position" unique_id=641434631]
+layout_mode = 2
+text = "Position:"
+
+[node name="PosX" type="SpinBox" parent="MarginContainer/VBoxContainer/Position" unique_id=296215220]
+layout_mode = 2
+min_value = -10000000.0
+max_value = 1000000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="PosY" type="SpinBox" parent="MarginContainer/VBoxContainer/Position" unique_id=1583711551]
+layout_mode = 2
+min_value = -10000000.0
+max_value = 100000.0
+step = 0.01
+
+[node name="PosZ" type="SpinBox" parent="MarginContainer/VBoxContainer/Position" unique_id=139366737]
+layout_mode = 2
+min_value = -100001.0
+max_value = 1000000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="Rotation" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=324428250]
+layout_mode = 2
+
+[node name="Rotation" type="Label" parent="MarginContainer/VBoxContainer/Rotation" unique_id=254810033]
+layout_mode = 2
+text = "Rotation:"
+
+[node name="RotX" type="SpinBox" parent="MarginContainer/VBoxContainer/Rotation" unique_id=1611825509]
+layout_mode = 2
+min_value = -100000.0
+max_value = 1000000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="RotY" type="SpinBox" parent="MarginContainer/VBoxContainer/Rotation" unique_id=380507338]
+layout_mode = 2
+min_value = -100000.0
+max_value = 10000000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="RotZ" type="SpinBox" parent="MarginContainer/VBoxContainer/Rotation" unique_id=1680446728]
+layout_mode = 2
+min_value = -1000000.0
+max_value = 1000000.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="Velocity" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1718738101]
+layout_mode = 2
+
+[node name="Velocity" type="Label" parent="MarginContainer/VBoxContainer/Velocity" unique_id=194868127]
+layout_mode = 2
+text = "Velocity:"
+
+[node name="VelX" type="SpinBox" parent="MarginContainer/VBoxContainer/Velocity" unique_id=1139000859]
+layout_mode = 2
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="VelY" type="SpinBox" parent="MarginContainer/VBoxContainer/Velocity" unique_id=769352108]
+layout_mode = 2
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="VelZ" type="SpinBox" parent="MarginContainer/VBoxContainer/Velocity" unique_id=1791661204]
+layout_mode = 2
+step = 0.01
+allow_greater = true
+allow_lesser = true
+
+[node name="ControlsSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=568072572]
+layout_mode = 2
+
+[node name="ControlsHeader" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection" unique_id=400190881]
+layout_mode = 2
+
+[node name="ControlsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection" unique_id=1557630451]
+layout_mode = 2
+
+[node name="BasicControlsLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1669526415]
+layout_mode = 2
+text = "Basic Controls"
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControlsLabel" unique_id=1375485080]
+layout_mode = 0
+offset_right = 397.0
+offset_bottom = 24.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hdqbk")
+
+[node name="BasicControls" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1799426074]
+layout_mode = 2
+
+[node name="ChangeCameraKey" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls" unique_id=1040856224]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/ChangeCameraKey" unique_id=981284125]
+layout_mode = 2
+text = "Change Camera:"
+
+[node name="switch_camera" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/ChangeCameraKey" unique_id=1412941817]
+layout_mode = 2
+text = "C"
+script = ExtResource("2_u2yvl")
+
+[node name="SwapVehicle" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls" unique_id=788514896]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/SwapVehicle" unique_id=2135644263]
+layout_mode = 2
+text = "Swap Vehicle"
+
+[node name="swap_vehicle" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/SwapVehicle" unique_id=1422447196]
+layout_mode = 2
+text = "V"
+script = ExtResource("2_u2yvl")
+
+[node name="PlabackControlsLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1101068724]
+layout_mode = 2
+text = "Playback Controls"
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlabackControlsLabel" unique_id=1690979165]
+layout_mode = 0
+offset_right = 397.0
+offset_bottom = 25.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_twgnf")
+
+[node name="PlaybackControls" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=2060642260]
+layout_mode = 2
+
+[node name="StartKey" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls" unique_id=988493398]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/StartKey" unique_id=1240992073]
+layout_mode = 2
+text = "Start:"
+
+[node name="start_playback" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/StartKey" unique_id=1459489297]
+layout_mode = 2
+script = ExtResource("2_u2yvl")
+
+[node name="PauseKey" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls" unique_id=1064894343]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/PauseKey" unique_id=1642543873]
+layout_mode = 2
+text = "Pause:"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/PauseKey" unique_id=538077813]
+layout_mode = 2
+script = ExtResource("2_u2yvl")
+
+[node name="ResumeKey" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls" unique_id=1766944995]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResumeKey" unique_id=1739890245]
+layout_mode = 2
+text = "Resume:"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResumeKey" unique_id=1865867468]
+layout_mode = 2
+script = ExtResource("2_u2yvl")
+
+[node name="ResetKey" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls" unique_id=615297989]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResetKey" unique_id=943163523]
+layout_mode = 2
+text = "Reset:"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResetKey" unique_id=1301605560]
+layout_mode = 2
+script = ExtResource("2_u2yvl")
+
+[node name="FreeCameraControlsLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1034398866]
+layout_mode = 2
+text = "Free Camera Controls"
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControlsLabel" unique_id=942387328]
+layout_mode = 0
+offset_right = 398.0
+offset_bottom = 23.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bhch6")
+
+[node name="FreeCameraControls" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1626074757]
+layout_mode = 2
+
+[node name="Forward" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls" unique_id=158582404]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Forward" unique_id=1089995374]
+layout_mode = 2
+text = "Move Forward"
+
+[node name="move_forward" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Forward" unique_id=111975498]
+layout_mode = 2
+text = "W"
+script = ExtResource("2_u2yvl")
+
+[node name="Back" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls" unique_id=481223875]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Back" unique_id=1312556767]
+layout_mode = 2
+text = "Move Back"
+
+[node name="move_back" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Back" unique_id=1018917753]
+layout_mode = 2
+text = "S"
+script = ExtResource("2_u2yvl")
+
+[node name="Left" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls" unique_id=992163772]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Left" unique_id=1603006196]
+layout_mode = 2
+text = "Move Left"
+
+[node name="move_left" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Left" unique_id=1288559327]
+layout_mode = 2
+text = "A"
+script = ExtResource("2_u2yvl")
+
+[node name="Right" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls" unique_id=198301744]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Right" unique_id=1279808662]
+layout_mode = 2
+text = "Move Right"
+
+[node name="move_right" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Right" unique_id=216148703]
+layout_mode = 2
+text = "D"
+script = ExtResource("2_u2yvl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=443021905]
+layout_mode = 2
+
+[node name="LoadConfigButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=119563059]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Load Configuration"
+
+[node name="CustomConfigSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=976440806]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1536980476]
+layout_mode = 2
+text = "Loaded Configurations:"
+
+[node name="CustomFieldsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1739263794]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="MarginContainer/VBoxContainer" unique_id=525284104]
+layout_mode = 2
+text = "Save"
+
+[node name="CSVFileDialog" type="FileDialog" parent="MarginContainer/VBoxContainer" unique_id=225346950]
+oversampling_override = 1.0
+title = "Open a File"
+position = Vector2i(0, 200)
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.csv")
+
+[node name="VehicleFileDialog" type="FileDialog" parent="MarginContainer/VBoxContainer" unique_id=1474472707]
+filters = PackedStringArray("*.tscn", "*.glb")
+
+[node name="ConfigFileDialog" type="FileDialog" parent="MarginContainer/VBoxContainer" unique_id=1226238981]
+title = "Open a File"
+file_mode = 0
+filters = PackedStringArray("*.json", "*.cfg", "*.csv")
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Save" to="." method="_on_save_pressed"]

@@ -1,0 +1,14 @@
+{
+  "drone_model": "drone_3",
+  "position": [10, 2, 3],
+  "rotation": [0, 1.57, 0],
+  "velocity": [5, 0, 0],
+
+  "camera_fov": 90,
+  "custom_flag": true,
+  "notes": "This is my test config",
+  "metadata": {
+	"author": "Nicholas",
+	"version": 3
+  }
+}

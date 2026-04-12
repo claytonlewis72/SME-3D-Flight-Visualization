@@ -66,7 +66,6 @@ func _on_pose_received(pos : Vector3, rot : Vector3, _gap: bool, time: float):
 	_file.store_float(pos.x)
 	_file.store_float(pos.y)
 	_file.store_float(pos.z)
-	# Keep written data to file in XYZ Format as XYZ is read in as YZX
 	_file.store_float(rot.x)
 	_file.store_float(rot.y)
 	_file.store_float(rot.z)

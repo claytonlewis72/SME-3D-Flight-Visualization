@@ -96,6 +96,5 @@ func _process(delta):
 		dir -= transform.basis.x
 	if Input.is_action_pressed("move_right"):
 		dir += transform.basis.x
-
 	if dir != Vector3.ZERO:
 		global_translate(dir.normalized() * speed * delta * speed_modifier)
