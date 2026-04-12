@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dougxdbi20juj"]
 
-[ext_resource type="Script" uid="uid://3tc7o246ix8f" path="res://scenes/GUI/config_window.gd" id="1_j00jc"]
+[ext_resource type="Script" uid="uid://3tc7o246ix8f" path="res://scripts/GUI/config_window.gd" id="1_j00jc"]
 [ext_resource type="Script" uid="uid://oovoyrl13l7x" path="res://scripts/GUI/keybind_button.gd" id="2_u2yvl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2yvl"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c051r3a0wcf75"]
 
-[ext_resource type="Script" uid="uid://bcvk2jekwh68v" path="res://scripts/telemetry_manager.gd" id="1_qiokd"]
+[ext_resource type="Script" uid="uid://bcvk2jekwh68v" path="res://scripts/Managers/telemetry_manager.gd" id="1_qiokd"]
 
 [node name="Telemetry_Manager" type="Node" unique_id=2138441712]
 script = ExtResource("1_qiokd")
