@@ -12,7 +12,15 @@ var _frame_count : int = 0
 
 var is_recording: bool = false
 
+var TelemetryManager = null  # injected; falls back to singleton in _ready()
+var RecordingManager = null  # injected; falls back to singleton in _ready()
+
 func _ready():
+	if TelemetryManager == null:
+		TelemetryManager = Engine.get_singleton("TelemetryManager")
+	if RecordingManager == null:
+		RecordingManager = Engine.get_singleton("RecordingManager")
+	
 	RecordingManager.register_recorder(self)
 	
 	TelemetryManager.pose_received.connect(_on_pose_received)
