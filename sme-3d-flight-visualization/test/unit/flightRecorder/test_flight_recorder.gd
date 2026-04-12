@@ -81,7 +81,7 @@ func before_each() -> void:
 	_recording_mgr = MockRecordingManager.new()
 
 	# Load the script but don't add to tree yet
-	_recorder = load("res://scripts/flight_recorder.gd").new()
+	_recorder = load("res://scripts/recording/flight_recorder.gd").new()
 	_recorder.save_path = TEST_SAVE_DIR
 
 	# Inject mocks before _ready() fires

@@ -21,7 +21,7 @@
 
 extends GutTest
 
-const FreeCameraScript = preload("res://scripts/camera_manager/free_camera.gd")
+const FreeCameraScript = preload("res://scripts/Managers/camera_manager/free_camera.gd")
 
 var camera: Camera3D
 var target: Node3D

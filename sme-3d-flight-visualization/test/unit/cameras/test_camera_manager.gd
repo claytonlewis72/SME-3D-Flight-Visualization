@@ -21,7 +21,7 @@
 
 extends GutTest
 
-const TestScene = preload("res://scenes/camera_manager.tscn")
+const TestScene = preload("res://scenes/Managers/camera_manager.tscn")
 
 var root: Node3D
 var manager

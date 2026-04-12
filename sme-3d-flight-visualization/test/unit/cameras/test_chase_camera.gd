@@ -21,7 +21,7 @@
 
 extends GutTest
 
-const ChaseCameraScript = preload("res://scripts/camera_manager/chase_camera.gd")
+const ChaseCameraScript = preload("res://scripts/Managers/camera_manager/chase_camera.gd")
 
 var camera: Camera3D
 var target: Node3D
