@@ -117,3 +117,23 @@ func test_process_does_nothing_when_inactive():
 	camera._process(0.5)
 
 	assert_eq(camera.global_transform.origin, start_pos)
+
+func test_non_mouse_input_does_nothing_when_active():
+	camera.set_active(true)
+
+	var event := InputEventKey.new()
+	camera.yaw = 5.0
+	camera.pitch = 10.0
+
+	camera._input(event)
+
+	assert_eq(camera.yaw, 5.0)
+	assert_eq(camera.pitch, 10.0)
+	
+func test_set_active_false_disables_camera():
+	camera.set_active(true)
+	camera.set_active(false)
+
+	assert_false(camera.active)
+	assert_false(camera.is_processing())
+	assert_false(camera.is_processing_input())
