@@ -17,12 +17,19 @@ var RecordingManager = null  # injected; falls back to singleton in _ready()
 
 func _ready():
 	if TelemetryManager == null:
-		TelemetryManager = Engine.get_singleton("TelemetryManager")
+		if Engine.has_singleton("TelemetryManager"):
+			TelemetryManager = Engine.get_singleton("TelemetryManager")
+		else:
+			push_error("[FlightRecorder] TelemetryManager singleton not found.")
+			return
 	if RecordingManager == null:
-		RecordingManager = Engine.get_singleton("RecordingManager")
-	
+		if Engine.has_singleton("RecordingManager"):
+			RecordingManager = Engine.get_singleton("RecordingManager")
+		else:
+			push_error("[FlightRecorder] RecordingManager singleton not found.")
+			return
+
 	RecordingManager.register_recorder(self)
-	
 	TelemetryManager.pose_received.connect(_on_pose_received)
 	print("[RecorderTest] Recording to: ", save_path)
 
