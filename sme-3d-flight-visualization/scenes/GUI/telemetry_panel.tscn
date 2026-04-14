@@ -30,7 +30,7 @@ columns = 2
 
 [node name="Position" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=188169741]
 layout_mode = 2
-text = "Position:"
+text = "P"
 
 [node name="PositionValue" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=129167677]
 layout_mode = 2
@@ -38,7 +38,7 @@ text = "VALUE"
 
 [node name="Rotation" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=771546375]
 layout_mode = 2
-text = "Rot:"
+text = "R"
 
 [node name="RotationValue" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=1587473319]
 layout_mode = 2

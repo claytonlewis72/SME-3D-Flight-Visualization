@@ -106,6 +106,11 @@ func _on_save_pressed() -> void:
 	if pending_drone_model != "":
 		Drone_Manager.set_drone_model(pending_drone_model)
 
+	var panel = get_node_or_null("/root/HUDRoot/TelemetryPanel")
+	
+	if panel and panel.has_method("refresh_from_config"):
+		panel.refresh_from_config()
+	
 	var pos = Vector3(
 		$MarginContainer/VBoxContainer/Position/PosX.value,
 		$MarginContainer/VBoxContainer/Position/PosY.value,
