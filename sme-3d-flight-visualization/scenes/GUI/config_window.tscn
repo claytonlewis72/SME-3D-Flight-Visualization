@@ -182,18 +182,6 @@ layout_mode = 2
 text = "C"
 script = ExtResource("2_u2yvl")
 
-[node name="SwapVehicle" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls" unique_id=788514896]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/SwapVehicle" unique_id=2135644263]
-layout_mode = 2
-text = "Swap Vehicle"
-
-[node name="swap_vehicle" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/SwapVehicle" unique_id=1422447196]
-layout_mode = 2
-text = "V"
-script = ExtResource("2_u2yvl")
-
 [node name="PlabackControlsLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1101068724]
 layout_mode = 2
 text = "Playback Controls"
