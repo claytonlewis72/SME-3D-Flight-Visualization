@@ -130,14 +130,4 @@ func test_stop_delegates_to_active_source() -> void:
 	_manager.stop()
 	
 	assert_true(_source_a.stop_called, "stop() should delegate to the active source")
-
-# ---- load, seek, and has_recording test -------------------------
-
-#func test_load_file_delegates_to_source() -> void:
-	#var source := MockSourceWithPlayback.new()
-	#add_child(source)
-	#_manager.register_source("PB", source)
-	#_manager.set_source("PB")
-	#
-	#var result := _manager.load_file("res://test.bin")
 	
