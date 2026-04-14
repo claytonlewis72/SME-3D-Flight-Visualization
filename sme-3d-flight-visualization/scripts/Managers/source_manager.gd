@@ -99,11 +99,14 @@ func load_file(path: String) -> bool:
 	return _active_source.load_file(path)
 
 ## Seeks to a frame index in the active source if it supports it.
+## Notifies TelemetryManager so subscribers such as renderers
+## can react to the position change.
 func seek(index: int) -> void:
 	if _active_source == null:
 		return
 	if _active_source.has_method("seek"):
 		_active_source.seek(index)
+		TelemetryManager.forward_seeked(index)
 
 ## Returns true if the active source has a recording loaded.
 func has_recording() -> bool:

@@ -86,6 +86,13 @@ signal recording_started(file_path: String)
 
 signal recording_stopped(file_path: String, frame_count: int)
 
+## Emitted when the user seeks to a specific frame during playback.
+##
+## Parameters:
+##   index : int
+##       The frame index that was seeked to.
+signal seeked(index: int)
+
 #-------------------------------------------------------------------------------------
 # Interface Methods
 #-------------------------------------------------------------------------------------
@@ -130,3 +137,14 @@ func forward_recording_started(file_path: String) -> void:
 
 func forward_recording_stopped(file_path: String, frame_count: int) -> void:
 	recording_stopped.emit(file_path, frame_count)
+
+## Forwards a seek event to all subscribed systems.
+##
+## This function should be called by SourceManager when a seek
+## operation is performed on the active playback source.
+##
+## Parameters:
+##   index : int
+##       The frame index that was seeked to.
+func forward_seeked(index: int) -> void:
+	seeked.emit(index)

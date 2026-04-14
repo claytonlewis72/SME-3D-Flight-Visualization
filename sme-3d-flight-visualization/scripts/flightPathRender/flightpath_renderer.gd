@@ -72,6 +72,11 @@ var last_position: Vector3
 ## Indicates whether the mesh needs to be rebuilt during the next physics frame.
 var dirty := false 
 
+## When true, the next incoming point will open a new line segment
+## without connecting to the previous last_position.
+## Set by _on_seeked() and cleared on the first point consumed after a seek.
+var _just_seeked: bool = false
+
 ## Reference to the MeshInstance3D used to render the generated mesh.
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
@@ -100,9 +105,10 @@ func _ready():
 	var material = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.vertex_color_use_as_albedo = true
-
 	mesh_instance.material_override = material
-
+	# Subscribe to seek events so the path can be cleared and redrawn
+	# from the new position without drawing across the screen.
+	TelemetryManager.seeked.connect(_on_seeked)
 
 
 ## Adds a new telemetry point to the rendered flight path.
@@ -122,8 +128,15 @@ func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool, _time) -> void:
 	if positions.size() > 0:
 		if new_pos.distance_to(last_position) < min_distance:
 			return 
-		if new_pos.distance_to(last_position) > max_distance:
+		# Suppress distance-based gap detection immediately after a seek.
+		# The jump in position is expected and should not be marked as a gap.
+		if not _just_seeked and new_pos.distance_to(last_position) > max_distance:
 			is_gap = true
+		# Open a new segment at the first point after a seek so no line
+		# is drawn from the old last_position to the new scrub position.
+		if _just_seeked:
+			is_gap = true
+			_just_seeked = false
 	positions.append(new_pos)
 	
 	#Orentation color mapping 
@@ -206,6 +219,32 @@ func _flush_segment(verts: PackedVector3Array, cols: PackedColorArray) -> void:
 	arrays[Mesh.ARRAY_VERTEX] = verts
 	arrays[Mesh.ARRAY_COLOR]  = cols
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINE_STRIP, arrays)
+
+## Clears all buffered positions, colors, and the rendered mesh.
+##
+## Called before replaying telemetry from a seeked position to prevent
+## stale points from connecting to incoming ones.
+func reset_path() -> void:
+	positions.clear()
+	colors.clear()
+	last_position = Vector3.ZERO
+	mesh.clear_surfaces()
+	dirty = false
+
+## Handles a seek event emitted by TelemetryManager.
+##
+## Clears the current path and arms the _just_seeked flag so the
+## first replayed point opens a fresh line segment rather than
+## connecting to the previous last_position.
+##
+## Parameters:
+##   _index : int
+##       The frame index seeked to. Unused by the renderer but
+##       required to match the signal signature.
+func _on_seeked(_index: int) -> void:
+	reset_path()
+	_just_seeked = true
+
 
 ## Converts an angular value in radians into a normalized value
 ## suitable for use as a color component.
