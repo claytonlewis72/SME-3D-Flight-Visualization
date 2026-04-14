@@ -3,9 +3,9 @@ extends Node
 var current_drone: Node = null
 
 func _ready():
+	set_drone_model("drone_3")
 	_setup_default_controls()
 	_load_saved_bindings()
-	set_drone_model("drone_3")
 	# Do NOT load a drone here — wait for UI to request it
 
 
@@ -16,13 +16,13 @@ func set_drone_model(model_name: String):
 	var scene := load(path)
 	
 	if scene == null:
-		push_error("Could not load model: " + path)
+		push_warning("Previously not loaded path: " + path)
 		return
 
 	# Get VisualRoot safely
 	var visual_root = get_tree().get_root().get_node_or_null("Main/Rendering Manager/Drone/Pivot/VisualRoot")
 	if visual_root == null:
-		push_error("Could not find VisualRoot")
+		push_warning("Presviouly empty node")
 		return
 		
 	# Remove old drone

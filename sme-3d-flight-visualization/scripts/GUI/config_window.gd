@@ -91,9 +91,9 @@ func load_settings() -> void:
 
 func _on_close_requested():
 	# restore original values
-	Drone_Manager.set_drone_position(original_pos)
-	Drone_Manager.set_drone_rotation(original_rot)
-	Drone_Manager.set_drone_velocity(original_vel)
+	#Drone_Manager.set_drone_position(original_pos)
+	#Drone_Manager.set_drone_rotation(original_rot)
+	#Drone_Manager.set_drone_velocity(original_vel)
 	# 🔹 Clear pending keybinds so UI resets
 	for row in controls_container.get_children():
 		for child in row.get_children():
@@ -129,9 +129,9 @@ func _on_save_pressed() -> void:
 	$MarginContainer/VBoxContainer/Velocity/VelZ.value
 	)
 
-	Drone_Manager.set_drone_position(pos)
-	Drone_Manager.set_drone_rotation(rot)
-	Drone_Manager.set_drone_velocity(vel)
+	#Drone_Manager.set_drone_position(pos)
+	#Drone_Manager.set_drone_rotation(rot)
+	#Drone_Manager.set_drone_velocity(vel)
 
 	# Merge UI values back into loaded_config
 	loaded_config["position"] = [pos.x, pos.y, pos.z]
@@ -244,7 +244,7 @@ func apply_loaded_config(cfg: Dictionary):
 	if cfg.has("position"):
 		var p = cfg["position"]
 		var pos = Vector3(p[0], p[1], p[2])
-		Drone_Manager.set_drone_position(pos)
+		#Drone_Manager.set_drone_position(pos)
 
 		# Update UI
 		$MarginContainer/VBoxContainer/Position/PosX.value = pos.x
@@ -254,7 +254,7 @@ func apply_loaded_config(cfg: Dictionary):
 	if cfg.has("rotation"):
 		var r = cfg["rotation"]
 		var rot = Vector3(r[0], r[1], r[2])
-		Drone_Manager.set_drone_rotation(rot)
+		#Drone_Manager.set_drone_rotation(rot)
 
 		# Update UI
 		$MarginContainer/VBoxContainer/Rotation/RotX.value = rot.x
@@ -264,7 +264,7 @@ func apply_loaded_config(cfg: Dictionary):
 	if cfg.has("velocity"):
 		var v = cfg["velocity"]
 		var vel = Vector3(v[0], v[1], v[2])
-		Drone_Manager.set_drone_velocity(vel)
+		#Drone_Manager.set_drone_velocity(vel)
 
 		# Update UI
 		$MarginContainer/VBoxContainer/Velocity/VelX.value = vel.x

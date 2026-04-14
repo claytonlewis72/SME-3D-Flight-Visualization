@@ -41,28 +41,19 @@ text = "(0.0000, 0.0000, 0.0000)"
 [node name="SettingMenu" parent="." unique_id=1172358337 instance=ExtResource("2_ngpyv")]
 
 [node name="OptionButton" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1731921074) index="0" unique_id=1278921433]
-item_count = 2
+item_count = 1
 popup/item_0/text = "UDP"
 popup/item_0/id = 0
-popup/item_1/text = "CSV"
-popup/item_1/id = 1
 
 [node name="ConfigWindow" parent="SettingMenu/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1578027935) index="2" unique_id=444390243 instance=ExtResource("3_0ask3")]
 position = Vector2i(0, 36)
 exclusive = true
-
-[node name="CSVFileDialog" type="FileDialog" parent="SettingMenu" unique_id=1846482974]
-title = "Open a File"
-file_mode = 0
-access = 2
-filters = PackedStringArray("*.csv")
 
 [node name="PlaybackHUD" parent="." unique_id=112135338 instance=ExtResource("4_ohoes")]
 
 [node name="RecordingPanel" parent="." unique_id=1558854736 instance=ExtResource("4_dmhqu")]
 
 [connection signal="item_selected" from="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton" to="SettingMenu" method="_on_option_button_item_selected"]
-[connection signal="file_selected" from="SettingMenu/CSVFileDialog" to="SettingMenu" method="_on_csv_file_dialog_file_selected"]
 
 [editable path="TelemetryPanel"]
 [editable path="SettingMenu"]

@@ -11,10 +11,8 @@ extends Control
 @onready var rotation_value = get_node("../TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid/RotationValue")
 @onready var drone = get_node("/root/Main/Rendering Manager/Drone/Pivot/VisualRoot")
 @onready var telemetry_dropdown = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton
-@onready var csv_ingestion = get_node("/root/Main/IngestionManager")
 @onready var config_window = $VBoxContainer/ConfigWindow
 @onready var config_button = $VBoxContainer/ConfigButton
-@onready var csv_file_dialog = $CSVFileDialog
 
 
 
@@ -25,12 +23,10 @@ var is_paused := false
 func _ready():
 	run_button.pressed.connect(_on_run_telemetry_pressed)
 	stop_button.pressed.connect(_on_stop_telemetry_pressed)
-	
-	# Drop down
+
 	# Drop down
 	if not telemetry_dropdown.item_selected.is_connected(_on_option_button_item_selected):
 		telemetry_dropdown.item_selected.connect(_on_option_button_item_selected)
-
 	
 	
 	var found := false
@@ -121,10 +117,6 @@ func _on_option_button_item_selected(index):
 			SourceManager.set_source("UDP")
 		"Playback": 
 			SourceManager.set_source("PLAYBACK")
-			
-		"CSV":
-			SourceManager.set_source("CSV")
-			csv_file_dialog.popup_centered()
 
 
 
@@ -142,22 +134,6 @@ func _cleanup_sender():
 		OS.kill(sender_pid)
 		sender_pid = -1
 
-
-# Option Button for switching telemetry source (UDP or CSV): by Nicholas Tran
-#func _on_option_button_item_selected(index):
-	#var choice = telemetry_dropdown.get_item_text(index)
-	#TelemetryManager.telemetry_source = choice
-#
-	#if choice == "CSV":
-		#$CSVFileDialog.popup()
-
-#File selector for csv: by Nicholas Tran
-## FILE SELECTOR CRASHES FOR CSV
-func _on_csv_file_dialog_file_selected(path: String) -> void:
-	csv_ingestion.replay_file_path = path
-	csv_ingestion._load_file()
-	TelemetryManager.telemetry_source = "CSV"
-	
 #Config Button opens config Window
 func _on_config_button_pressed():
 	$VBoxContainer/ConfigWindow.load_settings()
