@@ -31,10 +31,7 @@
 
 extends GutTest
 
-#Mesh Instance3D stand-in
-class MockMeshInstance:
-	var mesh = null
-	var material_override = null
+
 
 #Replaces the telemetryManager autoload singleton
 class MockTelemetryManager:
