@@ -31,6 +31,22 @@ class Figure8Params:
     pitch_gain: float = 0.05 # pitch gain (rad per m/s vertical speed)
     u_bias: float = 0.0      # base Up offset (meters)
 
+@dataclass
+class SpiralClimbParams:
+    radius_m: float = 20.0      # circle radius
+    omega: float = 0.8          # rad/s, speed around circle
+    climb_rate_mps: float = 0.2  # meters per second upward
+    bank_gain: float = 2.5       # roll amount during turn
+    pitch_gain: float = 0.08     # pitch based on climb rate
+    u_bias: float = 100.0        # starting altitude offset
+
+@dataclass
+class SquarePathParams:
+    side_m: float = 150.0      # length of each side in meters
+    speed_mps: float = 25.0    # constant speed along edges
+    u_bias: float = 100.0      # altitude offset
+    yaw_bias: float = 0.0      # optional yaw offset if needed
+
 class Figure8PathGenerator:
     def __init__(self, params: Figure8Params):
         self.p = params
@@ -62,6 +78,109 @@ class Figure8PathGenerator:
 
         # Pitch tied to vertical speed
         pitch = p.pitch_gain * vu
+
+        # Wrap yaw to [-pi, pi]
+        yaw = (yaw + math.pi) % (2 * math.pi) - math.pi
+
+        return (east, north, up), (roll, pitch, yaw)
+
+class SpiralClimbPathGenerator:
+    def __init__(self, params: SpiralClimbParams):
+        self.p = params
+
+    def sample(self, t: float):
+        """Return local ENU pos (m) and Euler angles (rad) at time t."""
+        p = self.p
+
+        # Circular motion in ENU with steady climb
+        east = p.radius_m * math.cos(p.omega * t)
+        north = p.radius_m * math.sin(p.omega * t)
+        up = p.u_bias + p.climb_rate_mps * t
+
+        # First derivatives (velocity)
+        ve = -p.radius_m * p.omega * math.sin(p.omega * t)
+        vn =  p.radius_m * p.omega * math.cos(p.omega * t)
+        vu = p.climb_rate_mps
+
+        # Second derivatives (acceleration)
+        ae = -p.radius_m * (p.omega**2) * math.cos(p.omega * t)
+        an = -p.radius_m * (p.omega**2) * math.sin(p.omega * t)
+
+        # Heading from tangent direction
+        yaw = math.atan2(vn, ve)
+
+        # Turn rate approximation
+        denom = ve*ve + vn*vn
+        turn_rate = (ve * an - vn * ae) / denom if denom > 1e-6 else 0.0
+
+        # Roll into the turn
+        roll = p.bank_gain * turn_rate
+
+        # Pitch based on climb rate
+        pitch = p.pitch_gain * vu
+
+        # Wrap angles to [-pi, pi]
+        roll = (roll + math.pi) % (2 * math.pi) - math.pi
+        pitch = (pitch + math.pi) % (2 * math.pi) - math.pi
+        yaw = (yaw + math.pi) % (2 * math.pi) - math.pi
+
+        return (east, north, up), (roll, pitch, yaw)    
+
+class SquarePathGenerator:
+    def __init__(self, params: SquarePathParams):
+        self.p = params
+
+    def sample(self, t: float):
+        """Return local ENU pos (m) and Euler angles (rad) at time t."""
+        p = self.p
+
+        side_time = p.side_m / p.speed_mps
+        lap_time = 4.0 * side_time
+        tau = t % lap_time
+
+        half = p.side_m / 2.0
+
+        # Segment 1: move east along bottom edge
+        if tau < side_time:
+            s = tau / side_time
+            east = -half + s * p.side_m
+            north = -half
+            yaw = 0.0 + p.yaw_bias
+            ve = p.speed_mps
+            vn = 0.0
+
+        # Segment 2: move north along right edge
+        elif tau < 2.0 * side_time:
+            s = (tau - side_time) / side_time
+            east = half
+            north = -half + s * p.side_m
+            yaw = math.pi / 2.0 + p.yaw_bias
+            ve = 0.0
+            vn = p.speed_mps
+
+        # Segment 3: move west along top edge
+        elif tau < 3.0 * side_time:
+            s = (tau - 2.0 * side_time) / side_time
+            east = half - s * p.side_m
+            north = half
+            yaw = math.pi + p.yaw_bias
+            ve = -p.speed_mps
+            vn = 0.0
+
+        # Segment 4: move south along left edge
+        else:
+            s = (tau - 3.0 * side_time) / side_time
+            east = -half
+            north = half - s * p.side_m
+            yaw = -math.pi / 2.0 + p.yaw_bias
+            ve = 0.0
+            vn = -p.speed_mps
+
+        up = p.u_bias
+
+        # Sharp corners = no smoothing, no banking
+        roll = 0.0
+        pitch = 0.0
 
         # Wrap yaw to [-pi, pi]
         yaw = (yaw + math.pi) % (2 * math.pi) - math.pi

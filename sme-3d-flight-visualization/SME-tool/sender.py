@@ -33,6 +33,8 @@ class UdpStreamer:
 # Main loop
 def run_stream(rate_hz=DEFAULT_RATE_HZ):
     gen = Figure8PathGenerator(Figure8Params())
+    #gen = SpiralClimbPathGenerator(SpiralClimbParams())
+    #gen = SquarePathGenerator(SquarePathParams())
     streamer = UdpStreamer(UDP_HOST, UDP_PORT)
 
     period = 1.0 / rate_hz

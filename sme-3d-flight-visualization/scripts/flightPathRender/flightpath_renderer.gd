@@ -134,6 +134,7 @@ func add_point(new_pos: Vector3, rot: Vector3, is_gap: bool, _time) -> void:
 	var g := _angle_to_color_value(rot.y) # pitch
 	var b := _angle_to_color_value(rot.z) # yaw
 	line_color = Color(r, g, b)
+	# print("[FLight path renderer: ]" + str(line_color))
 	
 	var c = line_color
 	
