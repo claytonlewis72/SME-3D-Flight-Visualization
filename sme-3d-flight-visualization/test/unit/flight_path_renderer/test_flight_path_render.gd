@@ -55,8 +55,13 @@ func before_each() -> void:
 	
 	_renderer = load("res://scripts/flightPathRender/flightpath_renderer.gd").new()
 	
+	# Add a real MeshInstance3D child so @onready can find it
+	var mesh_instance := MeshInstance3D.new()
+	mesh_instance.name = "MeshInstance3D"
+	_renderer.add_child(mesh_instance)
+
+	
 	_renderer.set("TelemetryManager", _telemetry)
-	_renderer.set("mesh_instance", MockMeshInstance.new())
 	
 	add_child_autofree(_renderer)
 	await get_tree().process_frame
@@ -125,7 +130,7 @@ func test_add_point_drops_oldest_points_when_capped() -> void:
 	_renderer.max_points = 3
 	
 	for i in range(5):
-		_renderer.add_points(Vector3(i * 1.0, 0, 0), Vector3.ZERO, false, float(i))
+		_renderer.add_point(Vector3(i * 1.0, 0, 0), Vector3.ZERO, false, float(i))
 	
 	# The oldest points should have been removed
 	# The newest point should be contained
