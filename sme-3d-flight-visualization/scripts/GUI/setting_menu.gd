@@ -4,7 +4,6 @@ extends Control
 @export var sender_path: String = "res://SME-tool/sender.py"
 @export var python_path: String = "python3" # Path to Python
 
-
 @onready var run_button: Button = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/Start
 @onready var stop_button: Button = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/Stop
 @onready var position_value = get_node("../TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid/PositionValue")
@@ -14,8 +13,6 @@ extends Control
 @onready var config_window = $VBoxContainer/ConfigWindow
 @onready var config_button = $VBoxContainer/ConfigButton
 
-
-
 var sender_pid: int = -1
 var is_paused := false
 
@@ -24,25 +21,21 @@ func _ready():
 	run_button.pressed.connect(_on_run_telemetry_pressed)
 	stop_button.pressed.connect(_on_stop_telemetry_pressed)
 
-	# Drop down
 	if not telemetry_dropdown.item_selected.is_connected(_on_option_button_item_selected):
 		telemetry_dropdown.item_selected.connect(_on_option_button_item_selected)
-	
-	
+
 	var found := false
-	for i in telemetry_dropdown.item_count:
+	for i in range(telemetry_dropdown.item_count):
 		if telemetry_dropdown.get_item_text(i) == "Playback":
 			found = true
 			break
-	if not found: 
+	if not found:
 		telemetry_dropdown.add_item("Playback")
-	config_button.pressed.connect(_on_config_button_pressed)
-	
 
-#UDP sender controls
+	config_button.pressed.connect(_on_config_button_pressed)
+
+
 func _on_run_telemetry_pressed():
-	# Make sure we can only run one sender at a time
-	# Case 1: Not Running -> Start
 	if sender_pid == -1:
 		var full_path = ProjectSettings.globalize_path(sender_path)
 		var args := PackedStringArray([full_path])
@@ -56,71 +49,92 @@ func _on_run_telemetry_pressed():
 			run_button.text = "Stop"
 			is_paused = false
 		return
-	
-	# Case 2: Running and Not Paused -> Resume
+
 	if not is_paused:
 		print("Pausing sender...")
 		OS.kill(sender_pid)
 		is_paused = true
 		run_button.text = "Start"
 		return
-	
-	# Case 3: Paused -> Resume
+
 	if is_paused:
 		print("Resuming sender...")
 		var full_path = ProjectSettings.globalize_path(sender_path)
 		var args := PackedStringArray([full_path])
-		
+
 		sender_pid = OS.create_process(python_path, args)
 		is_paused = false
 		run_button.text = "Stop"
 		return
 
-# Reset Position and Orientation and the run
+
 func _on_stop_telemetry_pressed():
-	# Kill sender if running
 	if sender_pid != -1:
 		OS.kill(sender_pid)
-		print("[SettingMenu] Sender stopped.")
 		sender_pid = -1
 
-	# Reset UI
-	run_button.text = "Start"
-	is_paused = false
-	
-	# Clear telemetry values
-	position_value.text = "(0.0000, 0.0000, 0.0000)"
-	rotation_value.text = "(0.0000, 0.0000, 0.0000)"
-	
-	# Reset Drone Position and Rotation
-	var body := drone.get_child(0)  # The actual RigidBody3D
-	## NEEDS PLAYBACK TO BE ABLE TO RESET
-	if body and body is RigidBody3D:
+	if has_node("/root/SourceManager"):
+		var source_manager = get_node("/root/SourceManager")
+		if source_manager.has_method("stop"):
+			source_manager.stop()
+
+	# Ask Drone_Manager to restore the default drone after the scene reloads
+	if has_node("/root/Drone_Manager"):
+		var drone_manager = get_node("/root/Drone_Manager")
+		if drone_manager.has_method("reload_scene_and_restore_default_drone"):
+			drone_manager.reload_scene_and_restore_default_drone()
+			return
+
+	# Fallback
+	get_tree().reload_current_scene()
+
+func _reset_drone_state():
+	if drone == null:
+		print("[SettingMenu] Drone root not found!")
+		return
+
+	if drone is RigidBody3D:
 		drone.freeze = true
-		drone.global_position = Vector3.ZERO
-		drone.global_rotation = Vector3.ZERO
 		drone.linear_velocity = Vector3.ZERO
 		drone.angular_velocity = Vector3.ZERO
+		drone.global_position = Vector3.ZERO
+		drone.global_rotation = Vector3.ZERO
 		drone.freeze = false
-	else:
-		print("[SetingMenu] Drone not found!")
-	
-	print("[SettingMenu] Telemetry reset")
+		return
+
+	var body = null
+	if drone.get_child_count() > 0:
+		body = drone.get_child(0)
+
+	if body and body is RigidBody3D:
+		body.freeze = true
+		body.linear_velocity = Vector3.ZERO
+		body.angular_velocity = Vector3.ZERO
+		body.global_position = Vector3.ZERO
+		body.global_rotation = Vector3.ZERO
+		body.freeze = false
+		return
+
+	if drone is Node3D:
+		drone.global_position = Vector3.ZERO
+		drone.global_rotation = Vector3.ZERO
+		for child in drone.get_children():
+			if child is Node3D:
+				child.global_position = Vector3.ZERO
+				child.global_rotation = Vector3.ZERO
+
+	print("[SettingMenu] Drone reset fallback applied.")
 
 
-# Option Button for switching telemetry source (UDP or CSV): by Nicholas Tran
 func _on_option_button_item_selected(index):
-	#Edited by Aramis Hernandez
 	var choice = telemetry_dropdown.get_item_text(index)
 	match choice:
-		"UDP": 
+		"UDP":
 			SourceManager.set_source("UDP")
-		"Playback": 
+		"Playback":
 			SourceManager.set_source("PLAYBACK")
 
 
-
-#Kill sender if app is closed or ended.
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		_cleanup_sender()
@@ -134,7 +148,6 @@ func _cleanup_sender():
 		OS.kill(sender_pid)
 		sender_pid = -1
 
-#Config Button opens config Window
 func _on_config_button_pressed():
 	$VBoxContainer/ConfigWindow.load_settings()
 	$VBoxContainer/ConfigWindow.open_config_window()

@@ -106,11 +106,10 @@ func _on_close_requested():
 func _on_save_pressed() -> void:
 	if loaded_config.size() > 0:
 		apply_loaded_config(loaded_config)
-	# Apply drone model if changed
+
 	if pending_drone_model != "":
 		Drone_Manager.set_drone_model(pending_drone_model)
-	
-	# Saves vehicles telemetry data
+
 	var pos = Vector3(
 		$MarginContainer/VBoxContainer/Position/PosX.value,
 		$MarginContainer/VBoxContainer/Position/PosY.value,
@@ -124,29 +123,31 @@ func _on_save_pressed() -> void:
 	)
 
 	var vel = Vector3(
-	$MarginContainer/VBoxContainer/Velocity/VelX.value,
-	$MarginContainer/VBoxContainer/Velocity/VelY.value,
-	$MarginContainer/VBoxContainer/Velocity/VelZ.value
+		$MarginContainer/VBoxContainer/Velocity/VelX.value,
+		$MarginContainer/VBoxContainer/Velocity/VelY.value,
+		$MarginContainer/VBoxContainer/Velocity/VelZ.value
 	)
 
-	#Drone_Manager.set_drone_position(pos)
-	#Drone_Manager.set_drone_rotation(rot)
-	#Drone_Manager.set_drone_velocity(vel)
-
-	# Merge UI values back into loaded_config
+	# Save values into config data, but do not override active flight path motion.
 	loaded_config["position"] = [pos.x, pos.y, pos.z]
 	loaded_config["rotation"] = [rot.x, rot.y, rot.z]
 	loaded_config["velocity"] = [vel.x, vel.y, vel.z]
 	loaded_config["drone_model"] = pending_drone_model
 
-	# Now save the full generic config
+	# If a flight path is active, always reset to origin and let ingestion drive motion.
+	if _flight_path_active():
+		_reset_drone_for_flight_path()
+	else:
+		Drone_Manager.set_drone_position(pos)
+		Drone_Manager.set_drone_rotation(rot)
+		Drone_Manager.set_drone_velocity(vel)
+
 	var cfg = build_config_dictionary()
 	var file = FileAccess.open("user://last_loaded_config.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(cfg, "\t"))
 	file.close()
-	# Save all keybinds
+
 	_update_custom_config_from_ui()
-	 #Apply pending keybinds before saving
 	_apply_all_pending_keys(controls_container)
 	Drone_Manager.save_bindings()
 	hide()
@@ -377,3 +378,30 @@ func _apply_all_pending_keys(node: Node):
 		node.apply_pending_key()
 	for child in node.get_children():
 		_apply_all_pending_keys(child)
+		
+		
+# Helpers to reset drone path when it is changed prior to ingestion
+func _flight_path_active() -> bool:
+	# Adjust this check to match your real playback/ingestion mode.
+	# Examples:
+	# return TelemetryManager.telemetry_source == "CSV"
+	# return SourceManager.active_source_name == "PLAYBACK"
+
+	if Engine.has_singleton("SourceManager"):
+		return false
+
+	if has_node("/root/SourceManager"):
+		var sm = get_node("/root/SourceManager")
+		if "active_source_name" in sm:
+			return sm.active_source_name == "PLAYBACK"
+
+	return false
+
+
+func _reset_drone_for_flight_path() -> void:
+	if Drone_Manager.has_method("_reset_current_drone_transform"):
+		Drone_Manager._reset_current_drone_transform()
+	else:
+		Drone_Manager.set_drone_position(Vector3.ZERO)
+		Drone_Manager.set_drone_rotation(Vector3.ZERO)
+		Drone_Manager.set_drone_velocity(Vector3.ZERO)

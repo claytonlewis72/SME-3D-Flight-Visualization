@@ -173,29 +173,6 @@ func test_config_button_calls_config_window_methods():
 	assert_true(config_window.load_settings_called)
 	assert_true(config_window.open_config_window_called)
 
-
-func test_stop_resets_labels_and_button_when_not_running_sender():
-	setting_menu.sender_pid = -1
-	setting_menu.is_paused = true
-	run_button.text = "Stop"
-
-	drone_visual_root.global_position = Vector3(1, 2, 3)
-	drone_visual_root.global_rotation = Vector3(4, 5, 6)
-	drone_visual_root.linear_velocity = Vector3(7, 8, 9)
-	drone_visual_root.angular_velocity = Vector3(10, 11, 12)
-
-	setting_menu._on_stop_telemetry_pressed()
-
-	assert_eq(run_button.text, "Start")
-	assert_false(setting_menu.is_paused)
-	assert_eq(telemetry_panel_position.text, "(0.0000, 0.0000, 0.0000)")
-	assert_eq(telemetry_panel_rotation.text, "(0.0000, 0.0000, 0.0000)")
-	assert_eq(drone_visual_root.global_position, Vector3.ZERO)
-	assert_eq(drone_visual_root.global_rotation, Vector3.ZERO)
-	assert_eq(drone_visual_root.linear_velocity, Vector3.ZERO)
-	assert_eq(drone_visual_root.angular_velocity, Vector3.ZERO)
-
-
 func test_cleanup_sender_does_nothing_when_no_sender_running():
 	setting_menu.sender_pid = -1
 	setting_menu._cleanup_sender()
