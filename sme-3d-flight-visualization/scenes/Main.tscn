@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://cdmkng1ipgxlo" path="res://scripts/Managers/rendering_manager.gd" id="2_rvslj"]
 [ext_resource type="Script" uid="uid://cbokp18waattv" path="res://scripts/ingestion/ingestion_UDP.gd" id="2_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://bvu7ao6peekts" path="res://scenes/FlightPathRender/flightpath_renderer.tscn" id="3_0bbpv"]
-[ext_resource type="Script" uid="uid://dhn4imq618vr0" path="res://scripts/Managers/model_manager/VisualRoot.gd" id="4_wp0k4"]
 [ext_resource type="PackedScene" uid="uid://bl7kliy2lq3hd" path="res://scenes/Managers/camera_manager.tscn" id="6_c01mt"]
 [ext_resource type="PackedScene" uid="uid://dkbqqgg2h7vla" path="res://assests/textures/terrain/TexturedTerrain6.glb" id="8_qmy6f"]
 [ext_resource type="PackedScene" uid="uid://vvj8mlrbtmqf" path="res://assests/textures/terrain/Terr1/Terr1.glb" id="9_1nqs0"]
@@ -49,7 +48,6 @@ script = ExtResource("2_rvslj")
 transform = Transform3D(2.95, 0, 0, 0, 2.95, 0, 0, 0, 2.95, 0, 0, 0)
 
 [node name="VisualRoot" type="Node3D" parent="Rendering Manager/Drone/Pivot" unique_id=1802238563]
-script = ExtResource("4_wp0k4")
 
 [node name="FlightPathRenderer" parent="." unique_id=2024356220 instance=ExtResource("3_0bbpv")]
 

@@ -8,7 +8,7 @@ extends Control
 @onready var stop_button: Button = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/Stop
 @onready var position_value = get_node("../TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid/PositionValue")
 @onready var rotation_value = get_node("../TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid/RotationValue")
-@onready var drone = get_node("/root/Main/Rendering Manager/Drone/Pivot/VisualRoot")
+@onready var drone = get_node_or_null("/root/Main/Rendering Manager/Drone/Pivot/VisualRoot")
 @onready var telemetry_dropdown = $VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton
 @onready var config_window = $VBoxContainer/ConfigWindow
 @onready var config_button = $VBoxContainer/ConfigButton
@@ -151,3 +151,4 @@ func _cleanup_sender():
 func _on_config_button_pressed():
 	$VBoxContainer/ConfigWindow.load_settings()
 	$VBoxContainer/ConfigWindow.open_config_window()
+	

@@ -31,7 +31,6 @@ border_color = Color(0, 0, 0, 1)
 
 [node name="Window" type="Window" unique_id=444390243]
 oversampling_override = 1.0
-position = Vector2i(0, -100)
 size = Vector2i(400, 670)
 visible = false
 wrap_controls = true
@@ -313,7 +312,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1536980476]
 layout_mode = 2
-text = "Loaded Configurations:"
+text = "Loaded Configurations (Not Available):"
 
 [node name="CustomFieldsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1739263794]
 layout_mode = 2

@@ -48,7 +48,7 @@ func before_each():
 
 func after_each():
 	if is_instance_valid(manager):
-		manager.queue_free()
+		manager.free()
 
 
 func test_setup_default_controls_sets_expected_keys():
@@ -126,7 +126,7 @@ func test_set_drone_velocity_calls_set_velocity_when_supported():
 	manager.set_drone_velocity(Vector3(7, 8, 9))
 
 	assert_eq(drone.last_velocity, Vector3(7, 8, 9))
-
+	drone.free()
 
 func _backup_controls_cfg() -> void:
 	_controls_cfg_existed = FileAccess.file_exists(CONTROLS_PATH)

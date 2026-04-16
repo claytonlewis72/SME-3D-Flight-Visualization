@@ -19,7 +19,7 @@ var loaded_config: Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#Populates Vehicle drop down with scenes from vehicle folder
+	# Populates Vehicle drop down with scenes from vehicle folder
 	vehicle_dropdown.clear()
 	vehicle_dropdown.add_item("drone_3")
 	vehicle_dropdown.add_item("plane_2_9")
@@ -32,12 +32,12 @@ func _ready() -> void:
 	# Force layout update
 	await get_tree().process_frame
 	reset_size()
-	
+
 	var load_button = $MarginContainer/VBoxContainer/HBoxContainer/LoadConfigButton
 	load_button.pressed.connect(_on_load_config_button_pressed)
 	var dialog = $MarginContainer/VBoxContainer/ConfigFileDialog
 	dialog.file_selected.connect(_on_config_file_dialog_file_selected)
-	
+
 	vehicle_dropdown.item_selected.connect(_on_vehicle_dropdown_item_selected)
 
 func open_config_window():
@@ -63,7 +63,7 @@ func open_config_window():
 				child.enable_listening(true)
 	# Now actually open the window
 	popup_centered()
-	
+
 # Saves values prior to being saved
 func load_settings() -> void:
 	if Drone_Manager.current_drone:
@@ -90,10 +90,6 @@ func load_settings() -> void:
 		$MarginContainer/VBoxContainer/Velocity/VelZ.value = vel.z
 
 func _on_close_requested():
-	# restore original values
-	#Drone_Manager.set_drone_position(original_pos)
-	#Drone_Manager.set_drone_rotation(original_rot)
-	#Drone_Manager.set_drone_velocity(original_vel)
 	# 🔹 Clear pending keybinds so UI resets
 	for row in controls_container.get_children():
 		for child in row.get_children():
@@ -152,7 +148,6 @@ func _on_save_pressed() -> void:
 	Drone_Manager.save_bindings()
 	hide()
 
-	
 # Opens file dialog for CSV
 func _on_csv_file_dialog_file_selected(path: String) -> void:
 	csv_ingestion.replay_file_path = path
@@ -383,10 +378,6 @@ func _apply_all_pending_keys(node: Node):
 # Helpers to reset drone path when it is changed prior to ingestion
 func _flight_path_active() -> bool:
 	# Adjust this check to match your real playback/ingestion mode.
-	# Examples:
-	# return TelemetryManager.telemetry_source == "CSV"
-	# return SourceManager.active_source_name == "PLAYBACK"
-
 	if Engine.has_singleton("SourceManager"):
 		return false
 
