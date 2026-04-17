@@ -41,8 +41,19 @@ var _current_index: int = 0
 var _playback_clock: float = 0.0
 var _is_playing: bool = false
 
+#Main purpose for unit testing to allow the assignment of mock managers
+#If none is assigned falls back on the autoload singletons
+var _telemetry_manager = null
+var _source_manger = null
 
 func _ready() -> void:
+	#Fall back on autoloads if not assigned
+	if _telemetry_manager == null:
+		_telemetry_manager = TelemetryManager
+	
+	if _source_manger == null:
+		_source_manger = SourceManager
+	
 	# Self-register so SourceManager knows we exist
 	SourceManager.register_source("PLAYBACK", self)
 
@@ -82,19 +93,19 @@ func resume() -> void:
 func load_file(path: String) -> bool:
 	#var full_path := ProjectSettings.globalize_path(recording_dir)
 	if not FileAccess.file_exists(path):
-		push_error("[PlaybackSource] File not found: %s" % path)
+		push_warning("[PlaybackSource] File not found: %s" % path)
 		return false
 
 	var file := FileAccess.open(path, FileAccess.READ)
 	if file == null:
-		push_error("[PlaybackSource] Could not open: %s" % path)
+		push_warning("[PlaybackSource] Could not open: %s" % path)
 		return false
 	
 	var format := file.get_32()
 	var count := file.get_32()
 	
 	if format != FORMAT:
-		push_error("[PlaybackSource] Invaild file - invaild format")
+		push_warning("[PlaybackSource] Invaild file - invaild format")
 		file.close()
 		return false
 	
