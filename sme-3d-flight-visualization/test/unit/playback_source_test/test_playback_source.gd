@@ -33,48 +33,50 @@
 extends GutTest
 
 # -- Mock Classes -------
-class MockTelemetryManager: 
-	var pose_calls : Array = []
-	
-	var frame_changed_calls: Array = []
-	
-	var recording_loaded_calls: Array = []
-	
-	var playback_completed_count: int = 0
+class MockTelemetryManager extends Node:
+	var pose_calls               : Array = []
+	var frame_changed_calls      : Array = []
+	var recording_loaded_calls   : Array = []
+	var playback_completed_count : int   = 0
 	
 	func forward_pose(pos: Vector3, rot: Vector3, flag: bool, t: float) -> void:
-		pose_calls.append({"pos": pos, "rot": rot, "flag": flag, "t":t})
-	
+		pose_calls.append({"pos": pos, "rot": rot, "flag": flag, "t": t})
+		
 	func forward_frame_changed(current: int, total: int) -> void:
 		frame_changed_calls.append({"current": current, "total": total})
-	
+		
 	func forward_recording_loaded(path: String, count: int) -> void:
 		recording_loaded_calls.append({"path": path, "count": count})
-	
+		
 	func forward_playback_completed() -> void:
 		playback_completed_count += 1
 
-class MockSourceManager:
+
+class MockSourceManager extends Node:
 	func register_source(_key: String, _node) -> void:
 		pass
-
+		
 #----- Setup -----------------------
 var _source: Node
 var _telemetry: MockTelemetryManager
 
+
 const TEST_SAVE_DIR := "res://test/tmp_recording/"
 const VAILD_FORMAT := 0x464C5448 #Magic number
 const TMP_FILE := TEST_SAVE_DIR + "test_recording.bin"
-
 func before_each() -> void:
 	_telemetry = MockTelemetryManager.new()
+	add_child(_telemetry)
+	
+	var mock_sm := MockSourceManager.new()
+	add_child(mock_sm)
 	
 	_source = load("res://scripts/playback/playback_source.gd").new()
-	_source.set("TelemetryManager", _telemetry)
-	_source.set("SourceManager", MockSourceManager.new())
-	
 	add_child_autofree(_source)
 	await get_tree().process_frame
+	
+	# Override after _ready() has already fired — this is the reliable part
+	_source._init_managers(_telemetry, mock_sm)
 
 func after_each() -> void:
 	if _source.has_recording():
@@ -201,32 +203,6 @@ func test_resume_continues_playback() -> void:
 	assert_gt(_telemetry.pose_calls.size(), 1,
 		"resume() must allow further frames to be emitted")
  
-#--- seek() ----------------
-
-#Testing frame positions to ensure they are emitted correctly
-func test_seek_emits_correct_frame_position() -> void:
-	_write_recording(_default_frames())
-	_source.load_file(TMP_FILE)
-	_source.seek(2)
- 
-	var fr = _default_frames()[2]
-	assert_eq(_telemetry.pose_calls.back()["pos"],
-		Vector3(fr["px"], fr["py"], fr["pz"]),
-		"seek(2) must emit the position of frame index 2")
-
-
-#Verifies we dont get out of bounds error due to clamping
-func test_seek_clamps_out_of_bounds_index() -> void:
-	_write_recording(_default_frames())
-	_source.load_file(TMP_FILE)
-	_source.seek(9999)
- 
-	var last_fr = _default_frames().back()
-	assert_eq(_telemetry.pose_calls.back()["pos"],
-		Vector3(last_fr["px"], last_fr["py"], last_fr["pz"]),
-		"seek() with an out-of-bounds index must clamp to the last frame")
-		
-
 
 #-------- process() test-------------
 

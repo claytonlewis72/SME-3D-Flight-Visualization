@@ -44,15 +44,16 @@ var _is_playing: bool = false
 #Main purpose for unit testing to allow the assignment of mock managers
 #If none is assigned falls back on the autoload singletons
 var _telemetry_manager = null
-var _source_manger = null
+var _source_manager = null
 
 func _ready() -> void:
-	#Fall back on autoloads if not assigned
-	if _telemetry_manager == null:
-		_telemetry_manager = TelemetryManager
-	
-	if _source_manger == null:
-		_source_manger = SourceManager
+	_init_managers(TelemetryManager, SourceManager)
+
+# Called by _ready() normally, or directly by tests with mocks
+func _init_managers(telemetry, source_mgr) -> void:
+	_telemetry_manager = telemetry
+	_source_manager = source_mgr
+	_source_manager.register_source("PLAYBACK", self)
 	
 	# Self-register so SourceManager knows we exist
 	SourceManager.register_source("PLAYBACK", self)
@@ -126,7 +127,7 @@ func load_file(path: String) -> bool:
 	
 	print("[PlaybackSource] Loaded %d frames from %s" % [_frames.size(), path])
 	#recording_loaded.emit(path, _frames.size())
-	TelemetryManager.forward_recording_loaded(path, _frames.size())
+	_telemetry_manager.forward_recording_loaded(path, _frames.size())
 	return true
 
 ## Seeks to a specific frame index and immediately emits that frame
@@ -134,7 +135,7 @@ func seek(index: int) -> void:
 	_current_index = clamp(index, 0, _frames.size() - 1)
 	_playback_clock = _frames[_current_index]["t"] - _frames[0]["t"]
 	_emit_frame(_frames[_current_index])
-	TelemetryManager.forward_frame_changed(_current_index, _frames.size())
+	_telemetry_manager.forward_frame_changed(_current_index, _frames.size())
 
 ## Returns true if a recording has been added
 func has_recording() -> bool:
@@ -173,17 +174,17 @@ func _process(delta) -> void:
 		
 		_emit_frame(frame)
 		_current_index += 1
-		TelemetryManager.forward_frame_changed(_current_index, _frames.size())
+		_telemetry_manager.forward_frame_changed(_current_index, _frames.size())
 		
 	if _current_index >= _frames.size():
 		_is_playing = false
-		TelemetryManager.forward_playback_completed()
+		_telemetry_manager.forward_playback_completed()
 		print("[PlaybackSource] Playback complete.")
 
 
 
 func _emit_frame(frame: Dictionary) -> void:
-	TelemetryManager.forward_pose(
+	_telemetry_manager.forward_pose(
 		Vector3(frame["px"], frame["py"], frame["pz"]),
 		Vector3(frame["ry"], frame["rz"], frame["rx"]),
 		false,
