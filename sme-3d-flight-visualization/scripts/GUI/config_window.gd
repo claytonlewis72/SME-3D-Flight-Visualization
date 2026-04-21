@@ -6,30 +6,34 @@ extends Window
 @onready var controls_header = $MarginContainer/VBoxContainer/ControlsSection/ControlsHeader
 @onready var controls_container = $MarginContainer/VBoxContainer/ControlsSection/ControlsContainer
 @onready var config_dialog = $MarginContainer/VBoxContainer/ConfigFileDialog
+@onready var telemetry_header = $MarginContainer/VBoxContainer/TelemetryInfo/TelemetryInfoHeader
+@onready var telemetry_container = $MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer/FieldsContainers
 
+# Shared config path — must match CONFIG_PATH in telemetry_panel.gd
+const CONFIG_PATH := "res://samples/last_loaded_config.json"
 
 var original_pos: Vector3
 var original_rot: Vector3
 var original_vel: Vector3
 
-
 var pending_drone_model: String = ""
 var loaded_config: Dictionary = {}
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# Populates Vehicle drop down with scenes from vehicle folder
 	vehicle_dropdown.clear()
 	vehicle_dropdown.add_item("drone_3")
 	vehicle_dropdown.add_item("plane_2_9")
 	populate_vehicle_dropdown()
 
-	# Contorls container starting state
 	controls_container.visible = false
 	controls_header.text = "Controls ▸"
 	controls_header.pressed.connect(_on_controls_header_pressed)
-	# Force layout update
+
+	telemetry_container.visible = false
+	telemetry_header.text = "Telemetry Fields ▸"
+	telemetry_header.pressed.connect(_on_telemetry_header_pressed)
+
 	await get_tree().process_frame
 	reset_size()
 
@@ -40,57 +44,38 @@ func _ready() -> void:
 
 	vehicle_dropdown.item_selected.connect(_on_vehicle_dropdown_item_selected)
 
-func open_config_window():
-	# Load UI fields FIRST
+	var add_btn = $MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer/AddField
+	add_btn.pressed.connect(_add_field_row_pressed)
+
+
+func open_config_window() -> void:
 	load_settings()
 
-	# Store original values safely
 	if Drone_Manager.current_drone:
 		var d = Drone_Manager.current_drone
 		original_pos = d.global_position
 		original_rot = d.global_rotation
-
 		if d.has_method("get_velocity"):
 			original_vel = d.get_velocity()
 		elif d.get_script() and d.get_script().has_property("velocity"):
 			original_vel = d.velocity
 		else:
 			original_vel = Vector3.ZERO
-	
+
 	for row in controls_container.get_children():
 		for child in row.get_children():
 			if child.has_method("enable_listening"):
 				child.enable_listening(true)
-	# Now actually open the window
+
+	_build_telemetry_fields_ui()
 	popup_centered()
 
-# Saves values prior to being saved
+
 func load_settings() -> void:
-	if Drone_Manager.current_drone:
-		var d = Drone_Manager.current_drone
+	pass
 
-		$MarginContainer/VBoxContainer/Position/PosX.value = d.global_position.x
-		$MarginContainer/VBoxContainer/Position/PosY.value = d.global_position.y
-		$MarginContainer/VBoxContainer/Position/PosZ.value = d.global_position.z
-		
-		$MarginContainer/VBoxContainer/Rotation/RotX.value = d.global_rotation.x
-		$MarginContainer/VBoxContainer/Rotation/RotY.value = d.global_rotation.y
-		$MarginContainer/VBoxContainer/Rotation/RotZ.value = d.global_rotation.z
-		
-		var vel: Vector3
-		if d.has_method("get_velocity"):
-			vel = d.get_velocity()
-		elif d.get_script() and d.get_script().has_property("velocity"):
-			vel = d.velocity
-		else:
-			vel = Vector3.ZERO
 
-		$MarginContainer/VBoxContainer/Velocity/VelX.value = vel.x
-		$MarginContainer/VBoxContainer/Velocity/VelY.value = vel.y
-		$MarginContainer/VBoxContainer/Velocity/VelZ.value = vel.z
-
-func _on_close_requested():
-	# 🔹 Clear pending keybinds so UI resets
+func _on_close_requested() -> void:
 	for row in controls_container.get_children():
 		for child in row.get_children():
 			if child.has_method("enable_listening"):
@@ -99,84 +84,69 @@ func _on_close_requested():
 				child.clear_pending_key()
 	hide()
 
+
 func _on_save_pressed() -> void:
 	if loaded_config.size() > 0:
 		apply_loaded_config(loaded_config)
 
 	if pending_drone_model != "":
 		Drone_Manager.set_drone_model(pending_drone_model)
+		loaded_config["drone_model"] = pending_drone_model
 
-	var panel = get_node_or_null("/root/HUDRoot/TelemetryPanel")
-	
-	if panel and panel.has_method("refresh_from_config"):
-		panel.refresh_from_config()
-	
-	var pos = Vector3(
-		$MarginContainer/VBoxContainer/Position/PosX.value,
-		$MarginContainer/VBoxContainer/Position/PosY.value,
-		$MarginContainer/VBoxContainer/Position/PosZ.value
-	)
-
-	var rot = Vector3(
-		$MarginContainer/VBoxContainer/Rotation/RotX.value,
-		$MarginContainer/VBoxContainer/Rotation/RotY.value,
-		$MarginContainer/VBoxContainer/Rotation/RotZ.value
-	)
-
-	var vel = Vector3(
-		$MarginContainer/VBoxContainer/Velocity/VelX.value,
-		$MarginContainer/VBoxContainer/Velocity/VelY.value,
-		$MarginContainer/VBoxContainer/Velocity/VelZ.value
-	)
-
-	# Save values into config data, but do not override active flight path motion.
-	loaded_config["position"] = [pos.x, pos.y, pos.z]
-	loaded_config["rotation"] = [rot.x, rot.y, rot.z]
-	loaded_config["velocity"] = [vel.x, vel.y, vel.z]
-	loaded_config["drone_model"] = pending_drone_model
-
-	# If a flight path is active, always reset to origin and let ingestion drive motion.
-	if _flight_path_active():
-		_reset_drone_for_flight_path()
-	else:
-		Drone_Manager.set_drone_position(pos)
-		Drone_Manager.set_drone_rotation(rot)
-		Drone_Manager.set_drone_velocity(vel)
-
-	var cfg = build_config_dictionary()
-	var file = FileAccess.open("user://last_loaded_config.json", FileAccess.WRITE)
-	file.store_string(JSON.stringify(cfg, "\t"))
-	file.close()
+	loaded_config["telemetry_fields"] = _collect_telemetry_fields_from_ui()
 
 	_update_custom_config_from_ui()
+
+	var cfg = build_config_dictionary()
+
+	# Ensure the samples folder exists before writing
+	DirAccess.make_dir_recursive_absolute(
+		ProjectSettings.globalize_path("res://samples/"))
+
+	var file = FileAccess.open(CONFIG_PATH, FileAccess.WRITE)
+	if file == null:
+		push_error("[ConfigWindow] Could not write config to: %s" % CONFIG_PATH)
+	else:
+		file.store_string(JSON.stringify(cfg, "\t"))
+		file.close()
+
+	# Tell the telemetry panel to rebuild its rows from the new config
+	var panel = get_node_or_null("/root/Main/HUDRoot/TelemetryPanel")
+	if panel and panel.has_method("refresh_from_fields"):
+		var fields = loaded_config.get("telemetry_fields", [])
+		panel.refresh_from_fields(fields)
+	
+	print("Panel:", panel)
+	print("Has method:", panel and panel.has_method("refresh_from_fields"))
+
+	var fields = _collect_telemetry_fields_from_ui()
+	print("Fields:", fields)
+
 	_apply_all_pending_keys(controls_container)
 	Drone_Manager.save_bindings()
 	hide()
 
-# Opens file dialog for CSV
+
 func _on_csv_file_dialog_file_selected(path: String) -> void:
 	csv_ingestion.replay_file_path = path
 	csv_ingestion._load_file()
 	TelemetryManager.telemetry_source = "CSV"
 
 
-# Vehicle dropdown menu selector
 func _on_vehicle_dropdown_item_selected(index: int) -> void:
 	var choice = vehicle_dropdown.get_item_text(index)
 	if choice == "Add Vehicle...":
 		open_vehicle_file_dialog()
 		return
-
 	pending_drone_model = choice
 
-# Vehicle Dialog
-func open_vehicle_file_dialog():
+
+func open_vehicle_file_dialog() -> void:
 	$MarginContainer/VBoxContainer/VehicleFileDialog.popup_centered()
 
-#Vehicle selection from directory
-func populate_vehicle_dropdown():
-	vehicle_dropdown.clear()
 
+func populate_vehicle_dropdown() -> void:
+	vehicle_dropdown.clear()
 	var dir := DirAccess.open("res://vehicles")
 	if dir:
 		dir.list_dir_begin()
@@ -185,186 +155,127 @@ func populate_vehicle_dropdown():
 			if file.ends_with(".tscn"):
 				vehicle_dropdown.add_item(file.get_basename())
 			file = dir.get_next()
-
 	vehicle_dropdown.add_separator()
 	vehicle_dropdown.add_item("Add Vehicle...")
 
-#File dialog for vehicle selection
+
 func _on_file_dialog_file_selected(path: String) -> void:
 	var file_name = path.get_file()
 	var new_path = "res://vehicles/" + file_name
-
 	var src := FileAccess.open(path, FileAccess.READ)
 	var data := src.get_buffer(src.get_length())
 	src.close()
-
 	var dst := FileAccess.open(new_path, FileAccess.WRITE)
 	dst.store_buffer(data)
 	dst.close()
-
 	populate_vehicle_dropdown()
-	
-# Controls header expansion
-func _on_controls_header_pressed():
+
+
+func _on_controls_header_pressed() -> void:
 	controls_container.visible = !controls_container.visible
 	controls_header.text = "Controls ▾" if controls_container.visible else "Controls ▸"
-	# Force the window to recalc its size
 	await get_tree().process_frame
 	size = Vector2.ZERO
 
-# Show files selectiong for config
+
+func _on_telemetry_header_pressed() -> void:
+	telemetry_container.visible = !telemetry_container.visible
+	telemetry_header.text = "Telemetry Fields ▾" if telemetry_container.visible else "Telemetry Fields ▸"
+	await get_tree().process_frame
+	size = Vector2.ZERO
+
+
 func _on_load_config_button_pressed() -> void:
 	open_config_window()
 	config_dialog.popup_centered()
 
-# Opens file access for JSON
+
 func _on_config_file_dialog_file_selected(path: String) -> void:
 	var file = FileAccess.open(path, FileAccess.READ)
 	if not file:
 		push_error("Could not open config file")
 		return
-
 	var text = file.get_as_text()
 	var parsed = JSON.parse_string(text)
-
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("Invalid JSON config format")
 		return
-	
 	loaded_config = parsed.duplicate(true)
 	open_config_window()
 	rebuild_custom_config_ui()
 
-	
-func apply_loaded_config(cfg: Dictionary):
-	# Store full config (including custom fields)
+
+func apply_loaded_config(cfg: Dictionary) -> void:
 	loaded_config = cfg.duplicate(true)
-
-	# --- Apply known fields to drone + UI ---
-
-	if cfg.has("position"):
-		var p = cfg["position"]
-		var pos = Vector3(p[0], p[1], p[2])
-		#Drone_Manager.set_drone_position(pos)
-
-		# Update UI
-		$MarginContainer/VBoxContainer/Position/PosX.value = pos.x
-		$MarginContainer/VBoxContainer/Position/PosY.value = pos.y
-		$MarginContainer/VBoxContainer/Position/PosZ.value = pos.z
-
-	if cfg.has("rotation"):
-		var r = cfg["rotation"]
-		var rot = Vector3(r[0], r[1], r[2])
-		#Drone_Manager.set_drone_rotation(rot)
-
-		# Update UI
-		$MarginContainer/VBoxContainer/Rotation/RotX.value = rot.x
-		$MarginContainer/VBoxContainer/Rotation/RotY.value = rot.y
-		$MarginContainer/VBoxContainer/Rotation/RotZ.value = rot.z
-
-	if cfg.has("velocity"):
-		var v = cfg["velocity"]
-		var vel = Vector3(v[0], v[1], v[2])
-		#Drone_Manager.set_drone_velocity(vel)
-
-		# Update UI
-		$MarginContainer/VBoxContainer/Velocity/VelX.value = vel.x
-		$MarginContainer/VBoxContainer/Velocity/VelY.value = vel.y
-		$MarginContainer/VBoxContainer/Velocity/VelZ.value = vel.z
-
 	if cfg.has("drone_model"):
 		var model = cfg["drone_model"]
 		var idx = find_option_index_by_text(vehicle_dropdown, model)
 		if idx != -1:
 			vehicle_dropdown.select(idx)
 			pending_drone_model = model
-
 	print("Loaded config:", loaded_config)
 	rebuild_custom_config_ui()
-	
-	
-# Builds config dictionary
+
+
 func build_config_dictionary() -> Dictionary:
 	return loaded_config.duplicate(true)
-	
-# Option button for configs
+
+
 func find_option_index_by_text(button: OptionButton, text: String) -> int:
 	for i in range(button.item_count):
 		if button.get_item_text(i) == text:
 			return i
 	return -1
-	
-# Might Remove because it should be errors
-func rebuild_custom_config_ui():
-	var container: VBoxContainer = $MarginContainer/VBoxContainer/CustomConfigSection/CustomFieldsContainer
 
-	# Remove old UI
+
+func rebuild_custom_config_ui() -> void:
+	var container: VBoxContainer = $MarginContainer/VBoxContainer/CustomConfigSection/CustomFieldsContainer
 	for child in container.get_children():
 		child.queue_free()
-
-	# Add fields for every custom key
 	for key in loaded_config.keys():
-		if key in ["position", "rotation", "velocity", "drone_model"]:
-			continue  # skip known fields
-
+		if key in ["drone_model", "telemetry_fields"]:
+			continue
 		_add_custom_field(container, key, loaded_config[key])
 
-# Adds the customm configs, might remove because they should be errors
-func _add_custom_field(container: VBoxContainer, key: String, value):
-	var row := HBoxContainer.new()   # <-- row container
+
+func _add_custom_field(container: VBoxContainer, key: String, value) -> void:
+	var row := HBoxContainer.new()
 	container.add_child(row)
-	
-	# Label for the key
 	var label := Label.new()
 	label.text = key + ":"
 	row.add_child(label)
-	
 	var editor
-	
 	match typeof(value):
 		TYPE_INT, TYPE_FLOAT:
-			editor = SpinBox.new()        # <-- SpinBox
+			editor = SpinBox.new()
 			editor.value = value
 			editor.step = 0.1
-			
 		TYPE_BOOL:
-			editor = CheckBox.new()       # <-- CheckBox
+			editor = CheckBox.new()
 			editor.button_pressed = value
-			
 		TYPE_STRING:
-			editor = LineEdit.new()       # <-- LineEdit
+			editor = LineEdit.new()
 			editor.text = value
-
 		TYPE_DICTIONARY:
-			# Flatten nested dictionaries
 			for subkey in value.keys():
 				_add_custom_field(container, key + "." + subkey, value[subkey])
 			return
-			
 		_:
-			editor = Label.new()          # <-- fallback Label
+			editor = Label.new()
 			editor.text = str(value)
-
-
-	# Store the config key so we can save it later
 	editor.set_meta("config_key", key)
-
 	row.add_child(editor)
 
-# Updates current configs for each config
-func _update_custom_config_from_ui():
+
+func _update_custom_config_from_ui() -> void:
 	var container: VBoxContainer = $MarginContainer/VBoxContainer/CustomConfigSection/CustomFieldsContainer
-	
 	for row in container.get_children():
 		if row.get_child_count() < 2:
 			continue
-		
 		var editor = row.get_child(1)
 		var key = editor.get_meta("config_key")
-		
 		if key == null:
 			continue
-		
 		if editor is SpinBox:
 			loaded_config[key] = editor.value
 		elif editor is CheckBox:
@@ -372,25 +283,21 @@ func _update_custom_config_from_ui():
 		elif editor is LineEdit:
 			loaded_config[key] = editor.text
 
-#Used to apply pending keys to controls container
-func _apply_all_pending_keys(node: Node):
+
+func _apply_all_pending_keys(node: Node) -> void:
 	if node.has_method("apply_pending_key"):
 		node.apply_pending_key()
 	for child in node.get_children():
 		_apply_all_pending_keys(child)
-		
-		
-# Helpers to reset drone path when it is changed prior to ingestion
+
+
 func _flight_path_active() -> bool:
-	# Adjust this check to match your real playback/ingestion mode.
 	if Engine.has_singleton("SourceManager"):
 		return false
-
 	if has_node("/root/SourceManager"):
 		var sm = get_node("/root/SourceManager")
 		if "active_source_name" in sm:
 			return sm.active_source_name == "PLAYBACK"
-
 	return false
 
 
@@ -401,3 +308,60 @@ func _reset_drone_for_flight_path() -> void:
 		Drone_Manager.set_drone_position(Vector3.ZERO)
 		Drone_Manager.set_drone_rotation(Vector3.ZERO)
 		Drone_Manager.set_drone_velocity(Vector3.ZERO)
+
+
+# ---- Telemetry Fields Section -------------------------------------------
+
+func _build_telemetry_fields_ui() -> void:
+	var container = $MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer/FieldsContainers
+	for child in container.get_children():
+		child.queue_free()
+
+	var default_fields = [
+		{ "key": "position", "label": "Position" },
+		{ "key": "rotation", "label": "Rotation" }
+	]
+
+	var fields = loaded_config.get("telemetry_fields", default_fields)
+	for field in fields:
+		_add_telemetry_field_row(container, field.get("key", ""), field.get("label", ""))
+
+
+func _add_telemetry_field_row(container: VBoxContainer, key: String, label: String) -> void:
+	var row := HBoxContainer.new()
+	container.add_child(row)
+
+	var key_edit := LineEdit.new()
+	key_edit.placeholder_text = "key  e.g. position"
+	key_edit.text = key
+	key_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(key_edit)
+
+	var label_edit := LineEdit.new()
+	label_edit.placeholder_text = "label  e.g. Position"
+	label_edit.text = label
+	label_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(label_edit)
+
+	var remove_btn := Button.new()
+	remove_btn.text = "✕"
+	remove_btn.pressed.connect(func(): row.queue_free())
+	row.add_child(remove_btn)
+
+
+func _add_field_row_pressed() -> void:
+	var container = $MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer/FieldsContainers
+	_add_telemetry_field_row(container, "", "")
+
+
+func _collect_telemetry_fields_from_ui() -> Array:
+	var container = $MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer/FieldsContainers
+	var fields := []
+	for row in container.get_children():
+		if row.get_child_count() < 2:
+			continue
+		var key   = row.get_child(0).text.strip_edges()
+		var label = row.get_child(1).text.strip_edges()
+		if key != "":
+			fields.append({"key": key, "label": label if label != "" else key})
+	return fields
