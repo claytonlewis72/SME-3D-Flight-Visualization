@@ -1,0 +1,25 @@
+{
+	"drone_model": "drone_3",
+
+	"telemetry_fields": [
+		{ "key": "position", "label": "Position" },
+		{ "key": "rotation", "label": "Rotation" },
+		{ "key": "velocity", "label": "Velocity" }
+	],
+
+	"max_speed": 25.5,
+	"auto_stabilize": true,
+	"pilot_name": "TestUser",
+
+	"camera": {
+		"fov": 90,
+		"sensitivity": 1.2
+	},
+
+	"controls": {
+		"throttle": "W",
+		"brake": "S",
+		"yaw_left": "A",
+		"yaw_right": "D"
+	}
+}
