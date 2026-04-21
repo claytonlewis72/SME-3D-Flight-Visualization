@@ -29,11 +29,13 @@ border_width_top = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_u2yvl"]
+font_size = 9
+
 [node name="Window" type="Window" unique_id=444390243]
 oversampling_override = 1.0
 position = Vector2i(0, 36)
-size = Vector2i(400, 670)
-visible = false
+size = Vector2i(637, 670)
 wrap_controls = true
 script = ExtResource("1_j00jc")
 
@@ -231,7 +233,8 @@ layout_mode = 2
 
 [node name="HelpLabel" type="Label" parent="MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer" unique_id=1791398799]
 layout_mode = 2
-text = "Instructions:"
+text = "Instructions: Place key in first box, name in second box. Click save to load changes."
+label_settings = SubResource("LabelSettings_u2yvl")
 
 [node name="AddField" type="Button" parent="MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer" unique_id=1653803808]
 layout_mode = 2
