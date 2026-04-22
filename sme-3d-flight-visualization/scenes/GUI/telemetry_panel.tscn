@@ -1,6 +1,7 @@
-[gd_scene format=3 uid="uid://bhmihevmfapl7"]
+[gd_scene load_steps=3 format=3 uid="uid://bhmihevmfapl7"]
 
 [ext_resource type="Script" uid="uid://iax3dq5whwf0" path="res://scripts/GUI/telemetry_panel.gd" id="1_231p7"]
+[ext_resource type="Texture2D" path="res://assests/icons/plane.svg" id="2_icon_plane"]
 
 [node name="TelemetryPanel" type="PanelContainer" unique_id=1789464611]
 anchors_preset = 1
@@ -16,16 +17,34 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2006118119]
 layout_mode = 2
+theme_override_constants/separation = 6
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=164058365]
+[node name="TitleRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Telemetry Info"
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/TitleRow"]
+texture_filter = 1
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_icon_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleRow" unique_id=164058365]
+layout_mode = 2
+text = "TELEMETRY"
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 12
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1396927265]
 layout_mode = 2
 
 [node name="TelemetryGrid" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1103528058]
 layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 4
 columns = 2
 
 [node name="Position" type="Label" parent="MarginContainer/VBoxContainer/TelemetryGrid" unique_id=188169741]

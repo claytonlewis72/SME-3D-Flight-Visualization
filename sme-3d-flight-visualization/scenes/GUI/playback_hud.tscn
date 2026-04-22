@@ -1,6 +1,10 @@
-[gd_scene format=3 uid="uid://df2dude5hhmkw"]
+[gd_scene load_steps=6 format=3 uid="uid://df2dude5hhmkw"]
 
 [ext_resource type="Script" uid="uid://jm0duxtc5p50" path="res://scripts/GUI/playback_hud.gd" id="1_xat47"]
+[ext_resource type="Texture2D" path="res://assests/icons/folder.svg" id="2_icon_folder"]
+[ext_resource type="Texture2D" path="res://assests/icons/play.svg" id="3_icon_play"]
+[ext_resource type="Texture2D" path="res://assests/icons/pause.svg" id="4_icon_pause"]
+[ext_resource type="Texture2D" path="res://assests/icons/stop.svg" id="5_icon_stop"]
 
 [node name="PlaybackHUD" type="Control" unique_id=112135338]
 layout_mode = 3
@@ -32,13 +36,17 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=146385908]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="FrameBarRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=424418634]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="FrameLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FrameBarRow" unique_id=1091432070]
 layout_mode = 2
-text = "Frame:"
+text = "FRAME"
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 11
 
 [node name="Framebar" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/FrameBarRow" unique_id=1072333488]
 layout_mode = 2
@@ -47,23 +55,34 @@ size_flags_horizontal = 3
 [node name="FrameCount" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/FrameBarRow" unique_id=1196028707]
 layout_mode = 2
 text = "0 / 0"
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 13
 
 [node name="ButtonRow" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=784246239]
 layout_mode = 2
 alignment = 1
+theme_override_constants/separation = 8
 
 [node name="LoadButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=630566121]
 layout_mode = 2
 text = "Load"
+icon = ExtResource("2_icon_folder")
+icon_alignment = 0
 
 [node name="StartButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=1784465978]
 layout_mode = 2
 text = "Start"
+icon = ExtResource("3_icon_play")
+icon_alignment = 0
 
 [node name="PauseButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=250238975]
 layout_mode = 2
 text = "Pause"
+icon = ExtResource("4_icon_pause")
+icon_alignment = 0
 
 [node name="StopButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/ButtonRow" unique_id=906427302]
 layout_mode = 2
 text = "Stop"
+icon = ExtResource("5_icon_stop")
+icon_alignment = 0

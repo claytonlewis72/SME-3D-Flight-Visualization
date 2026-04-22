@@ -1,6 +1,10 @@
-[gd_scene format=3 uid="uid://pstf4v4glla"]
+[gd_scene load_steps=6 format=3 uid="uid://pstf4v4glla"]
 
 [ext_resource type="Script" uid="uid://3etku0la2mys" path="res://scripts/GUI/setting_menu.gd" id="1_o0g1o"]
+[ext_resource type="Texture2D" path="res://assests/icons/power.svg" id="2_icon_power"]
+[ext_resource type="Texture2D" path="res://assests/icons/reset.svg" id="3_icon_reset"]
+[ext_resource type="Texture2D" path="res://assests/icons/settings.svg" id="4_icon_settings"]
+[ext_resource type="Texture2D" path="res://assests/icons/radio.svg" id="5_icon_radio"]
 
 [node name="SettingMenu" type="Control" unique_id=1172358337]
 layout_mode = 3
@@ -14,33 +18,64 @@ script = ExtResource("1_o0g1o")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1578027935]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 260.0
+offset_bottom = 200.0
+theme_override_constants/separation = 8
+
+[node name="SourceTitle" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="VBoxContainer/SourceTitle"]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("5_icon_radio")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="VBoxContainer/SourceTitle"]
+layout_mode = 2
+text = "TELEMETRY SOURCE"
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 11
 
 [node name="TelemetrySource" type="HBoxContainer" parent="VBoxContainer" unique_id=1923937544]
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/TelemetrySource" unique_id=1684211833]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TelemetrySource/PanelContainer" unique_id=100640620]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=1731921074]
 layout_mode = 2
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1278921433]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Start" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=1209175953]
 layout_mode = 2
 text = "Start"
+icon = ExtResource("2_icon_power")
+icon_alignment = 0
 
 [node name="Stop" type="Button" parent="VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer" unique_id=397611638]
 layout_mode = 2
 text = "Reset"
+icon = ExtResource("3_icon_reset")
+icon_alignment = 0
 
 [node name="ConfigButton" type="Button" parent="VBoxContainer" unique_id=1920779565]
 layout_mode = 2
 text = "Configuration Settings"
+icon = ExtResource("4_icon_settings")
+icon_alignment = 0

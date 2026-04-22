@@ -5,17 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dougxdbi20juj" path="res://scenes/GUI/config_window.tscn" id="3_0ask3"]
 [ext_resource type="PackedScene" uid="uid://bbo6bqhbnl3xp" path="res://scenes/GUI/recording_panel.tscn" id="4_dmhqu"]
 [ext_resource type="PackedScene" uid="uid://df2dude5hhmkw" path="res://scenes/GUI/playback_hud.tscn" id="4_ohoes"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngpyv"]
-bg_color = Color(0.101960786, 0.101960786, 0.06666667, 1)
-border_width_left = 1
-border_width_top = 2
-border_width_right = 1
-border_width_bottom = 1
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_0ask3"]
-color = Color(1.2498733, 1.2498733, 1.2498733, 1)
-grow_begin = 0.0
+[ext_resource type="Theme" path="res://assests/theme/cockpit_theme.tres" id="6_theme"]
 
 [node name="HUDRoot" type="CanvasLayer" unique_id=1284152950]
 
@@ -23,11 +13,8 @@ grow_begin = 0.0
 custom_minimum_size = Vector2(330, 0)
 offset_left = -312.0
 offset_bottom = 85.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_ngpyv")
+theme = ExtResource("6_theme")
 metadata/_edit_use_anchors_ = true
-
-[node name="HSeparator" parent="TelemetryPanel/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(1789464611, 2006118119) index="1" unique_id=1396927265]
-theme_override_styles/separator = SubResource("StyleBoxLine_0ask3")
 
 [node name="PositionValue" parent="TelemetryPanel/MarginContainer/VBoxContainer/TelemetryGrid" parent_id_path=PackedInt32Array(1789464611, 1103528058) index="1" unique_id=129167677]
 text = "(0.0000, 0.0000, 0.0000)"
@@ -39,6 +26,7 @@ text = "Rotation:"
 text = "(0.0000, 0.0000, 0.0000)"
 
 [node name="SettingMenu" parent="." unique_id=1172358337 instance=ExtResource("2_ngpyv")]
+theme = ExtResource("6_theme")
 
 [node name="OptionButton" parent="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1731921074) index="0" unique_id=1278921433]
 item_count = 1
@@ -47,10 +35,13 @@ popup/item_0/id = 0
 
 [node name="ConfigWindow" parent="SettingMenu/VBoxContainer" parent_id_path=PackedInt32Array(1172358337, 1578027935) index="2" unique_id=444390243 instance=ExtResource("3_0ask3")]
 exclusive = true
+theme = ExtResource("6_theme")
 
 [node name="PlaybackHUD" parent="." unique_id=112135338 instance=ExtResource("4_ohoes")]
+theme = ExtResource("6_theme")
 
 [node name="RecordingPanel" parent="." unique_id=1558854736 instance=ExtResource("4_dmhqu")]
+theme = ExtResource("6_theme")
 
 [connection signal="item_selected" from="SettingMenu/VBoxContainer/TelemetrySource/PanelContainer/VBoxContainer/HBoxContainer/OptionButton" to="SettingMenu" method="_on_option_button_item_selected"]
 

@@ -23,6 +23,9 @@
 #|------------------------------------------------------------------------------------
 extends Control
 
+const ICON_PLAY: Texture2D = preload("res://assests/icons/play.svg")
+const ICON_PAUSE: Texture2D = preload("res://assests/icons/pause.svg")
+
 @onready var scrub_bar: HSlider = $PanelContainer/MarginContainer/VBoxContainer/FrameBarRow/Framebar
 @onready var frame_count_label: Label = $PanelContainer/MarginContainer/VBoxContainer/FrameBarRow/FrameCount
 @onready var load_button: Button = $PanelContainer/MarginContainer/VBoxContainer/ButtonRow/LoadButton
@@ -166,3 +169,4 @@ func _set_controls_active(active: bool) -> void:
 
 func _update_button_states() -> void:
 	pause_button.text = "Resume" if not _is_playing else "Pause"
+	pause_button.icon = ICON_PLAY if not _is_playing else ICON_PAUSE

@@ -1,5 +1,8 @@
 extends Control
 
+const ICON_RECORD: Texture2D = preload("res://assests/icons/record.svg")
+const ICON_RECORD_STOP: Texture2D = preload("res://assests/icons/record-stop.svg")
+
 @onready var file_name_input: LineEdit = $PanelContainer/MarginContainer/VBoxContainer/FileNameRow/FileNameInput
 @onready var record_button: Button = $PanelContainer/MarginContainer/VBoxContainer/ButtonRow/RecordButton
 @onready var panel_container: PanelContainer = $PanelContainer
@@ -29,6 +32,7 @@ func _ready() -> void:
 	file_name_input.editable = true
 	
 	record_button.text = "Start Recording"
+	record_button.icon = ICON_RECORD
 	record_button.disabled = false
 	record_button.pressed.connect(_on_record_pressed)
 	
@@ -71,14 +75,18 @@ func _on_record_pressed() -> void:
 func _on_recording_started(file_path: String) -> void:
 	_is_recording = true
 	record_button.text = "Stop Recording"
-	record_button.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
+	record_button.icon = ICON_RECORD_STOP
+	record_button.add_theme_color_override("font_color", Color(1, 0.267, 0.267))
+	record_button.add_theme_color_override("font_hover_color", Color(1, 0.4, 0.4))
 	file_name_input.editable = false
 	print("[RecordingPanel] Recording started -> %s" % file_path)
 
 func _on_recording_stopped(file_path: String, frame_count: int) -> void:
 	_is_recording = false
 	record_button.text = "Start Recording"
+	record_button.icon = ICON_RECORD
 	record_button.remove_theme_color_override("font_color")
+	record_button.remove_theme_color_override("font_hover_color")
 	file_name_input.editable = true
 	file_name_input.text = ""
 	print("[RecordingPanel] Recording stopped. %d frames saved -> %s" % [frame_count, file_path])

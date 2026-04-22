@@ -2,38 +2,22 @@
 
 [ext_resource type="Script" uid="uid://3tc7o246ix8f" path="res://scripts/GUI/config_window.gd" id="1_j00jc"]
 [ext_resource type="Script" uid="uid://oovoyrl13l7x" path="res://scripts/GUI/keybind_button.gd" id="2_u2yvl"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2yvl"]
-draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hdqbk"]
-draw_center = false
-border_width_top = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twgnf"]
-draw_center = false
-border_width_top = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhch6"]
-draw_center = false
-border_width_top = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
+[ext_resource type="Texture2D" uid="uid://cqxan787kjiem" path="res://assests/icons/sliders.svg" id="3_icon_sliders"]
+[ext_resource type="Texture2D" uid="uid://cxer8lkn35ywp" path="res://assests/icons/plane.svg" id="4_icon_plane"]
+[ext_resource type="Texture2D" uid="uid://r62lj62ld418" path="res://assests/icons/keyboard.svg" id="5_icon_keyboard"]
+[ext_resource type="Texture2D" uid="uid://dgqesps1ggalw" path="res://assests/icons/gauge.svg" id="6_icon_gauge"]
+[ext_resource type="Texture2D" uid="uid://b3y6xpba4d71h" path="res://assests/icons/upload.svg" id="7_icon_upload"]
+[ext_resource type="Texture2D" uid="uid://btvldffur3xv5" path="res://assests/icons/plus.svg" id="8_icon_plus"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u2yvl"]
 font_size = 9
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d5aeo"]
+load_path = "res://.godot/imported/save.svg-898ad0ef2eea16dad416a5360829e26f.ctex"
+
 [node name="Window" type="Window" unique_id=444390243]
 oversampling_override = 1.0
+title = "Configuration Settings"
 position = Vector2i(0, 36)
 size = Vector2i(637, 670)
 visible = false
@@ -44,20 +28,63 @@ script = ExtResource("1_j00jc")
 custom_minimum_size = Vector2(400, 100)
 offset_right = 400.0
 offset_bottom = 469.0
-
-[node name="Panel" type="Panel" parent="MarginContainer" unique_id=1779434227]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_u2yvl")
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1406091096]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="Configuration Settings" type="Label" parent="MarginContainer/VBoxContainer" unique_id=2062101236]
+[node name="HeaderRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1286739907]
 layout_mode = 2
-text = "Configuration Settings"
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/HeaderRow" unique_id=849655085]
+texture_filter = 1
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_icon_sliders")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Configuration Settings" type="Label" parent="MarginContainer/VBoxContainer/HeaderRow" unique_id=2062101236]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "CONFIGURATION"
+
+[node name="Separator1" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1468371743]
+layout_mode = 2
+
+[node name="DroneModelSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=505742426]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SectionHeader" type="HBoxContainer" parent="MarginContainer/VBoxContainer/DroneModelSection" unique_id=2031444328]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/DroneModelSection/SectionHeader" unique_id=1486492869]
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_icon_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/DroneModelSection/SectionHeader" unique_id=181988288]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 11
+text = "VEHICLE"
 
 [node name="DroneModel" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=298752698]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="Drone Model" type="Label" parent="MarginContainer/VBoxContainer/DroneModel" unique_id=1756712990]
 layout_mode = 2
@@ -65,26 +92,27 @@ text = "Drone Model"
 
 [node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/DroneModel" unique_id=786522427]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="ControlsSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=568072572]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="ControlsHeader" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection" unique_id=400190881]
 layout_mode = 2
+icon = ExtResource("5_icon_keyboard")
+alignment = 0
 
 [node name="ControlsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection" unique_id=1557630451]
 layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="BasicControlsLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1669526415]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 11
 text = "Basic Controls"
-
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControlsLabel" unique_id=1375485080]
-layout_mode = 0
-offset_right = 397.0
-offset_bottom = 24.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_hdqbk")
 
 [node name="BasicControls" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1799426074]
 layout_mode = 2
@@ -94,22 +122,20 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/ChangeCameraKey" unique_id=981284125]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Change Camera:"
 
 [node name="switch_camera" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/BasicControls/ChangeCameraKey" unique_id=1412941817]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "C"
 script = ExtResource("2_u2yvl")
 
 [node name="PlabackControlsLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1101068724]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 11
 text = "Playback Controls"
-
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlabackControlsLabel" unique_id=1690979165]
-layout_mode = 0
-offset_right = 397.0
-offset_bottom = 25.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_twgnf")
 
 [node name="PlaybackControls" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=2060642260]
 layout_mode = 2
@@ -119,9 +145,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/StartKey" unique_id=1240992073]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Start:"
 
 [node name="start_playback" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/StartKey" unique_id=1459489297]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 script = ExtResource("2_u2yvl")
 
@@ -130,9 +158,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/PauseKey" unique_id=1642543873]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Pause:"
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/PauseKey" unique_id=538077813]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 script = ExtResource("2_u2yvl")
 
@@ -141,9 +171,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResumeKey" unique_id=1739890245]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Resume:"
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResumeKey" unique_id=1865867468]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 script = ExtResource("2_u2yvl")
 
@@ -152,21 +184,19 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResetKey" unique_id=943163523]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Reset:"
 
 [node name="Button" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/PlaybackControls/ResetKey" unique_id=1301605560]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 script = ExtResource("2_u2yvl")
 
 [node name="FreeCameraControlsLabel" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1034398866]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.69, 0, 1)
+theme_override_font_sizes/font_size = 11
 text = "Free Camera Controls"
-
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControlsLabel" unique_id=942387328]
-layout_mode = 0
-offset_right = 398.0
-offset_bottom = 23.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bhch6")
 
 [node name="FreeCameraControls" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer" unique_id=1626074757]
 layout_mode = 2
@@ -176,9 +206,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Forward" unique_id=1089995374]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Move Forward"
 
 [node name="move_forward" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Forward" unique_id=111975498]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "W"
 script = ExtResource("2_u2yvl")
@@ -188,9 +220,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Back" unique_id=1312556767]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Move Back"
 
 [node name="move_back" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Back" unique_id=1018917753]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "S"
 script = ExtResource("2_u2yvl")
@@ -200,9 +234,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Left" unique_id=1603006196]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Move Left"
 
 [node name="move_left" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Left" unique_id=1288559327]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "A"
 script = ExtResource("2_u2yvl")
@@ -212,34 +248,43 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Right" unique_id=1279808662]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Move Right"
 
 [node name="move_right" type="Button" parent="MarginContainer/VBoxContainer/ControlsSection/ControlsContainer/FreeCameraControls/Right" unique_id=216148703]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 text = "D"
 script = ExtResource("2_u2yvl")
 
 [node name="TelemetryInfo" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=310228655]
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="TelemetryInfoHeader" type="Button" parent="MarginContainer/VBoxContainer/TelemetryInfo" unique_id=889822773]
 layout_mode = 2
 text = "Telemetry Display Configuration"
+icon = ExtResource("6_icon_gauge")
+alignment = 0
 
 [node name="TelemetryContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TelemetryInfo" unique_id=1757839267]
 layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="FieldsContainers" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer" unique_id=1246921813]
 layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="HelpLabel" type="Label" parent="MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer" unique_id=1791398799]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.545, 0.592, 0.639, 1)
 text = "Instructions: Place key in first box, name in second box. Click save to load changes."
 label_settings = SubResource("LabelSettings_u2yvl")
 
 [node name="AddField" type="Button" parent="MarginContainer/VBoxContainer/TelemetryInfo/TelemetryContainer" unique_id=1653803808]
 layout_mode = 2
 text = "Add Field"
+icon = ExtResource("8_icon_plus")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=443021905]
 layout_mode = 2
@@ -248,12 +293,16 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Load Configuration"
+icon = ExtResource("7_icon_upload")
 
 [node name="CustomConfigSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=976440806]
 layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1536980476]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.545, 0.592, 0.639, 1)
+theme_override_font_sizes/font_size = 11
 text = "Loaded Configurations (Not Available):"
 
 [node name="CustomFieldsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/CustomConfigSection" unique_id=1739263794]
@@ -261,7 +310,9 @@ layout_mode = 2
 
 [node name="Save" type="Button" parent="MarginContainer/VBoxContainer" unique_id=525284104]
 layout_mode = 2
-text = "Save"
+text = "                  Save"
+icon = SubResource("CompressedTexture2D_d5aeo")
+icon_alignment = 1
 
 [node name="CSVFileDialog" type="FileDialog" parent="MarginContainer/VBoxContainer" unique_id=225346950]
 oversampling_override = 1.0
