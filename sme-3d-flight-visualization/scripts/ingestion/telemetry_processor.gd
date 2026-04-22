@@ -1,3 +1,18 @@
+# -----------------------------------------------------------------------------
+# File: telemetry_processor.gd
+# Description:
+#   Validates telemetry data and performs necessary transformations such as
+#   coordinate conversion and rotation mapping before passing data to the
+#   rendering pipeline.
+#
+# Responsibilities:
+#   - Validate telemetry samples
+#   - Perform coordinate transformations
+#   - Standardize rotation data
+#
+# Author: Carson Wood
+# Last Updated: April 2026
+# -----------------------------------------------------------------------------
 extends RefCounted
 class_name TelemetryProcessor
 

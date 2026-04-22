@@ -1,3 +1,17 @@
+# -----------------------------------------------------------------------------
+# File: telemetry_parser.gd
+# Description:
+#   Extracts and organizes raw telemetry input into a standardized format
+#   that can be used by downstream processing components.
+#
+# Responsibilities:
+#   - Parse telemetry input fields
+#   - Ensure consistent data formatting
+#   - Prepare data for validation and processing
+#
+# Author: Carson Wood
+# Last Updated: April 2026
+# -----------------------------------------------------------------------------
 extends RefCounted
 class_name TelemetryParser
 

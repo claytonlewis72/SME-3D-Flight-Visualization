@@ -1,3 +1,16 @@
+# -----------------------------------------------------------------------------
+# File: receiver_source.gd
+# Description:
+#   Parses raw UDP telemetry messages into structured data and filters out
+#   invalid or malformed input before further processing.
+#
+# Responsibilities:
+#   - Parse incoming telemetry strings
+#   - Validate basic packet structure
+#   - Return structured telemetry data
+#
+# Author: Carson Wood
+# -----------------------------------------------------------------------------
 extends TelemetrySource
 
 @export var UDP_PORT: int = 5005

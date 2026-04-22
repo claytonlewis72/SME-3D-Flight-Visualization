@@ -1,6 +1,17 @@
-#Just apart of data ingestion that got broken into pieces to ensure modularity
-#This just handles all of the math in data ingestion pipeline.
-
+# -----------------------------------------------------------------------------
+# File: pose_processor.gd
+# Description:
+#   Processes validated telemetry data and converts it into a standardized
+#   pose format used by the rendering system. Handles coordinate conversion
+#   and rotation mapping.
+#
+# Responsibilities:
+#   - Validates telemetry samples
+#   - Converts geographic coordinates to local space
+#   - Maps rotation values to engine-compatible format
+#
+# Author: Carson Wood
+# -----------------------------------------------------------------------------
 extends Node
 
 var _origin_set = false

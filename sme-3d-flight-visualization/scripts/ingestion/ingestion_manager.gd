@@ -1,8 +1,18 @@
+# -----------------------------------------------------------------------------
+# File: ingestion_manager.gd
+# Description:
+#   Manages the telemetry ingestion pipeline and provides a centralized
+#   interface for accessing processed pose data used throughout the system.
+#
+# Responsibilities:
+#   - Coordinates ingestion components
+#   - Provides structured pose output
+#   - Interfaces with TelemetryManager
+#
+# Author: Carson Wood
+# -----------------------------------------------------------------------------
 extends Node
-# Carson Wood
 
-
-# Change done by: Aramis Hernandez
 # Signal used to decouple rendering from direct polling.
 signal pose_received(position: Vector3, rotation: Vector3, is_gap: bool, time: float)
 

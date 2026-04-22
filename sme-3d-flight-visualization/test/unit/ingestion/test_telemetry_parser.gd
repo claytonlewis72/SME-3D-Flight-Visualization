@@ -1,3 +1,17 @@
+# -----------------------------------------------------------------------------
+# File: test_telemetry_parser.gd
+# Description:
+#   Unit tests for the telemetry_parser component. Verifies that raw telemetry
+#   input is correctly parsed into structured data and that malformed input is
+#   handled safely.
+#
+# Responsibilities:
+#   - Test parsing of valid telemetry input
+#   - Ensure malformed or incomplete data is rejected
+#   - Validate output structure consistency
+#
+# Author: Carson Wood
+# -----------------------------------------------------------------------------
 extends GutTest
 
 var parser: TelemetryParser
