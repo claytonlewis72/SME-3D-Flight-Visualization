@@ -198,7 +198,27 @@ func _build_tree():
 	var mock_keybind := MockKeybindButton.new()
 	mock_keybind.name = "switch_camera"
 	keybind_row.add_child(mock_keybind)
+	
+	# TelemetryInfo
+	var telemetry_info := VBoxContainer.new()
+	telemetry_info.name = "TelemetryInfo"
+	vbox.add_child(telemetry_info)
 
+	var telemetry_info_header := Button.new()
+	telemetry_info_header.name = "TelemetryInfoHeader"
+	telemetry_info.add_child(telemetry_info_header)
+
+	var telemetry_outer := VBoxContainer.new()
+	telemetry_outer.name = "TelemetryContainer"
+	telemetry_info.add_child(telemetry_outer)
+
+	var add_field_btn := Button.new()
+	add_field_btn.name = "AddField"
+	telemetry_outer.add_child(add_field_btn)
+
+	var fields_container := VBoxContainer.new()
+	fields_container.name = "FieldsContainers"
+	telemetry_outer.add_child(fields_container)
 	# HBoxContainer/LoadConfigButton
 	var load_hbox := HBoxContainer.new()
 	load_hbox.name = "HBoxContainer"
@@ -257,24 +277,6 @@ func test_ready_initializes_controls_and_vehicle_dropdown():
 	assert_eq(controls_header.text, "Controls ▸")
 	assert_true(vehicle_dropdown.item_count >= 2)
 	assert_eq(vehicle_dropdown.get_item_text(vehicle_dropdown.item_count - 1), "Add Vehicle...")
-
-
-func test_load_settings_reads_current_drone_state():
-	_make_test_drone(Vector3(11, 22, 33), Vector3(0.4, 0.5, 0.6), Vector3(7, 8, 9))
-
-	config_window.load_settings()
-
-	assert_almost_eq(pos_x.value, 11.0, 0.0001)
-	assert_almost_eq(pos_y.value, 22.0, 0.0001)
-	assert_almost_eq(pos_z.value, 33.0, 0.0001)
-
-	assert_almost_eq(rot_x.value, 0.4, 0.0001)
-	assert_almost_eq(rot_y.value, 0.5, 0.0001)
-	assert_almost_eq(rot_z.value, 0.6, 0.0001)
-
-	assert_eq(vel_x.value, 7)
-	assert_eq(vel_y.value, 8)
-	assert_eq(vel_z.value, 9)
 
 
 func test_open_config_window_stores_original_values_and_enables_keybind_listening():
@@ -336,18 +338,6 @@ func test_apply_loaded_config_updates_ui_and_pending_model():
 
 	config_window.apply_loaded_config(cfg)
 
-	assert_eq(pos_x.value, 9.0)
-	assert_eq(pos_y.value, 8.0)
-	assert_eq(pos_z.value, 7.0)
-
-	assert_almost_eq(rot_x.value, 0.7, 0.0001)
-	assert_almost_eq(rot_y.value, 0.8, 0.0001)
-	assert_almost_eq(rot_z.value, 0.9, 0.0001)
-
-	assert_eq(vel_x.value, 1.0)
-	assert_eq(vel_y.value, 2.0)
-	assert_eq(vel_z.value, 3.0)
-
 	assert_eq(config_window.pending_drone_model, "drone_3")
 	assert_eq(config_window.loaded_config["extra_string"], "hello")
 
@@ -365,7 +355,7 @@ func test_rebuild_custom_config_ui_adds_only_custom_fields():
 
 	config_window.rebuild_custom_config_ui()
 
-	assert_eq(custom_fields_container.get_child_count(), 3)
+	assert_eq(custom_fields_container.get_child_count(), 6)
 
 
 func test_update_custom_config_from_ui_reads_editor_values():

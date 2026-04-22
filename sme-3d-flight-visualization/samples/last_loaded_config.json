@@ -7,10 +7,6 @@
 		{
 			"key": "rotation",
 			"label": "Rotation"
-		},
-		{
-			"key": "time",
-			"label": "Time"
 		}
 	]
 }

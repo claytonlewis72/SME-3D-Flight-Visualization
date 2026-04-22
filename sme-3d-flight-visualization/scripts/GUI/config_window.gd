@@ -86,9 +86,6 @@ func _on_close_requested() -> void:
 
 
 func _on_save_pressed() -> void:
-	if loaded_config.size() > 0:
-		apply_loaded_config(loaded_config)
-
 	if pending_drone_model != "":
 		Drone_Manager.set_drone_model(pending_drone_model)
 		loaded_config["drone_model"] = pending_drone_model
@@ -125,13 +122,6 @@ func _on_save_pressed() -> void:
 	_apply_all_pending_keys(controls_container)
 	Drone_Manager.save_bindings()
 	hide()
-
-
-func _on_csv_file_dialog_file_selected(path: String) -> void:
-	csv_ingestion.replay_file_path = path
-	csv_ingestion._load_file()
-	TelemetryManager.telemetry_source = "CSV"
-
 
 func _on_vehicle_dropdown_item_selected(index: int) -> void:
 	var choice = vehicle_dropdown.get_item_text(index)
@@ -200,9 +190,8 @@ func _on_config_file_dialog_file_selected(path: String) -> void:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("Invalid JSON config format")
 		return
-	loaded_config = parsed.duplicate(true)
 	open_config_window()
-	rebuild_custom_config_ui()
+	apply_loaded_config(parsed)
 
 
 func apply_loaded_config(cfg: Dictionary) -> void:
@@ -213,6 +202,7 @@ func apply_loaded_config(cfg: Dictionary) -> void:
 		if idx != -1:
 			vehicle_dropdown.select(idx)
 			pending_drone_model = model
+			Drone_Manager.set_drone_model(model)
 	print("Loaded config:", loaded_config)
 	rebuild_custom_config_ui()
 
