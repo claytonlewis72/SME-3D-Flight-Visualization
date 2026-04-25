@@ -86,6 +86,10 @@ func resume() -> void:
 	if _frames.is_empty():
 		return
 	
+	if _current_index >= _frames.size():
+		push_warning("[PlaybackSource] Cannot resume, playback is complete")
+		return
+	
 	# Re-anchor clock to current frame so resume is seamless
 	_playback_clock = _frames[_current_index]["t"] - _frames[0]["t"]
 	_is_playing = true
