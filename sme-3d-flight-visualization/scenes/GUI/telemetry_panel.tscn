@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bhmihevmfapl7"]
+[gd_scene format=3 uid="uid://bhmihevmfapl7"]
 
 [ext_resource type="Script" uid="uid://iax3dq5whwf0" path="res://scripts/GUI/telemetry_panel.gd" id="1_231p7"]
-[ext_resource type="Texture2D" path="res://assests/icons/plane.svg" id="2_icon_plane"]
+[ext_resource type="Texture2D" uid="uid://cxer8lkn35ywp" path="res://assests/icons/plane.svg" id="2_icon_plane"]
 
 [node name="TelemetryPanel" type="PanelContainer" unique_id=1789464611]
 anchors_preset = 1
@@ -19,11 +19,11 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="TitleRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="TitleRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=620302971]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/TitleRow"]
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/TitleRow" unique_id=1564395419]
 texture_filter = 1
 custom_minimum_size = Vector2(18, 18)
 layout_mode = 2
@@ -34,9 +34,9 @@ stretch_mode = 5
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleRow" unique_id=164058365]
 layout_mode = 2
-text = "TELEMETRY"
 theme_override_colors/font_color = Color(1, 0.69, 0, 1)
 theme_override_font_sizes/font_size = 12
+text = "TELEMETRY"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer" unique_id=1396927265]
 layout_mode = 2
