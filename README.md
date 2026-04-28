@@ -20,7 +20,18 @@ The system ingests live telemetry data, renders a vechile and its motion in the 
 * Configurable Telemetry Info
 * Performance optimization for embedded deployment (NVIDIA orin Jetson nano)
  
+## System Architecture
 
+## Usage
+
+
+## Documentation & Deliverables
+
+## Testing
+
+## Contributors
+
+# Handoff Notes
 
 
 
