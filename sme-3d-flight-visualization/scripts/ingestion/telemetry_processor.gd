@@ -1,20 +1,32 @@
-# -----------------------------------------------------------------------------
-# File: telemetry_processor.gd
-# Description:
-#   Validates telemetry data and performs necessary transformations such as
-#   coordinate conversion and rotation mapping before passing data to the
-#   rendering pipeline.
-#
-# Responsibilities:
-#   - Validate telemetry samples
-#   - Perform coordinate transformations
-#   - Standardize rotation data
-#
-# Author: Carson Wood
-# Last Updated: April 2026
-# -----------------------------------------------------------------------------
+#|------------------------------------------------------------------------------------
+#|   Unclassified
+#|------------------------------------------------------------------------------------
+#|
+#|   SME Solutions, Inc.
+#|   Copyright 2026 SME Solutions, Inc. All Rights Reserved
+#|   SME Solutions Proprietary Information
+#|
+#|------------------------------------------------------------------------------------
+#|
+#|   File Name   : telemetry_processor.gd
+#|
+#|   Target      : Godot GDScript
+#|
+#|   Description :
+#|       Validates raw telemetry samples and transforms them into pose
+#|       dictionaries suitable for the rendering pipeline. Handles coordinate
+#|       conversion from geographic (lat/lon/alt) to local Cartesian space,
+#|       unit normalization for altitude and rotation, and Godot axis remapping.
+#|
+#|   Author      : Carson Wood
+#|   Last Updated: April 2026
+#|
+#|------------------------------------------------------------------------------------
+
 extends RefCounted
 class_name TelemetryProcessor
+
+
 
 func validate_sample(sample: Dictionary) -> bool:
 	for key in ["timestamp", "lat", "lon", "alt", "roll", "pitch", "yaw"]:
