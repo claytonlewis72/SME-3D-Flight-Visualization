@@ -1,5 +1,30 @@
 # SME-3D-Flight-Visualization
-This is the WCU Capstone Project GitHub repository for creating a 3D Flight Visualization for SME.
+
+
+
+
+## Overview
+
+This is the WCU Capstone Project GitHub repository for creating a **3D Flight Visualization System** for the client SME. 
+
+The **SME 3D Flight Visualization System** is a real-time visualization platform designed to display, record and replay drone flight data in a 3D environmnet. 
+
+The system ingests live telemetry data, renders a vechile and its motion in the game engine godot, and provides tools for playback and analysis of recorded flights.
+
+## Key Features
+* Real-time drone flight visualization
+* Telemetry ingestion (position, motion, 6 DOF data)
+* Flight recording and replay systems
+* Multiple camera views (chase, fixed, free cam)
+* Interactive GUI controls
+* Configurable Telemetry Info
+* Performance optimization for embedded deployment (NVIDIA orin Jetson nano)
+ 
+
+
+
+
+
 
 **Collaborators:**
 Clayton Lewis, Carson Wood, Nicholas Tran, Evan Visalli, Aramis Hernandez, David Shodipe, Clinton U
