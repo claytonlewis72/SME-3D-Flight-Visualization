@@ -13,17 +13,17 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 
 ## Key Features
 * Real-time drone flight visualization
-   * A vehicle model with proper rotation and positioning updated based on telemetry data
-   * A flight path trail showcasing the overall flight path, and coloring based on rotational axes
+   * A vehicle model with proper rotation and positioning updated based on telemetry data (INSERT GIF OF DRONE)
+   * A flight path trail showcasing the overall flight path, and coloring based on rotational axes (GIF OF FLIGHT RENDERER)
 * Telemetry ingestion (position, motion, 6 DOF data)
    * Ingestion of a live data stream through UDP  
 * Flight recording
    * Recording of flights saved as .bin files with their own "magic number." 
 * Playback of recorded flights
-   * Playback of flights for review that are recorded as .bin, allowing the pausing and playback of any frame.
+   * Playback of flights for review that are recorded as .bin, allowing the pausing and playback of any frame. (PICTURES/GIF OF PLAYBACK)
 * Multiple camera views (chase, fixed, free cam)
-* Interactive GUI controls
-* Configurable Telemetry Info
+* Interactive GUI controls (PICTURES OF GUI)
+* Configurable Telemetry Info (PICTURES OF CONFIG)
 * Performance optimization for embedded deployment (NVIDIA Orin Jetson Nano)
  
 ## System Architecture
