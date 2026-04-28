@@ -30,15 +30,19 @@ The system ingests live telemetry data, renders a vechile and its motion in the 
 ## Testing
 
 ## Contributors
+* Aramis Hernandez
+* Carson Wood
+* Clayton Lewis
+* Clinton U
+* David Shodipe
+* Evan Visalli
+* Nicholas Tran
 
 # Handoff Notes
 
 
 
 
-
-**Collaborators:**
-Clayton Lewis, Carson Wood, Nicholas Tran, Evan Visalli, Aramis Hernandez, David Shodipe, Clinton U
 
 # Project Breakdown
 ### **Foundation:** <br>
