@@ -28,12 +28,18 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
  
 ## System Architecture
 
+
+
 ## Usage
+This project usage is determined by the project client, SME Inc. Additionally, it should be noted that the WCU Capstone team made this project with the intention for it to be used for debugging and visulization purposes of real drone flight paths for the use of analysis.
 
 
 ## Documentation & Deliverables
 
 ## Testing
+* The testing of this project was done with GUT unit testing in the Godot engine.
+* Documentation of all unit tests (LINK HERE)
+* Documentation of project VCRM (LINK HERE)
 
 ## Contributors
 * Aramis Hernandez
