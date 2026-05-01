@@ -13,34 +13,74 @@ The **SME 3D Flight Visualization System** is a real-time visualization platform
 The system ingests live telemetry data, renders a vehicle and its motion in the game engine Godot, and provides tools for playback and analysis of recorded flights.
 
 ## Key Features
-* Real-time drone flight visualization
-   * A vehicle model with proper rotation and positioning updated based on telemetry data
-<p align="center">
-<img width="600" height="338" alt="FIGURE8-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" />
-</p>    
-   * A flight path trail showcasing the overall flight path, and coloring based on rotational axes
-<p align="center">   
-  <img width="600" height="338" alt="FIGURE8FLIGHTPATH-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" />
-</p>
-* Telemetry ingestion (position, motion, 6 DOF data)
-   * Ingestion of a live data stream through UDP  
-* Flight recording
-   * Recording of flights saved as .bin files with their own "magic number." 
-* Playback of recorded flights
-   * Playback of flights for review that are recorded as .bin, allowing the pausing and playback of any frame.
-<p align="center">
-<img width="1166" height="120" alt="Screenshot 2026-04-23 111229" src="https://github.com/user-attachments/assets/41cc8cad-709a-4cfa-81ff-b9319e22b306" />
-</p>
-* Multiple camera views (chase, fixed, free cam) <br>
-* Interactive GUI controls
-<p align="center">   
-<img width="269" height="213" alt="Screenshot 2026-05-01 092053" src="https://github.com/user-attachments/assets/a97d61df-7905-4d4c-93ab-bdc5e194e1ea" />
-<img width="332" height="91" alt="Screenshot 2026-04-23 111623" src="https://github.com/user-attachments/assets/bfe45cf8-2cc8-4694-9db3-87c2cab60f43" />
-</p>
-* Configurable Telemetry Info
-<p align="center">   
-<img width="488" height="482" alt="Screenshot 2026-04-22 094848" src="https://github.com/user-attachments/assets/444b464e-be19-457c-8f88-df4d9afe0d84" />
-</p>
+
+* **Real-time drone flight visualization**
+  * A vehicle model with proper rotation and positioning updated based on telemetry data  
+
+<div align="center">
+
+|  Drone Flight  |
+|----------------|
+|  <img src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" height="300"> |
+
+</div>
+
+  * A flight path trail showcasing the overall flight path, and coloring based on rotational axes  
+
+<div align="center">
+
+|  Flight Path  |
+|---------------|
+|  <img src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" height="300"> |
+
+</div>
+
+* **Telemetry ingestion (position, motion, 6 DOF data)**
+  * Ingestion of a live data stream through UDP  
+
+
+* **Flight recording**
+  * Recording of flights saved as `.bin` files with their own "magic number."  
+
+
+* **Playback of recorded flights**
+  * Playback of flights for review that are recorded as `.bin`, allowing pausing and playback of any frame.
+
+<div align="center">
+
+|  Playback Scrub Bar  |
+|----------------------|
+|  <img src="https://github.com/user-attachments/assets/41cc8cad-709a-4cfa-81ff-b9319e22b306" width="800"> |
+
+</div>
+
+* **Multiple camera views (chase, fixed, free cam)**
+
+| Chase Camera | Fixed Camera | Free Camera |
+|-------------|-------------|-------------|
+| <img src="https://github.com/user-attachments/assets/5a8da24a-25cd-40ba-be81-046d26a5cdab" height="200"> | <img src="https://github.com/user-attachments/assets/09a42afc-22b2-4c78-a363-9b32f5314620" height="200"> | <img src="https://github.com/user-attachments/assets/fdfe4553-3d95-4298-be28-a9830cbac8b2" height="200"> |
+
+  
+* **Interactive GUI controls**
+
+<div align="center">
+  
+|  Telemetry Source Panel  |  Telemetry Display Panel  |
+|--------------------------|---------------------------|
+|  <img src="https://github.com/user-attachments/assets/a97d61df-7905-4d4c-93ab-bdc5e194e1ea" height="150"> | <img src="https://github.com/user-attachments/assets/bfe45cf8-2cc8-4694-9db3-87c2cab60f43" height="150"> |
+
+</div>
+
+* **Configurable Telemetry Info**
+
+<div align="center">
+
+|  Configuration Menu  |
+|----------------------|
+|  <img src="https://github.com/user-attachments/assets/444b464e-be19-457c-8f88-df4d9afe0d84" height="350"> |
+
+</div>
+
 * Performance optimization for embedded deployment (NVIDIA Orin Jetson Nano)
  
 ## System Architecture
