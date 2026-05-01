@@ -16,11 +16,11 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 * Real-time drone flight visualization
    * A vehicle model with proper rotation and positioning updated based on telemetry data
 <p align="center">
-<img width="400" height="225" alt="FIGURE8-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" />
+<img width="600" height="338" alt="FIGURE8-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" />
 </p>    
    * A flight path trail showcasing the overall flight path, and coloring based on rotational axes
 <p align="center">   
-  <img width="800" height="450" alt="FIGURE8FLIGHTPATH-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" />
+  <img width="600" height="338" alt="FIGURE8FLIGHTPATH-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" />
 </p>
 * Telemetry ingestion (position, motion, 6 DOF data)
    * Ingestion of a live data stream through UDP  
@@ -31,10 +31,11 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 <p align="center">
 <img width="1166" height="120" alt="Screenshot 2026-04-23 111229" src="https://github.com/user-attachments/assets/41cc8cad-709a-4cfa-81ff-b9319e22b306" />
 </p>
-* Multiple camera views (chase, fixed, free cam)
+* Multiple camera views (chase, fixed, free cam) <br>
 * Interactive GUI controls
 <p align="center">   
-<img width="1915" height="999" alt="Screenshot 2026-05-01 090347" src="https://github.com/user-attachments/assets/97e6541f-bd3f-4055-a717-aabceabb0ee4" />
+<img width="269" height="213" alt="Screenshot 2026-05-01 092053" src="https://github.com/user-attachments/assets/a97d61df-7905-4d4c-93ab-bdc5e194e1ea" />
+<img width="332" height="91" alt="Screenshot 2026-04-23 111623" src="https://github.com/user-attachments/assets/bfe45cf8-2cc8-4694-9db3-87c2cab60f43" />
 </p>
 * Configurable Telemetry Info
 <p align="center">   
