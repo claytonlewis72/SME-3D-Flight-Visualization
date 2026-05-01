@@ -27,7 +27,10 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 * Flight recording
    * Recording of flights saved as .bin files with their own "magic number." 
 * Playback of recorded flights
-   * Playback of flights for review that are recorded as .bin, allowing the pausing and playback of any frame. (PICTURES/GIF OF PLAYBACK)
+   * Playback of flights for review that are recorded as .bin, allowing the pausing and playback of any frame.
+<p align="center">
+<img width="1166" height="120" alt="Screenshot 2026-04-23 111229" src="https://github.com/user-attachments/assets/41cc8cad-709a-4cfa-81ff-b9319e22b306" />
+</p>
 * Multiple camera views (chase, fixed, free cam)
 * Interactive GUI controls
 <p align="center">   
