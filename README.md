@@ -39,8 +39,8 @@ This project usage is determined by the project client, SME Inc. Additionally, i
 
 ## Testing
 * The testing of this project was done with GUT unit testing in the Godot engine.
-* Documentation of all unit tests (LINK HERE)
-* Documentation of project VCRM (LINK HERE)
+* Documentation of all unit tests (https://docs.google.com/spreadsheets/d/1F-_buREbD6vNOCIg8giTjLvqOO8VzGofhoiXCvi2gLw/edit?usp=sharing)
+* Documentation of project VCRM (https://docs.google.com/document/d/1XNShHOQIiT4x-S8n2T375t95kNx27imvCer-pDf_yOM/edit?usp=sharing)
 
 ## Contributors
 * Aramis Hernandez
