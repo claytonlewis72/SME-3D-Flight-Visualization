@@ -24,6 +24,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 * Multiple camera views (chase, fixed, free cam)
 * Interactive GUI controls (PICTURES OF GUI)
 * Configurable Telemetry Info (PICTURES OF CONFIG)
+<img width="488" height="482" alt="Screenshot 2026-04-22 094848" src="https://github.com/user-attachments/assets/444b464e-be19-457c-8f88-df4d9afe0d84" />
 * Performance optimization for embedded deployment (NVIDIA Orin Jetson Nano)
  
 ## System Architecture
