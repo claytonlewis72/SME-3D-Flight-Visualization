@@ -1,3 +1,4 @@
+
 # SME-3D-Flight-Visualization
 
 
@@ -7,14 +8,14 @@
 
 This is the WCU Capstone Project GitHub repository for creating a **3D Flight Visualization System** for the client SME. 
 
-The **SME 3D Flight Visualization System** is a real-time visualization platform designed to display, record, and replay drone flight data in a 3D environment. 
+The **SME 3D Flight Visualization System** is a real-time visualization platform that displays, records, and replays drone flight data in a 3D environment. 
 
 The system ingests live telemetry data, renders a vehicle and its motion in the game engine Godot, and provides tools for playback and analysis of recorded flights.
 
 ## Key Features
 * Real-time drone flight visualization
    * A vehicle model with proper rotation and positioning updated based on telemetry data
-
+    <img width="800" height="450" alt="FIGURE8-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" />
    * A flight path trail showcasing the overall flight path, and coloring based on rotational axes
     <img width="800" height="450" alt="FIGURE8FLIGHTPATH-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" />
 * Telemetry ingestion (position, motion, 6 DOF data)
@@ -25,6 +26,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
    * Playback of flights for review that are recorded as .bin, allowing the pausing and playback of any frame. (PICTURES/GIF OF PLAYBACK)
 * Multiple camera views (chase, fixed, free cam)
 * Interactive GUI controls (PICTURES OF GUI)
+<img width="1915" height="999" alt="Screenshot 2026-05-01 090347" src="https://github.com/user-attachments/assets/97e6541f-bd3f-4055-a717-aabceabb0ee4" />
 * Configurable Telemetry Info (PICTURES OF CONFIG)
 <img width="488" height="482" alt="Screenshot 2026-04-22 094848" src="https://github.com/user-attachments/assets/444b464e-be19-457c-8f88-df4d9afe0d84" />
 * Performance optimization for embedded deployment (NVIDIA Orin Jetson Nano)
@@ -34,7 +36,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 
 
 ## Usage
-This project usage is determined by the project client, SME Inc. Additionally, it should be noted that the WCU Capstone team made this project with the intention for it to be used for debugging and visulization purposes of real drone flight paths for the use of analysis.
+This project's usage is determined by the project client, SME Inc. Additionally, it should be noted that the WCU Capstone team created this project with the intention of using it for debugging and visualization of real drone flight paths for analysis.
 
 
 ## Documentation & Deliverables
