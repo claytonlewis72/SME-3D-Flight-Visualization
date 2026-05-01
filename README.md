@@ -19,7 +19,9 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 <img width="800" height="450" alt="FIGURE8-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" />
 </p>    
    * A flight path trail showcasing the overall flight path, and coloring based on rotational axes
-    <img width="800" height="450" alt="FIGURE8FLIGHTPATH-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" />
+<p align="center">   
+  <img width="800" height="450" alt="FIGURE8FLIGHTPATH-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" />
+</p>
 * Telemetry ingestion (position, motion, 6 DOF data)
    * Ingestion of a live data stream through UDP  
 * Flight recording
@@ -27,14 +29,18 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 * Playback of recorded flights
    * Playback of flights for review that are recorded as .bin, allowing the pausing and playback of any frame. (PICTURES/GIF OF PLAYBACK)
 * Multiple camera views (chase, fixed, free cam)
-* Interactive GUI controls (PICTURES OF GUI)
+* Interactive GUI controls
+<p align="center">   
 <img width="1915" height="999" alt="Screenshot 2026-05-01 090347" src="https://github.com/user-attachments/assets/97e6541f-bd3f-4055-a717-aabceabb0ee4" />
-* Configurable Telemetry Info (PICTURES OF CONFIG)
+</p>
+* Configurable Telemetry Info
+<p align="center">   
 <img width="488" height="482" alt="Screenshot 2026-04-22 094848" src="https://github.com/user-attachments/assets/444b464e-be19-457c-8f88-df4d9afe0d84" />
+</p>
 * Performance optimization for embedded deployment (NVIDIA Orin Jetson Nano)
  
 ## System Architecture
-
+(ADD ARCHITECTURE PICTURE)
 
 
 ## Usage
@@ -42,6 +48,10 @@ This project's usage is determined by the project client, SME Inc. Additionally,
 
 
 ## Documentation & Deliverables
+* Preliminary Design Review (https://docs.google.com/document/d/1Io53l8OLiFt37tDIGmumXN_McZxw0aUMOFl7y7EOkto/edit?usp=sharing)
+* Critical Design Review (https://docs.google.com/document/d/1Z5zWZtCGHG4plFjhV0jLh7JmLLGI6e8ta2eVl4EMgng/edit?usp=sharing)
+* Software Bill of Materials (https://docs.google.com/spreadsheets/d/1API0Ftx6VMUgp1QtHZcVUOFfPzrzNxY0XOXRW3iRzIk/edit?usp=sharing)
+* User Guide (https://docs.google.com/document/d/1dPsuXEytbJLLZPuT6wFBMDOecsfgmMTlv3f0fk9o-T0/edit?usp=sharing)
 
 ## Testing
 * The testing of this project was done with GUT unit testing in the Godot engine.
