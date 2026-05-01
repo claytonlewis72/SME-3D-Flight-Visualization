@@ -15,7 +15,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 ## Key Features
 * Real-time drone flight visualization
    * A vehicle model with proper rotation and positioning updated based on telemetry data
-    <img width="800" height="450" alt="FIGURE8-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" /> 
+    <img width="800" height="450" alt="FIGURE8-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" /> <br>
    * A flight path trail showcasing the overall flight path, and coloring based on rotational axes
     <img width="800" height="450" alt="FIGURE8FLIGHTPATH-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" />
 * Telemetry ingestion (position, motion, 6 DOF data)
