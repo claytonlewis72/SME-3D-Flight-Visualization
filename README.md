@@ -82,9 +82,6 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 </div>
 
 * Performance optimization for embedded deployment (NVIDIA Orin Jetson Nano)
- 
-## System Architecture
-(ADD ARCHITECTURE PICTURE)
 
 
 ## Usage
