@@ -21,7 +21,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 
 |  Drone Flight  |
 |----------------|
-|  <img src="https://github.com/user-attachments/assets/6083e55f-3a8c-4dd5-bfc9-31bc93558301" height="300"> |
+|  <img src="images/figure8.gif" height="300"> |
 
 </div>
 
@@ -31,7 +31,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 
 |  Flight Path  |
 |---------------|
-|  <img src="https://github.com/user-attachments/assets/3fc02f8e-5220-4db8-a7ea-9fccea37d723" height="300"> |
+|  <img src="images/flightpath.gif" height="300"> |
 
 </div>
 
@@ -50,7 +50,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 
 |  Playback Scrub Bar  |
 |----------------------|
-|  <img src="https://github.com/user-attachments/assets/41cc8cad-709a-4cfa-81ff-b9319e22b306" width="800"> |
+|  <img src="images/scrubBar.png" width="800"> |
 
 </div>
 
@@ -58,7 +58,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 
 | Chase Camera | Fixed Camera | Free Camera |
 |-------------|-------------|-------------|
-| <img src="https://github.com/user-attachments/assets/5a8da24a-25cd-40ba-be81-046d26a5cdab" height="200"> | <img src="https://github.com/user-attachments/assets/09a42afc-22b2-4c78-a363-9b32f5314620" height="200"> | <img src="https://github.com/user-attachments/assets/fdfe4553-3d95-4298-be28-a9830cbac8b2" height="200"> |
+| <img src="images/chaseCamera.png" height="200"> | <img src="images/fixedCamera.png" height="200"> | <img src="images/freeCamera.png" height="200"> |
 
   
 * **Interactive GUI controls**
@@ -67,7 +67,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
   
 |  Telemetry Source Panel  |  Telemetry Display Panel  |
 |--------------------------|---------------------------|
-|  <img src="https://github.com/user-attachments/assets/a97d61df-7905-4d4c-93ab-bdc5e194e1ea" height="150"> | <img src="https://github.com/user-attachments/assets/bfe45cf8-2cc8-4694-9db3-87c2cab60f43" height="150"> |
+|  <img src="images/telemSourcePanel.png" height="150"> | <img src="images/telemPanelDisplay.png" height="150"> |
 
 </div>
 
@@ -77,7 +77,7 @@ The system ingests live telemetry data, renders a vehicle and its motion in the 
 
 |  Configuration Menu  |
 |----------------------|
-|  <img src="https://github.com/user-attachments/assets/444b464e-be19-457c-8f88-df4d9afe0d84" height="350"> |
+|  <img src="images/configMenu.png" height="350"> |
 
 </div>
 
